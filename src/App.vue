@@ -40,13 +40,13 @@ export default {
 
 <style>
 html, body {
+  font-family: Helvetica, Arial, sans-serif;
   padding: 0;
   margin: 0;
   width: 100%;
   height: 100%;
 }
 #app {
-  font-family: 'Avenir', Helvetica, Arial, sans-serif;
   margin: 0;
   height: 100%;
 }
