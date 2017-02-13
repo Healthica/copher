@@ -3,7 +3,7 @@
     Log
     <el-button @click="addEvent">Add Event</el-button>
     <ul>
-      <li v-for="e in events.events">{{ e.id }} - {{ e.title }}</li>
+      <li v-for="e in events.data">{{ e.id }} - {{ e.title }}</li>
     </ul>
   </div>
 </template>

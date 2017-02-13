@@ -5,36 +5,48 @@ import _ from 'lodash'
 
 const state = {
   version: 0,
-  events: [],
+  data: [],
   transactions: []
 }
 
 const actions = {
   syncEvents({ commit }) {
-    eventsAPI.syncEvents(state.version, _.clone(state.transactions)).then((payload) => {
-      commit(types.SYNC_EVENTS, payload)
-    })
-    .catch((payload) => {
-      if (payload.has_new_version === true) {
-        Vue.prototype.$notify({
-          title: 'Sync',
-          message: 'New items exist on the server, reload to sync',
-          duration: 0
-        })
-      } else if (payload.errors) {
+    if (state.transactions.length === 0) {
+      eventsAPI.getEvents().then(({ version, data }) => {
+        commit(types.SET_EVENTS, { version, data })
+      })
+      .catch((payload) => {
         console.error(payload)
-        for (let i = 0; i < payload.errors.length; i++) {
+        _.each(payload.errors, e => {
           Vue.prototype.$message({
             type: 'error',
-            message: payload.errors[i].text,
+            message: e.text,
             duration: 0,
             showClose: true
           })
+        })
+      })
+    } else {
+      eventsAPI.postEvents(state.version, state.transactions).then(({ version, data }) => {
+        if (data) {
+          commit(types.SET_EVENTS, { version, data })
+        } else {
+          commit(types.SET_EVENTS_VERSION, { version })
+          commit(types.CLEAR_EVENTS_TRANSACTIONS)
         }
-      } else {
+      })
+      .catch((payload) => {
         console.error(payload)
-      }
-    })
+        _.each(payload.errors, e => {
+          Vue.prototype.$message({
+            type: 'error',
+            message: e.text,
+            duration: 0,
+            showClose: true
+          })
+        })
+      })
+    }
   },
 
   addEvent({ commit }, event) {
@@ -47,19 +59,22 @@ const getters = {
 }
 
 const mutations = {
-  [types.SYNC_EVENTS] (state, payload) {
-    console.log('payload', payload);
-    if (payload.events && payload.events.length > 0) {
-      state.events = payload.events
-    }
-    if (payload.version) {
-      state.version = payload.version
-      state.transactions = []
-    }
+  [types.SET_EVENTS] (state, { version, data }) {
+    state.version = version
+    state.data = data
+    state.transactions = []
+  },
+
+  [types.SET_EVENTS_VERSION] (state, { version }) {
+    state.version = version
+  },
+
+  [types.CLEAR_EVENTS_TRANSACTIONS] (state) {
+    state.transactions = []
   },
 
   [types.ADD_EVENT] (state, event) {
-    state.events.push(event)
+    state.data.push(event)
     state.transactions.push({ type: 'ADD', event: event })
   }
 }

@@ -6,7 +6,7 @@ import _ from 'lodash'
 const _events = {
   success: true,
   version: 1,
-  events: [
+  data: [
     {"id": 1, "title": "Headache"},
     {"id": 2, "title": "Weight Measurement"},
     {"id": 3, "title": "Sleep"}
@@ -28,15 +28,31 @@ const _events_errors = {
 }
 
 export default {
-  syncEvents (version, transactions) {
+  getEvents () {
     return new Promise((resolve, reject) => {
-      console.log('Requesting events since version ' + version, transactions);
       setTimeout(() => {
-        const events_copy = _.clone(_events)
-        events_copy.version = version + 1
-        resolve(events_copy)
-        // reject(_events_new_version)
+        resolve(_.cloneDeep(_events))
         // reject(_events_errors)
+      }, 100)
+    })
+  },
+  postEvents (version, transactions) {
+    return new Promise((resolve, reject) => {
+      setTimeout(() => {
+        _.each(transactions, t => {
+          if (t.type === 'ADD') {
+            _events.data.push(_.cloneDeep(t).event)
+          }
+        })
+
+        // No new events from other clients since last sync
+        _events.version++
+        resolve({ success: true, version: _.cloneDeep(_events).version })
+
+        // New events from other clients since last sync
+        // _events.version = version + 1
+        // _events.data.push({ id: Math.round(100 * Math.random()), title: 'new stuff' })
+        // resolve(_.cloneDeep(_events))
       }, 100)
     })
   }
