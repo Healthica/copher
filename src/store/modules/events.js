@@ -1,17 +1,18 @@
 import eventsAPI from '../../api/events'
 import * as types from '../mutation-types'
 import Vue from 'vue'
+import _ from 'lodash'
 
 const state = {
   version: 0,
-  events: []
+  events: [],
+  transactions: []
 }
 
 const actions = {
-  loadEvents({ commit }) {
-    eventsAPI.getEvents(state.version).then((payload) => {
-      commit(types.SET_EVENTS_VERSION, payload.version)
-      commit(types.LOAD_EVENTS, payload.events)
+  syncEvents({ commit }) {
+    eventsAPI.syncEvents(state.version, _.clone(state.transactions)).then((payload) => {
+      commit(types.SYNC_EVENTS, payload)
     })
     .catch((payload) => {
       if (payload.has_new_version === true) {
@@ -21,7 +22,7 @@ const actions = {
           duration: 0
         })
       } else if (payload.errors) {
-        console.error(payload);
+        console.error(payload)
         for (let i = 0; i < payload.errors.length; i++) {
           Vue.prototype.$message({
             type: 'error',
@@ -30,8 +31,14 @@ const actions = {
             showClose: true
           })
         }
+      } else {
+        console.error(payload)
       }
     })
+  },
+
+  addEvent({ commit }, event) {
+    commit(types.ADD_EVENT, event)
   }
 }
 
@@ -40,18 +47,20 @@ const getters = {
 }
 
 const mutations = {
-  [types.LOAD_EVENTS] (state, events) {
-    if (events && events.length > 0) {
-      state.events = events
+  [types.SYNC_EVENTS] (state, payload) {
+    console.log('payload', payload);
+    if (payload.events && payload.events.length > 0) {
+      state.events = payload.events
+    }
+    if (payload.version) {
+      state.version = payload.version
+      state.transactions = []
     }
   },
 
   [types.ADD_EVENT] (state, event) {
     state.events.push(event)
-  },
-
-  [types.SET_EVENTS_VERSION] (state, version) {
-    state.version = version
+    state.transactions.push({ type: 'ADD', event: event })
   }
 }
 

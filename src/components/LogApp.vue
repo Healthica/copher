@@ -21,7 +21,7 @@ export default {
     }
   },
   created() {
-    this.$store.dispatch('loadEvents')
+    this.$store.dispatch('syncEvents')
   }
 }
 </script>

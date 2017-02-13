@@ -1,3 +1,2 @@
 export const ADD_EVENT = 'ADD_EVENT'
-export const LOAD_EVENTS = 'LOAD_EVENTS'
-export const SET_EVENTS_VERSION = 'SET_EVENTS_VERSION'
+export const SYNC_EVENTS = 'SYNC_EVENTS'

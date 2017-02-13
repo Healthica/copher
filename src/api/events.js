@@ -1,3 +1,5 @@
+import _ from 'lodash'
+
 /**
  * Mocking client-server processing
  */
@@ -26,11 +28,13 @@ const _events_errors = {
 }
 
 export default {
-  getEvents (version) {
+  syncEvents (version, transactions) {
     return new Promise((resolve, reject) => {
-      console.log('Requesting events since version ' + version);
+      console.log('Requesting events since version ' + version, transactions);
       setTimeout(() => {
-        resolve(Object.assign(_events, { version: version + 1 }))
+        const events_copy = _.clone(_events)
+        events_copy.version = version + 1
+        resolve(events_copy)
         // reject(_events_new_version)
         // reject(_events_errors)
       }, 100)
