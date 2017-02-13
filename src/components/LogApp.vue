@@ -8,42 +8,87 @@
         placeholder="What would you like to log?"
         tabindex="1"
         />
+      <el-button class="edit-button" @click="editEvent" type="default">+</el-button>
       <el-button class="save-button" @click="addEvent" type="success">Save</el-button>
     </div>
     <ul>
-      <li v-for="e in events.data">{{ e.id }} - {{ e.title }}</li>
+      <li v-for="e in sortedEvents" :title="e.id" @click="showEditEventModal(e.id)">{{ e.title }} - {{ timeFromNow(e.time) }}</li>
     </ul>
+    <el-dialog :title="eventCopy.title" v-model="eventModalVisible" @close="onCloseEditEventModal">
+      {{ eventCopy.id }}
+      <p>
+        <input type="text" v-model="eventCopy.title" />
+      </p>
+      <p>
+        {{ eventCopy.time }}
+      </p>
+    </el-dialog>
   </div>
 </template>
 
 <script>
 import { mapGetters } from 'vuex'
+import uuid from 'uuid'
+import moment from 'moment'
 
 export default {
   data() {
     return {
-      newEventText: ''
+      newEventText: '',
+      eventModalVisible: false,
+      eventCopy: {},
+      eventCopyUnwatcher: null
     }
   },
   computed: {
-    ...mapGetters(['events'])
+    ...mapGetters(['events']),
+    sortedEvents(state) {
+      return _.sortBy(state.events.data, [ o => -moment(o.time).valueOf() ])
+    }
   },
   methods: {
-    querySearch(queryString, cb) {
-      const results = [
-        { "value": "vue", "link": "https://github.com/vuejs/vue" },
-        { "value": "element", "link": "https://github.com/ElemeFE/element" },
-        { "value": "cooking", "link": "https://github.com/ElemeFE/cooking" }
-      ]
-      cb(results)
-    },
-    handleSelect() {
-      this.addEvent()
-    },
-    addEvent() {
-      this.$store.dispatch('addEvent', { id: Math.round(Math.random() * 1000), title: this.newEventText })
+    addEvent(ev, options) {
+      if (!options) {
+        options = {}
+      }
+      if (this.newEventText.length === 0 && options.allow_empty !== true && ev.ctrlKey !== true) {
+        return
+      }
+      const _id = uuid.v4()
+      this.$store.dispatch('addEvent', {
+        id: _id,
+        title: this.newEventText,
+        time: moment().format()
+      })
       this.$store.dispatch('syncEvents')
       this.newEventText = ''
+      if (ev.ctrlKey) {
+        this.showEditEventModal(_id)
+      }
+      return _id
+    },
+    editEvent(ev) {
+      const _id = this.addEvent(ev, { allow_empty: true })
+      this.showEditEventModal(_id)
+    },
+    showEditEventModal(id) {
+      this.eventCopy = _.cloneDeep(_.find(this.$store.state.events.data, o => o.id === id))
+      this.openEditEventModal()
+    },
+    timeFromNow(time) {
+      return moment(time).fromNow()
+    },
+    openEditEventModal() {
+      this.eventModalVisible = true
+      this.eventCopyUnwatcher = this.$watch('eventCopy', this.onChangeEventField, { deep: true })
+    },
+    onCloseEditEventModal() {
+      this.eventCopyUnwatcher()
+      this.eventCopyUnwatcher = null
+      this.$store.dispatch('updateEventAddTransaction', _.cloneDeep(this.eventCopy))
+    },
+    onChangeEventField(e) {
+      this.$store.dispatch('setEvent', e)
     }
   },
   created() {
@@ -64,6 +109,7 @@ export default {
 }
 .new-event-container {
   position: fixed;
+  z-index: 2000;
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
@@ -79,7 +125,6 @@ export default {
   justify-content: space-between;
   background: #fff;
   box-shadow: 0 2px 8px 0 rgba(0,0,0,.1);
-  z-index: 10001;
   min-width: 600px;
 }
 .new-event-input {
@@ -103,6 +148,9 @@ export default {
 .new-event-input:focus:-ms-input-placeholder { color: transparent; }
 
 .save-button {
+  margin-right: 15px;
+}
+.edit-button {
   margin-right: 15px;
 }
 </style>

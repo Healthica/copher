@@ -51,6 +51,14 @@ const actions = {
 
   addEvent({ commit }, event) {
     commit(types.ADD_EVENT, event)
+  },
+
+  setEvent({ commit }, event) {
+    commit(types.SET_EVENT_FIELD, event)
+  },
+
+  updateEventAddTransaction({ commit }, event) {
+    commit(types.UPDATE_EVENT_ADD_TRANSACTION, event)
   }
 }
 
@@ -76,6 +84,15 @@ const mutations = {
   [types.ADD_EVENT] (state, event) {
     state.data.push(event)
     state.transactions.push({ type: 'ADD', event: event })
+  },
+
+  [types.SET_EVENT_FIELD] (state, event) {
+    const index =  _.findIndex(state.data, { id: event.id })
+    state.data.splice(index, 1, _.cloneDeep(event))
+  },
+
+  [types.UPDATE_EVENT_ADD_TRANSACTION] (state, event) {
+    state.transactions.push({ type: 'UPDATE', event: event })
   }
 }
 

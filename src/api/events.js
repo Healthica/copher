@@ -1,4 +1,6 @@
 import _ from 'lodash'
+import uuid from 'uuid'
+import moment from 'moment'
 
 /**
  * Mocking client-server processing
@@ -7,9 +9,9 @@ const _events = {
   success: true,
   version: 1,
   data: [
-    {"id": 1, "title": "Headache"},
-    {"id": 2, "title": "Weight Measurement"},
-    {"id": 3, "title": "Sleep"}
+    {"id": uuid.v4(), "title": "Headache", time: moment().subtract(1, 'days').format() },
+    {"id": uuid.v4(), "title": "Weight Measurement", time: moment().subtract(2, 'days').format() },
+    {"id": uuid.v4(), "title": "Sleep", time: moment().subtract(3, 'days').format() }
   ]
 }
 const _events_new_version = {
@@ -42,6 +44,9 @@ export default {
         _.each(transactions, t => {
           if (t.type === 'ADD') {
             _events.data.push(_.cloneDeep(t).event)
+          } else if (t.type === 'UPDATE') {
+            const index =  _.findIndex(_events.data, { id: t.event.id })
+            _events.data.splice(index, 1, _.cloneDeep(t.event))
           }
         })
 
