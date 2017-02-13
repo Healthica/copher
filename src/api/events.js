@@ -10,8 +10,10 @@ const _events = {
   version: 1,
   data: [
     {"id": uuid.v4(), "title": "Headache", time: moment().subtract(1, 'days').format() },
+    {"id": uuid.v4(), "title": "Sleep", time: moment().subtract(1, 'days').format() },
     {"id": uuid.v4(), "title": "Weight Measurement", time: moment().subtract(2, 'days').format() },
-    {"id": uuid.v4(), "title": "Sleep", time: moment().subtract(3, 'days').format() }
+    {"id": uuid.v4(), "title": "Sleep", time: moment().subtract(3, 'days').format() },
+    {"id": uuid.v4(), "title": "Eat", time: moment().subtract(3, 'days').format() }
   ]
 }
 const _events_new_version = {

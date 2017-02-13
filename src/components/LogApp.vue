@@ -11,8 +11,9 @@
       <el-button class="edit-button" @click="editEvent" type="default">+</el-button>
       <el-button class="save-button" @click="addEvent" type="success">Save</el-button>
     </div>
-    <ul>
-      <li v-for="e in sortedEvents" :title="e.id" @click="showEditEventModal(e.id)">{{ e.title }} - {{ timeFromNow(e.time) }}</li>
+    <ul class="events-day" v-for="day in sortedEvents">
+      <li class="events-day-title">{{ day.title }}</li>
+      <event-row v-for="e in day.events" :event="e" :clickHandler="showEditEventModal"></event-row>
     </ul>
     <el-dialog :title="eventCopy.title" v-model="eventModalVisible" @close="onCloseEditEventModal">
       {{ eventCopy.id }}
@@ -30,8 +31,12 @@
 import { mapGetters } from 'vuex'
 import uuid from 'uuid'
 import moment from 'moment'
+import EventRow from './Events/EventRow'
 
 export default {
+  components: {
+    EventRow
+  },
   data() {
     return {
       newEventText: '',
@@ -43,7 +48,27 @@ export default {
   computed: {
     ...mapGetters(['events']),
     sortedEvents(state) {
-      return _.sortBy(state.events.data, [ o => -moment(o.time).valueOf() ])
+      const sortedEvents = _.sortBy(state.events.data, [ o => -moment(o.time).valueOf() ])
+      const days = []
+      let day = { i: -1, title: '' }
+      const dayFormat = (time) => {
+        const mt = moment(time)
+        if (moment().isSame(mt, 'd')) {
+          return 'Today'
+        } else if (moment().subtract(1, 'days').isSame(mt, 'd')) {
+          return 'Yesterday'
+        }
+        return mt.format('ddd, D MMM') + ` (${mt.fromNow()})`
+      }
+      _.each(sortedEvents, e => {
+        if (day.i === -1 || day.title !== dayFormat(e.time)) {
+          day.i++
+          day.title = dayFormat(e.time)
+          days.push({ title: day.title, events: []})
+        }
+        days[day.i].events.push(e)
+      })
+      return days
     }
   },
   methods: {
@@ -75,9 +100,6 @@ export default {
       this.eventCopy = _.cloneDeep(_.find(this.$store.state.events.data, o => o.id === id))
       this.openEditEventModal()
     },
-    timeFromNow(time) {
-      return moment(time).fromNow()
-    },
     openEditEventModal() {
       this.eventModalVisible = true
       this.eventCopyUnwatcher = this.$watch('eventCopy', this.onChangeEventField, { deep: true })
@@ -100,7 +122,7 @@ export default {
 <style scoped>
 .log-app {
   padding-bottom: 1px;
-  padding-top: 68px;
+  padding-top: 72px;
   height: 100%;
   overflow-y: scroll;
 }
@@ -130,9 +152,9 @@ export default {
 .new-event-input {
   font-size: 18px;
   width: 100%;
-  height: 68px;
-  line-height: 68px;
-  padding: 0 10px 0 30px;
+  height: 72px;
+  line-height: 72px;
+  padding: 0 12px 0 36px;
   border: 0;
   overflow: hidden;
   white-space: nowrap;
@@ -148,9 +170,29 @@ export default {
 .new-event-input:focus:-ms-input-placeholder { color: transparent; }
 
 .save-button {
-  margin-right: 15px;
+  margin-right: 18px;
 }
 .edit-button {
-  margin-right: 15px;
+  margin-right: 18px;
+}
+.events-day {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  margin-bottom: 36px;
+}
+.events-day-title {
+  color: #838FB5;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: justify;
+  -ms-flex-pack: justify;
+  justify-content: space-between;
+  padding: 18px 36px;
+  height: 48px;
+  font-size: 16px;
+  line-height: 24px;
+  box-shadow: inset 0 -1px 0 0 #E2E4E6;
 }
 </style>

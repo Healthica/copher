@@ -46,6 +46,11 @@ html, body {
   width: 100%;
   height: 100%;
 }
+*, :after, :before {
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+}
 #app {
   margin: 0;
   height: 100%;
