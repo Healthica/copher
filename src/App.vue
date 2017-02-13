@@ -65,7 +65,8 @@ html, body {
 .right-pane-inner {
   position: relative;
   width: 100%;
-  min-height: 100%;
+  height: 100%;
   background-color: #EDEFF4;
+  overflow: hidden;
 }
 </style>
