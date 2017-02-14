@@ -9,7 +9,11 @@
       <input type="text" v-model="event.title" />
     </p>
     <p>
-      {{ event.time }}
+      <el-date-picker
+        v-model="event.time"
+        type="datetime"
+        placeholder="Select date and time">
+      </el-date-picker>
     </p>
   </div>
 </template>
