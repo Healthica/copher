@@ -1,12 +1,23 @@
 <template>
   <li class="event-row" @click="onEventClick">
+    {{ eventTime }}
     {{ event.title }}
   </li>
 </template>
 
 <script>
+import moment from 'moment'
+
 export default {
   props: ['event', 'clickHandler'],
+  computed: {
+    eventTime() {
+      if (!this.event || !this.event.time) {
+        return ''
+      }
+      return moment(this.event.time).format('hh:mma')
+    }
+  },
   methods: {
     onEventClick(e) {
       this.clickHandler(this.event.id)

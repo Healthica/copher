@@ -15,14 +15,8 @@
       <li class="events-day-title">{{ day.title }}</li>
       <event-row v-for="e in day.events" :event="e" :clickHandler="showEditEventModal"></event-row>
     </ul>
-    <el-dialog :title="eventCopy.title" v-model="eventModalVisible" @close="onCloseEditEventModal">
-      {{ eventCopy.id }}
-      <p>
-        <input type="text" v-model="eventCopy.title" />
-      </p>
-      <p>
-        {{ eventCopy.time }}
-      </p>
+    <el-dialog custom-class="eventModal" v-model="eventModalVisible" @close="onCloseEditEventModal">
+      <event-edit-modal :event="eventCopy"></event-edit-modal>
     </el-dialog>
   </div>
 </template>
@@ -32,10 +26,12 @@ import { mapGetters } from 'vuex'
 import uuid from 'uuid'
 import moment from 'moment'
 import EventRow from './Events/EventRow'
+import EventEditModal from './Events/EventEditModal'
 
 export default {
   components: {
-    EventRow
+    EventRow,
+    EventEditModal
   },
   data() {
     return {
@@ -194,5 +190,9 @@ export default {
   font-size: 16px;
   line-height: 24px;
   box-shadow: inset 0 -1px 0 0 #E2E4E6;
+}
+
+.eventModal .el-dialog__header {
+  display: none;
 }
 </style>

@@ -74,4 +74,11 @@ html, body {
   background-color: #EDEFF4;
   overflow: hidden;
 }
+
+.eventModal .el-dialog__header {
+  display: none;
+}
+.eventModal .el-dialog__body {
+  padding: 0;
+}
 </style>
