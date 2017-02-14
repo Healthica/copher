@@ -2,7 +2,7 @@
   <div class="modal">
     <div class="headerButtons">
       <div class="editFields">Edit Fields</div>
-      <div class="closeButton">&times;</div>
+      <div class="closeButton" @click="close">&times;</div>
     </div>
     {{ event.id }}
     <p>
@@ -28,6 +28,9 @@ export default {
   computed: {
   },
   methods: {
+    close() {
+      this.$emit('close')
+    }
   }
 }
 </script>

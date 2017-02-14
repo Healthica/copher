@@ -23,7 +23,7 @@
       <event-row v-for="e in day.events" :event="e" :clickHandler="showEditEventModal"></event-row>
     </ul>
     <el-dialog custom-class="eventModal" v-model="eventModalVisible" @close="onCloseEditEventModal">
-      <event-edit-modal :event="eventCopy"></event-edit-modal>
+      <event-edit-modal :event="eventCopy" @close="closeEditEventModal"></event-edit-modal>
     </el-dialog>
   </div>
 </template>
@@ -106,6 +106,9 @@ export default {
     openEditEventModal() {
       this.eventModalVisible = true
       this.eventCopyUnwatcher = this.$watch('eventCopy', this.onChangeEventField, { deep: true })
+    },
+    closeEditEventModal() {
+      this.eventModalVisible = false
     },
     onCloseEditEventModal() {
       this.eventCopyUnwatcher()
