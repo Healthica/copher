@@ -12,7 +12,14 @@
       <el-button class="save-button" @click="addEvent" type="success">Save</el-button>
     </div>
     <ul class="events-day" v-for="day in sortedEvents">
-      <li class="events-day-title">{{ day.title }}</li>
+      <li class="events-day-title">
+        <el-tooltip v-if="day.title.relative" class="item" effect="light" :content="day.title.relative" placement="top">
+          {{ day.title.main }}
+        </el-tooltip>
+        <div v-else>
+          {{ day.title.main }}
+        </div>
+      </li>
       <event-row v-for="e in day.events" :event="e" :clickHandler="showEditEventModal"></event-row>
     </ul>
     <el-dialog custom-class="eventModal" v-model="eventModalVisible" @close="onCloseEditEventModal">
@@ -50,14 +57,14 @@ export default {
       const dayFormat = (time) => {
         const mt = moment(time)
         if (moment().isSame(mt, 'd')) {
-          return 'Today'
+          return { main: 'Today', relative: null }
         } else if (moment().subtract(1, 'days').isSame(mt, 'd')) {
-          return 'Yesterday'
+          return { main: 'Yesterday', relative: null }
         }
-        return mt.format('ddd, D MMM') + ` (${mt.fromNow()})`
+        return { main: mt.format('ddd, D MMM'), relative: mt.fromNow() }
       }
       _.each(sortedEvents, e => {
-        if (day.i === -1 || day.title !== dayFormat(e.time)) {
+        if (day.i === -1 || day.title.main !== dayFormat(e.time).main) {
           day.i++
           day.title = dayFormat(e.time)
           days.push({ title: day.title, events: []})
