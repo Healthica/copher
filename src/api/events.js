@@ -9,11 +9,100 @@ const _events = {
   success: true,
   version: 1,
   data: [
-    {"id": uuid.v4(), "title": "Headache", time: moment().subtract(1, 'days').subtract(Math.round(1000 * Math.random()), 'minutes').format() },
-    {"id": uuid.v4(), "title": "Sleep", time: moment().subtract(1, 'days').subtract(Math.round(1000 * Math.random()), 'minutes').format() },
-    {"id": uuid.v4(), "title": "Weight Measurement", time: moment().subtract(2, 'days').subtract(Math.round(1000 * Math.random()), 'minutes').format() },
-    {"id": uuid.v4(), "title": "Sleep", time: moment().subtract(3, 'days').subtract(Math.round(1000 * Math.random()), 'minutes').format() },
-    {"id": uuid.v4(), "title": "Eat", time: moment().subtract(3, 'days').subtract(Math.round(1000 * Math.random()), 'minutes').format() }
+    {
+      id: '_headache',
+      title: 'Headache',
+      time: moment().subtract(1, 'days').subtract(Math.round(1000 * Math.random()), 'minutes').format(),
+      fields: [
+        {
+          id: '_headache_duration',
+          title: 'Duration',
+          type: 'duration_minutes',
+          value: 15
+        }, {
+          id: '_headache_intensity',
+          title: 'Intensity',
+          type: 'scale',
+          options: {
+            min: 1,
+            max: 10
+          },
+          value: 7
+        }, {
+          id: '_headache_pain_areas',
+          title: 'Pain Areas',
+          type: 'radio',
+          options: {
+            max: 3,
+            options: [
+              { value: 'head', title: 'Head' },
+              { value: 'behind_eye', title: 'Behind the eye' },
+              { value: 'neck', title: 'Neck' },
+              { value: 'back_head', title: 'Back of the head' }
+            ]
+          },
+          value: ['behind_eye', 'neck']
+        }
+      ],
+      views: {
+        compact_show: ['_headache_intensity', '_headache_duration']
+      }
+    }, {
+      id: '_sleep',
+      title: 'Sleep',
+      time: moment().subtract(1, 'days').subtract(Math.round(1000 * Math.random()), 'minutes').format(),
+      fields: [
+        {
+          id: '_sleep_duration',
+          title: 'Duration',
+          type: 'duration_minutes',
+          value: 450
+        }, {
+          id: '_sleep_quality',
+          title: 'Quality',
+          type: 'rank_stars',
+          value: 4.5
+        }
+      ],
+      views: {
+        compact_show: ['_sleep_duration', '_sleep_quality']
+      }
+    }, {
+      id:'_weight',
+      title: 'Weight Measurement',
+      time: moment().subtract(2, 'days').subtract(Math.round(1000 * Math.random()), 'minutes').format(),
+      fields: [
+        {
+          id: '_measurement_weight',
+          title: 'Weight',
+          type: '_weight_kg',
+          value: 85
+        }
+      ],
+      views: {
+        compact_show: ['_measurement_weight']
+      }
+    }, {
+      id: '_sleep',
+      title: 'Sleep',
+      time: moment().subtract(3, 'days').subtract(Math.round(1000 * Math.random()), 'minutes').format(),
+      fields: [
+        {
+          id: '_sleep_duration',
+          title: 'Duration',
+          type: 'duration_minutes',
+          value: 600
+        }, {
+          id: '_sleep_quality',
+          title: 'Quality',
+          type: 'rank_stars',
+          value: 4.0
+        }
+      ],
+      views: {
+        compact_show: ['_sleep_duration', '_sleep_quality']
+      }
+    }
   ]
 }
 const _events_new_version = {

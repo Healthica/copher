@@ -1,15 +1,20 @@
 <template>
   <li class="event-row" @click="onEventClick">
-    {{ eventTime }}
-    {{ event.title }}
+    <span class="event-time">{{ eventTime }}</span>
+    <span class="event-title">{{ event.title }}</span>
+    <field-view class="event-field" v-for="f in event.fields" :field="f" view="row"></field-view>
   </li>
 </template>
 
 <script>
 import moment from 'moment'
+import FieldView from './FieldView'
 
 export default {
   props: ['event', 'clickHandler'],
+  components: {
+    FieldView
+  },
   computed: {
     eventTime() {
       if (!this.event || !this.event.time) {
@@ -39,8 +44,22 @@ export default {
   box-shadow: inset 0 -1px 0 0 #E2E4E6;
   padding-left: 36px;
   cursor: pointer;
+  white-space: nowrap;
+  overflow: hidden;
 }
 .event-row:hover {
   background-color: #FDFAE5;
+}
+.event-time, .event-field {
+  margin-right: 18px;
+}
+.event-title {
+  margin-right: 30px;
+}
+.event-field {
+  color: #838C91;
+}
+.event-row:not(:hover) .event-field {
+  display: none;
 }
 </style>
