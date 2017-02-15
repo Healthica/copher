@@ -54,6 +54,7 @@ html, body {
 #app {
   margin: 0;
   height: 100%;
+  color: #4D4D4D;
 }
 .left-nav {
   display: block;
@@ -80,5 +81,20 @@ html, body {
 }
 .eventModal .el-dialog__body {
   padding: 0;
+}
+
+.event-row-field {
+  display: inline-block;
+  position: relative;
+  color: #BD903C;
+}
+.event-row-field-header {
+  font-size: 10px;
+  line-height: 10px;
+  position: absolute;
+  top: 7px;
+  left: 50%;
+  transform: translateX(-50%);
+  color: #CCA42B;
 }
 </style>

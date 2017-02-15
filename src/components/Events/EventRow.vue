@@ -53,6 +53,12 @@ export default {
 .event-time, .event-field {
   margin-right: 18px;
 }
+.event-time {
+  color: #A5ACB0;
+}
+.event-row:hover .event-time {
+  color: #D9B51C;
+}
 .event-title {
   margin-right: 30px;
 }

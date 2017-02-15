@@ -2,7 +2,7 @@
   <span>
     <div v-if="view === 'row'" class="event-row-field">
       <div class="event-row-field-header">{{ field.title }}</div>
-      {{ hours }}
+      {{ weight }}
     </div>
   </span>
 </template>
@@ -12,10 +12,8 @@
 export default {
   props: ['field', 'view'],
   computed: {
-    hours() {
-      const hours = Math.round(this.field.value / 60)
-      const minutes = Math.round(this.field.value % 60)
-      return `${hours}:${minutes < 10 ? '0' : ''}${minutes}`
+    weight() {
+      return `${this.field.value}kg`
     }
   }
 }

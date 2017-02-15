@@ -31,7 +31,7 @@ const _events = {
         }, {
           id: '_headache_pain_areas',
           title: 'Pain Areas',
-          type: 'radio',
+          type: 'checkbox',
           options: {
             max: 3,
             options: [
@@ -45,7 +45,7 @@ const _events = {
         }
       ],
       views: {
-        compact_show: ['_headache_intensity', '_headache_duration']
+        row_show: ['_headache_intensity', '_headache_duration']
       }
     }, {
       id: '_sleep',
@@ -61,11 +61,11 @@ const _events = {
           id: '_sleep_quality',
           title: 'Quality',
           type: 'rank_stars',
-          value: 4.5
+          value: 3
         }
       ],
       views: {
-        compact_show: ['_sleep_duration', '_sleep_quality']
+        row_show: ['_sleep_duration', '_sleep_quality']
       }
     }, {
       id:'_weight',
@@ -75,12 +75,12 @@ const _events = {
         {
           id: '_measurement_weight',
           title: 'Weight',
-          type: '_weight_kg',
+          type: 'weight',
           value: 85
         }
       ],
       views: {
-        compact_show: ['_measurement_weight']
+        row_show: ['_measurement_weight']
       }
     }, {
       id: '_sleep',
@@ -100,7 +100,7 @@ const _events = {
         }
       ],
       views: {
-        compact_show: ['_sleep_duration', '_sleep_quality']
+        row_show: ['_sleep_duration', '_sleep_quality']
       }
     }
   ]
