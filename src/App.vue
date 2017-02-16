@@ -82,12 +82,13 @@ html, body {
 .eventModal .el-dialog__body {
   padding: 0;
 }
-.el-checkbox-group {
+.eventModal .el-checkbox-group {
   display: flex;
   flex-wrap: wrap;
 }
-.el-checkbox {
-  margin: 6px 18px 6px 0;
+.eventModal .el-checkbox {
+  margin: 0 18px 12px 0;
+  margin-left: 0;
 }
 
 .event-row-field {
@@ -107,6 +108,12 @@ html, body {
 
 .eventModal {
   max-width: 600px;
+}
+.eventModalTitle {
+  font-size: 18px;
+}
+.eventModalTitle input:not(:focus) {
+  border: 1px solid transparent;
 }
 .event-modal-field {
   display: flex;

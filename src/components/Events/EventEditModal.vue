@@ -1,12 +1,16 @@
 <template>
-  <div class="modal">
+  <div class="modal" @keyup.enter="close">
     <div class="headerButtons">
       <div class="editFields">Edit Fields</div>
       <div class="closeButton" @click="close">&times;</div>
     </div>
-    {{ event.id }}
+    <el-input class="eventModalTitle" placeholder="Event title" v-model="event.title"></el-input>
     <p>
-      <input type="text" v-model="event.title" />
+      <el-date-picker
+        v-model="event.time"
+        type="datetime"
+        :clearable="false">
+      </el-date-picker>
     </p>
     <field-view class="event-field" v-for="f in event.fields" :field="f" view="modal"></field-view>
   </div>
@@ -56,6 +60,8 @@ export default {
 }
 .editFields {
   font-size: 14px;
+  position: relative;
+  top: 2px;
 }
 .closeButton {
   font-size: 20px;

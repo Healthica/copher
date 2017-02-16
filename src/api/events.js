@@ -10,7 +10,7 @@ const _events = {
   version: 1,
   data: [
     {
-      id: '_headache',
+      id: uuid.v4(),
       title: 'Headache',
       time: moment().subtract(1, 'days').subtract(Math.round(1000 * Math.random()), 'minutes').format(),
       fields: [
@@ -48,7 +48,7 @@ const _events = {
         row_show: ['_headache_pain_areas', '_headache_duration']
       }
     }, {
-      id: '_sleep',
+      id: uuid.v4(),
       title: 'Sleep',
       time: moment().subtract(1, 'days').subtract(Math.round(1000 * Math.random()), 'minutes').format(),
       fields: [
@@ -68,7 +68,7 @@ const _events = {
         row_show: ['_sleep_duration']
       }
     }, {
-      id:'_weight',
+      id: uuid.v4(),
       title: 'Weight Measurement',
       time: moment().subtract(2, 'days').subtract(Math.round(1000 * Math.random()), 'minutes').format(),
       fields: [
@@ -83,7 +83,7 @@ const _events = {
         row_show: ['_measurement_weight']
       }
     }, {
-      id: '_sleep',
+      id: uuid.v4(),
       title: 'Sleep',
       time: moment().subtract(3, 'days').subtract(Math.round(1000 * Math.random()), 'minutes').format(),
       fields: [
@@ -105,6 +105,7 @@ const _events = {
     }
   ]
 }
+// _events.data = []
 const _events_new_version = {
   success: false,
   has_new_version: true,
