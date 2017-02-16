@@ -65,7 +65,7 @@ const _events = {
         }
       ],
       views: {
-        row_show: ['_sleep_duration', '_sleep_quality']
+        row_show: ['_sleep_duration']
       }
     }, {
       id:'_weight',

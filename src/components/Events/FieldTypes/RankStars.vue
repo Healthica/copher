@@ -5,6 +5,13 @@
       <i v-for="s in fullStars" class="el-icon-star-on"></i>
       <i v-for="s in emptyStars" class="el-icon-star-off"></i>
     </div>
+    <div v-else-if="view === 'modal'" class="event-modal-field">
+      <div class="event-modal-field-header">{{ field.title }}</div>
+      <div class="event-modal-field-content">
+        <i v-for="s in fullStars" class="el-icon-star-on"></i>
+        <i v-for="s in emptyStars" class="el-icon-star-off"></i>
+      </div>
+    </div>
   </span>
 </template>
 

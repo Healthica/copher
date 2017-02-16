@@ -8,19 +8,18 @@
     <p>
       <input type="text" v-model="event.title" />
     </p>
-    <p>
-      <el-date-picker
-        v-model="event.time"
-        type="datetime"
-        placeholder="Select date and time">
-      </el-date-picker>
-    </p>
+    <field-view class="event-field" v-for="f in event.fields" :field="f" view="modal"></field-view>
   </div>
 </template>
 
 <script>
+import FieldView from './FieldView'
+
 export default {
   props: ['event'],
+  components: {
+    FieldView
+  },
   data() {
     return {
     }

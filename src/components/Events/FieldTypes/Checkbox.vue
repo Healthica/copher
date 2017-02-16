@@ -4,6 +4,12 @@
       <div class="event-row-field-header">{{ field.title }}</div>
       {{ textValues }}
     </div>
+    <div v-else-if="view === 'modal'" class="event-modal-field">
+      <div class="event-modal-field-header">{{ field.title }}</div>
+      <div class="event-modal-field-content">
+        {{ textValues }}
+      </div>
+    </div>
   </span>
 </template>
 

@@ -2,7 +2,7 @@
   <li class="event-row" @click="onEventClick">
     <span class="event-time">{{ eventTime }}</span>
     <span class="event-title">{{ event.title }}</span>
-    <field-view class="event-field" v-for="f in event.fields" :field="f" view="row"></field-view>
+    <field-view class="event-field" v-for="f in event.fields" :field="f" view="row" v-if="should_display(f)"></field-view>
   </li>
 </template>
 
@@ -26,6 +26,13 @@ export default {
   methods: {
     onEventClick(e) {
       this.clickHandler(this.event.id)
+    },
+    should_display(field) {
+      if (!this.event.views.row_show) {
+        return false
+      } else {
+        return _.indexOf(this.event.views.row_show, field.id) > -1
+      }
     }
   }
 }

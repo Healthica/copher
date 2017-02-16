@@ -97,4 +97,29 @@ html, body {
   transform: translateX(-50%);
   color: #CCA42B;
 }
+
+.eventModal {
+  max-width: 600px;
+}
+.event-modal-field {
+  display: flex;
+  margin: 24px 0;
+}
+.event-modal-field-header {
+  font-weight: bold;
+  width: 120px;
+  flex: 0 1 auto;
+}
+.event-modal-field-content {
+  flex: 1 1 0%;
+}
+@media screen and (max-width: 480px) {
+  .event-modal-field {
+    flex-direction: column
+  }
+  .event-modal-field-header {
+    width: 100%;
+    margin-bottom: 6px;
+  }
+}
 </style>

@@ -22,7 +22,7 @@
       </li>
       <event-row v-for="e in day.events" :event="e" :clickHandler="showEditEventModal"></event-row>
     </ul>
-    <el-dialog custom-class="eventModal" v-model="eventModalVisible" @close="onCloseEditEventModal">
+    <el-dialog custom-class="eventModal" v-model="eventModalVisible" @close="onCloseEditEventModal" size="large">
       <event-edit-modal :event="eventCopy" @close="closeEditEventModal"></event-edit-modal>
     </el-dialog>
   </div>
