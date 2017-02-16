@@ -1,7 +1,10 @@
 <template>
   <div class="modal" @keyup.enter="close">
     <div class="headerButtons">
-      <div class="editFields">Edit Fields</div>
+      <div class="editFields">
+        <span v-if="hasFields">Edit Fields</span>
+        <span v-else>Add Fields</span>
+      </div>
       <div class="closeButton" @click="close">&times;</div>
     </div>
     <el-input class="eventModalTitle" placeholder="Event title" v-model="event.title"></el-input>
@@ -29,6 +32,9 @@ export default {
     }
   },
   computed: {
+    hasFields() {
+      return this.event.fields && this.event.fields.length > 0
+    }
   },
   methods: {
     close() {

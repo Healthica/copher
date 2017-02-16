@@ -7,7 +7,7 @@
     <div v-else-if="view === 'modal'" class="event-modal-field">
       <div class="event-modal-field-header">{{ field.title }}</div>
       <div class="event-modal-field-content">
-        <el-input-number v-model="field.value" :step="0.5"></el-input-number>
+        <el-input-number v-model="field.value" :step="0.5" :min="0"></el-input-number>
         <span class="lbs">({{ weight_lbs }})</span>
       </div>
     </div>
