@@ -82,6 +82,13 @@ html, body {
 .eventModal .el-dialog__body {
   padding: 0;
 }
+.el-checkbox-group {
+  display: flex;
+  flex-wrap: wrap;
+}
+.el-checkbox {
+  margin: 6px 18px 6px 0;
+}
 
 .event-row-field {
   display: inline-block;

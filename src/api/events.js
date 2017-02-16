@@ -45,7 +45,7 @@ const _events = {
         }
       ],
       views: {
-        row_show: ['_headache_intensity', '_headache_duration']
+        row_show: ['_headache_pain_areas', '_headache_duration']
       }
     }, {
       id: '_sleep',
