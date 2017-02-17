@@ -1,7 +1,15 @@
 <template>
   <div class="modal" @keyup.enter="close">
     <div class="headerButtons">
-      <el-button v-if="editMode" class="el-button--link" icon="information" size="mini" @click="showEditInfo"></el-button>
+      <el-popover
+        v-if="editMode"
+        placement="left"
+        title="Event Fields"
+        width="240"
+        trigger="click"
+        content="Changes here will affect this event and future events of this type. Other existing events will not be modified. To change the type of each field, see the Migration tab.">
+        <el-button slot="reference" class="el-button--link" icon="information" size="mini"></el-button>
+      </el-popover>
       <div class="editFields">
         <el-button v-if="editMode" class="save-button" @click="editMode=false" type="success" size="small">Done</el-button>
         <span v-else-if="hasFields" @click="editMode=true">Edit Fields</span>
@@ -46,8 +54,8 @@
       </el-button>
       <el-dropdown-menu slot="dropdown">
         <el-dropdown-item command="checkbox">Checkbox</el-dropdown-item>
-        <el-dropdown-item command="duration">Duration</el-dropdown-item>
-        <el-dropdown-item command="stars">Stars Rank</el-dropdown-item>
+        <el-dropdown-item command="duration_minutes">Duration</el-dropdown-item>
+        <el-dropdown-item command="rank_stars">Stars Rank</el-dropdown-item>
         <el-dropdown-item command="weight">Weight</el-dropdown-item>
       </el-dropdown-menu>
     </el-dropdown>
@@ -56,6 +64,7 @@
 
 <script>
 import FieldView from './FieldView'
+import uuid from 'uuid'
 
 export default {
   props: ['event'],
@@ -77,10 +86,12 @@ export default {
       this.$emit('close')
     },
     addField(field) {
-      console.log('Add', field)
-    },
-    showEditInfo() {
-      console.log('Show edit info')
+      this.event.fields.push({
+        id: uuid.v4(),
+        title: '',
+        type: field,
+        value: this.defaultValue(field)
+      })
     },
     fieldType(type) {
       switch (type) {
@@ -98,6 +109,24 @@ export default {
           break;
         default:
           return type
+      }
+    },
+    defaultValue(type) {
+      switch (type) {
+        case 'checkbox':
+          return []
+          break;
+        case 'duration_minutes':
+          return 0
+          break;
+        case 'rank_stars':
+          return 2.5
+          break;
+        case 'weight':
+          return 70
+          break;
+        default:
+          return null
       }
     },
     deleteField(id) {
