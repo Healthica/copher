@@ -76,6 +76,10 @@ html, body {
   overflow: hidden;
 }
 
+.el-button--link {
+  border: 0 solid transparent;
+}
+
 .eventModal .el-dialog__header {
   display: none;
 }

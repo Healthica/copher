@@ -2,7 +2,7 @@
   <li class="event-row" @click="onEventClick">
     <span class="event-time">{{ eventTime }}</span>
     <span class="event-title">{{ event.title }}</span>
-    <field-view class="event-field" v-for="f in event.fields" :field="f" view="row" v-if="should_display(f)"></field-view>
+    <field-view class="event-field" v-for="f in event.fields" :key="f.id" :field="f" view="row" v-if="should_display(f)"></field-view>
   </li>
 </template>
 
