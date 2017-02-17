@@ -15,12 +15,7 @@
         </el-input-number>
       </div>
     </div>
-    <div v-else-if="view === 'modalEdit'" class="event-modal-field">
-      <el-button class="el-button--link" icon="caret-top" size="mini" @click="moveFieldUp"></el-button>
-      <el-button class="el-button--link" icon="caret-bottom" size="mini" @click="moveFieldDown"></el-button>
-      <el-input v-model="field_type" :disabled="true" style="width:120px;"></el-input>
-      <el-input placeholder="Field title" v-model="field.title"></el-input>
-      <el-button class="el-button--link" icon="close" size="mini" @click="deleteField"></el-button>
+    <div v-else-if="view === 'modalEdit'" class="">
     </div>
   </span>
 </template>
@@ -69,7 +64,4 @@ export default {
 </script>
 
 <style scoped>
-.deleteButton {
-
-}
 </style>
