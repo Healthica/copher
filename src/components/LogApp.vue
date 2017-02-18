@@ -5,8 +5,8 @@
         v-model="newEventText"
         @keyup.enter="newEventSubmit"
         @keyup="calcSuggestions"
-        @keyup.up="suggestionsUp"
-        @keyup.down="suggestionsDown"
+        @keydown.up.prevent="suggestionsUp"
+        @keydown.down.prevent="suggestionsDown"
         @focus="newEventTextFocus"
         @blur="newEventTextUnfocus"
         class="new-event-input"
@@ -127,17 +127,11 @@ export default {
         const event = _.find(this.events.data, e => e.id === id)
         this.duplicateEvent(_.cloneDeep(event))
         this.newEventText = ''
+        this.$refs['newEventInput'].blur()
       }
     },
-    suggestionsDeselect() {
-      console.log('DESLCT')
-      const suggestions = this.newEventTextSuggestionsCache.suggestions
-      const i = _.findIndex(suggestions, { active: true })
-      if (i > -1) {
-        suggestions[i].active = false
-      }
-    },
-    suggestionsUp() {
+    suggestionsUp(ev) {
+      ev.preventDefault()
       const suggestions = this.newEventTextSuggestionsCache.suggestions
       const i = _.findIndex(suggestions, { active: true })
       if (i === -1) {
@@ -167,7 +161,9 @@ export default {
       this.newEventInputIsFocused = true
     },
     newEventTextUnfocus() {
+      this.newEventText = ''
       this.newEventInputIsFocused = false
+      this.calcSuggestions()
     },
     addEvent(ev, options) {
       if (!options) {
@@ -185,6 +181,7 @@ export default {
       })
       this.$store.dispatch('syncEvents')
       this.newEventText = ''
+      this.$refs['newEventInput'].blur()
       if (ev.ctrlKey) {
         this.showEditEventModal(_id)
       }
