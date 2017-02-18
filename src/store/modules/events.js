@@ -57,6 +57,10 @@ const actions = {
     commit(types.SET_EVENT_FIELD, event)
   },
 
+  deleteEvent({ commit }, event) {
+    commit(types.DELETE_EVENT, event)
+  },
+
   updateEventAddTransaction({ commit }, event) {
     commit(types.UPDATE_EVENT_ADD_TRANSACTION, event)
   }

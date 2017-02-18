@@ -86,7 +86,8 @@ export default {
       this.$store.dispatch('addEvent', {
         id: _id,
         title: this.newEventText,
-        time: moment().format()
+        time: moment().format(),
+        fields: []
       })
       this.$store.dispatch('syncEvents')
       this.newEventText = ''

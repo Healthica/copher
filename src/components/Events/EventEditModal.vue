@@ -59,6 +59,15 @@
         <el-dropdown-item command="weight">Weight</el-dropdown-item>
       </el-dropdown-menu>
     </el-dropdown>
+    <el-dropdown v-else class="modalEditActionsDropdown" trigger="click" @command="eventAction">
+      <el-button size="small">
+        Actions <i class="el-icon-caret-bottom el-icon--right"></i>
+      </el-button>
+      <el-dropdown-menu slot="dropdown">
+        <el-dropdown-item command="duplicate"><i class="el-icon-plus"></i> Duplicate</el-dropdown-item>
+        <el-dropdown-item command="delete"><i class="el-icon-delete"></i> Delete</el-dropdown-item>
+      </el-dropdown-menu>
+    </el-dropdown>
   </div>
 </template>
 
@@ -152,6 +161,25 @@ export default {
       if (i > -1 && i < this.event.fields.length - 1) {
         this.event.fields.splice(i, 0, this.event.fields.splice(i + 1, 1)[0])
       }
+    },
+    eventAction(action) {
+      switch(action) {
+        case 'delete':
+          this.deleteEvent()
+          break;
+        default:
+          console.error('Unknown action', action)
+      }
+    },
+    deleteEvent() {
+      this.$confirm('This will permenantly delete the event and all its data. Continue?', 'Warning', {
+        confirmButtonText: 'Delete',
+        cancelButtonText: 'Cancel',
+        type: 'warning'
+      }).then(() => {
+        this.close()
+        this.$store.dispatch('deleteEvent', this.event)
+      }).catch(()=>{})
     }
   }
 }
@@ -211,5 +239,9 @@ export default {
 }
 .modalEditAddField {
   margin-top: 36px;
+}
+.modalEditActionsDropdown {
+  display: flex;
+  justify-content: flex-end;
 }
 </style>
