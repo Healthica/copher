@@ -140,4 +140,19 @@ html, body {
     margin-bottom: 6px;
   }
 }
+
+.checkbox-edit-option-input input {
+  padding: 12px 6px;
+  height: 24px;
+  margin-top: -1px;
+}
+.checkbox-edit-option:not(:first-child):not(:last-child) input {
+  border-radius: 0;
+}
+.checkbox-edit-option:first-child input {
+  border-radius: 3px 3px 0 0;
+}
+.checkbox-edit-option:last-child input {
+  border-radius: 0 0 3px 3px;
+}
 </style>

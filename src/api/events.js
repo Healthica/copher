@@ -11,44 +11,6 @@ const _events = {
   data: [
     {
       id: uuid.v4(),
-      title: 'Headache',
-      time: moment().subtract(1, 'days').subtract(Math.round(1000 * Math.random()), 'minutes').format(),
-      fields: [
-        {
-          id: '_headache_duration',
-          title: 'Duration',
-          type: 'duration_minutes',
-          value: 15
-        }, {
-          id: '_headache_intensity',
-          title: 'Intensity',
-          type: 'scale',
-          options: {
-            min: 1,
-            max: 10
-          },
-          value: 7
-        }, {
-          id: '_headache_pain_areas',
-          title: 'Pain Areas',
-          type: 'checkbox',
-          options: {
-            max: 3,
-            options: [
-              { value: 'head', title: 'Head' },
-              { value: 'behind_eye', title: 'Behind the eye' },
-              { value: 'neck', title: 'Neck' },
-              { value: 'back_head', title: 'Back of the head' }
-            ]
-          },
-          value: ['behind_eye', 'neck']
-        }
-      ],
-      views: {
-        row_show: ['_headache_pain_areas', '_headache_duration']
-      }
-    }, {
-      id: uuid.v4(),
       title: 'Sleep',
       time: moment().subtract(1, 'days').subtract(Math.round(1000 * Math.random()), 'minutes').format(),
       fields: [
@@ -88,19 +50,67 @@ const _events = {
       time: moment().subtract(3, 'days').subtract(Math.round(1000 * Math.random()), 'minutes').format(),
       fields: [
         {
-          id: '_sleep_duration',
-          title: 'Duration',
+          // id: '_sleep_quality',
+          // title: 'Quality',
+          // type: 'rank_stars',
+          // value: 4.0
+        // }, {
+          id: '_sleep_duration1',
+          title: 'Duration1',
           type: 'duration_minutes',
           value: 600
         }, {
-          id: '_sleep_quality',
-          title: 'Quality',
-          type: 'rank_stars',
-          value: 4.0
+          id: '_sleep_duration2',
+          title: 'Duration2',
+          type: 'duration_minutes',
+          value: 500
+        }, {
+          id: '_sleep_duration3',
+          title: 'Duration3',
+          type: 'duration_minutes',
+          value: 400
         }
       ],
       views: {
-        row_show: ['_sleep_duration', '_sleep_quality']
+        row_show: ['_sleep_duration', '_sleep_quality', '_sleep_duration1', '_sleep_duration2', '_sleep_duration3']
+      }
+    }, {
+      id: uuid.v4(),
+      title: 'Headache',
+      time: moment().subtract(4, 'days').subtract(Math.round(1000 * Math.random()), 'minutes').format(),
+      fields: [
+        {
+          id: '_headache_duration',
+          title: 'Duration',
+          type: 'duration_minutes',
+          value: 15
+        }, {
+          id: '_headache_intensity',
+          title: 'Intensity',
+          type: 'scale',
+          options: {
+            min: 1,
+            max: 10
+          },
+          value: 7
+        }, {
+          id: '_headache_pain_areas',
+          title: 'Pain Areas',
+          type: 'checkbox',
+          options: {
+            max: 3,
+            options: [
+              'Head',
+              'Behind the eye',
+              'Neck',
+              'Back of the head'
+            ]
+          },
+          value: ['Behind the eye', 'Neck']
+        }
+      ],
+      views: {
+        row_show: ['_headache_pain_areas', '_headache_duration']
       }
     }
   ]
