@@ -29,6 +29,9 @@ export default {
 </script>
 
 <style scoped>
+.event-row-field {
+  pointer-events: none;
+}
 .event-row-field-header {
   top: -15px;
 }
