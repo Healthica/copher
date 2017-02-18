@@ -3,13 +3,24 @@
     <div class="new-event-container">
       <input type="text"
         v-model="newEventText"
-        @keyup.enter="addEvent"
+        @keyup.enter="newEventSubmit"
+        @keyup="calcSuggestions"
+        @keyup.up="suggestionsUp"
+        @keyup.down="suggestionsDown"
+        @focus="newEventTextFocus"
+        @blur="newEventTextUnfocus"
         class="new-event-input"
         placeholder="What would you like to log?"
         tabindex="1"
+        ref="newEventInput"
         />
       <!-- <el-button class="edit-button" @click="editEvent" type="default">+</el-button> -->
       <el-button class="save-button" @click="addEvent" type="success">Save</el-button>
+      <div v-if="showSuggestions" class="newEventSuggestions">
+        <div v-for="s in newEventTextSuggestionsCache.suggestions" class="newEventSuggestionsItem" :class="{active:s.active}">
+          {{ s.latest.title }}
+        </div>
+      </div>
     </div>
     <ul class="events-day" v-for="day in sortedEvents">
       <li class="events-day-title">
@@ -43,6 +54,8 @@ export default {
   data() {
     return {
       newEventText: '',
+      newEventInputIsFocused: false,
+      newEventTextSuggestionsCache: { query: '', suggestions: [] },
       eventModalVisible: false,
       eventCopy: {},
       eventCopyUnwatcher: null
@@ -72,9 +85,90 @@ export default {
         days[day.i].events.push(e)
       })
       return days
+    },
+    showSuggestions(state) {
+      return true
+      return state.newEventInputIsFocused && state.newEventTextSuggestionsCache.suggestions.length > 0
     }
   },
   methods: {
+    calcSuggestions() {
+      if (this.newEventText === this.newEventTextSuggestionsCache.query) {
+        return
+      } else if (this.newEventText.length === 0) {
+        this.newEventTextSuggestionsCache = {
+          query: '',
+          suggestions: []
+        }
+        return
+      }
+      this.newEventTextSuggestionsCache.query = this.newEventText
+      //TODO improve performance on big number of events, and use something better than startsWith()
+      const matches = _.groupBy(_.filter(this.events.data, e => e.title.startsWith(this.newEventText)), 'title')
+      const suggestions = _.orderBy(_.map(matches, e => {
+        return {
+          count: e.length,
+          latest: _.pick(_.maxBy(e, moment(e.time)), ['id', 'title', 'time']),
+          active: false
+        }
+      }), 'count', ['desc'])
+      const topSuggestions = _.take(suggestions, 5)
+      this.newEventTextSuggestionsCache.suggestions = topSuggestions
+      return topSuggestions
+    },
+    newEventSubmit(ev) {
+      const suggestions = this.newEventTextSuggestionsCache.suggestions
+      const i = _.findIndex(suggestions, { active: true })
+      if (i === -1) {
+        this.addEvent(ev)
+      } else {
+        // Duplicate
+        const id = suggestions[i].latest.id
+        const event = _.find(this.events.data, e => e.id === id)
+        this.duplicateEvent(_.cloneDeep(event))
+        this.newEventText = ''
+      }
+    },
+    suggestionsDeselect() {
+      console.log('DESLCT')
+      const suggestions = this.newEventTextSuggestionsCache.suggestions
+      const i = _.findIndex(suggestions, { active: true })
+      if (i > -1) {
+        suggestions[i].active = false
+      }
+    },
+    suggestionsUp() {
+      const suggestions = this.newEventTextSuggestionsCache.suggestions
+      const i = _.findIndex(suggestions, { active: true })
+      if (i === -1) {
+        suggestions[suggestions.length - 1].active = true
+      } else if (i === 0) {
+        suggestions[i].active = false
+        suggestions[suggestions.length - 1].active = true
+      } else {
+        suggestions[i].active = false
+        suggestions[i - 1].active = true
+      }
+    },
+    suggestionsDown() {
+      const suggestions = this.newEventTextSuggestionsCache.suggestions
+      const i = _.findIndex(suggestions, { active: true })
+      if (i === -1) {
+        suggestions[0].active = true
+      } else if (i === suggestions.length - 1) {
+        suggestions[i].active = false
+        suggestions[0].active = true
+      } else {
+        suggestions[i].active = false
+        suggestions[i + 1].active = true
+      }
+    },
+    newEventTextFocus() {
+      this.newEventInputIsFocused = true
+    },
+    newEventTextUnfocus() {
+      this.newEventInputIsFocused = false
+    },
     addEvent(ev, options) {
       if (!options) {
         options = {}
@@ -186,13 +280,29 @@ export default {
 .new-event-input:focus:-moz-placeholder { color: transparent; }
 .new-event-input:focus::-moz-placeholder { color: transparent; }
 .new-event-input:focus:-ms-input-placeholder { color: transparent; }
-
 .save-button {
   margin-right: 18px;
 }
 .edit-button {
   margin-right: 18px;
 }
+.newEventSuggestions {
+  position: absolute;
+  top: 68px;
+  left: 0;
+  min-width: 200px;
+  background-color: #fff;
+  box-shadow: 0 3px 5px 0 rgba(0,0,0,.1);
+}
+.newEventSuggestionsItem {
+  padding: 12px 12px 12px 36px;
+}
+.newEventSuggestionsItem.active {
+  background-color: #298FCA;
+  color: #fff;
+  cursor: pointer;
+}
+
 .events-day {
   list-style: none;
   margin: 0;
