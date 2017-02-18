@@ -166,6 +166,9 @@ export default {
         case 'delete':
           this.deleteEvent()
           break;
+        case 'duplicate':
+          this.$emit('duplicateEvent', this.event)
+          break;
         default:
           console.error('Unknown action', action)
       }

@@ -3,6 +3,7 @@
     <span class="event-time">{{ eventTime }}</span>
     <span class="event-title">{{ event.title }}</span>
     <field-view class="event-field" v-for="f in event.fields" :key="f.id" :field="f" view="row" v-if="should_display(f)"></field-view>
+    <span class="event-field event-duplicate" @click.stop="duplicateEvent">Copy</span>
   </li>
 </template>
 
@@ -34,6 +35,9 @@ export default {
       } else {
         return _.indexOf(this.event.views.row_show, field.id) > -1
       }
+    },
+    duplicateEvent(e) {
+      this.$emit('duplicateEvent', _.cloneDeep(this.event))
     }
   }
 }
@@ -75,5 +79,12 @@ export default {
 }
 .event-row:not(:hover) .event-field {
   display: none;
+}
+.event-duplicate {
+  padding: auto 24px;
+  margin-left: auto;
+}
+.event-duplicate:hover {
+  color: #0C3953;
 }
 </style>

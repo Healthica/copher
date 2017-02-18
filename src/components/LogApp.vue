@@ -20,10 +20,10 @@
           {{ day.title.main }}
         </div>
       </li>
-      <event-row v-for="e in day.events" :event="e" :clickHandler="showEditEventModal"></event-row>
+      <event-row v-for="e in day.events" :event="e" :clickHandler="showEditEventModal" @duplicateEvent="duplicateEvent"></event-row>
     </ul>
     <el-dialog custom-class="eventModal" v-model="eventModalVisible" @close="onCloseEditEventModal" size="large">
-      <event-edit-modal :event="eventCopy" @close="closeEditEventModal"></event-edit-modal>
+      <event-edit-modal :event="eventCopy" @close="closeEditEventModal" @duplicateEvent="duplicateEvent"></event-edit-modal>
     </el-dialog>
   </div>
 </template>
@@ -120,6 +120,15 @@ export default {
     },
     onChangeEventField(e) {
       this.$store.dispatch('setEvent', e)
+    },
+    duplicateEvent(e) {
+      const _id = uuid.v4()
+      this.$store.dispatch('addEvent', Object.assign(e, {
+        id: _id,
+        time: moment().format()
+      }))
+      this.$store.dispatch('syncEvents')
+      this.showEditEventModal(_id)
     }
   },
   created() {
