@@ -99,7 +99,7 @@ export default {
       const suggestions = _.orderBy(_.map(matches, e => {
         return {
           count: e.length,
-          latest: _.pick(_.maxBy(e, moment(e.time)), ['id', 'title', 'time']),
+          latest: _.pick(_.maxBy(e, e => moment(e.time).valueOf()), ['id', 'title', 'time']),
           active: false
         }
       }), 'count', ['desc'])
