@@ -16,7 +16,10 @@
     <!-- <el-button class="edit-button" @click="editEvent" type="default">+</el-button> -->
     <el-button class="save-button" @click="newEventSubmit" type="success">Save</el-button>
     <div v-if="showSuggestions" class="newEventSuggestions">
-      <div v-for="s in newEventTextSuggestionsCache.suggestions" class="newEventSuggestionsItem" :class="{active:s.active}">
+      <div v-for="(s, i) in newEventTextSuggestionsCache.suggestions"
+        class="newEventSuggestionsItem"
+        :class="{active:s.active}"
+        @mouseover="suggestionsSet(i)" @click="newEventSubmit">
         {{ s.latest.title }}
       </div>
     </div>
@@ -148,12 +151,25 @@ export default {
         suggestions[i + 1].active = true
       }
     },
+    suggestionsSet(index) {
+      const suggestions = this.newEventTextSuggestionsCache.suggestions
+      const i = _.findIndex(suggestions, { active: true })
+      if (i > -1) {
+        suggestions[i].active = false
+      }
+      suggestions[index].active = true
+    },
     newEventTextFocus() {
       this.newEventInputIsFocused = true
     },
     newEventTextUnfocus() {
-      this.newEventInputIsFocused = false
-      this.calcSuggestions()
+      // Clicking on a suggestions triggers blur() before handling the click event
+      window.setTimeout(() => {
+        if (this.$refs['newEventInput'] !== document.activeElement) {
+          this.newEventInputIsFocused = false
+          this.calcSuggestions()
+        }
+      }, 150)
     }
   }
 }
