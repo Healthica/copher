@@ -8,7 +8,7 @@
         placeholder="What would you like to log?"
         tabindex="1"
         />
-      <el-button class="edit-button" @click="editEvent" type="default">+</el-button>
+      <!-- <el-button class="edit-button" @click="editEvent" type="default">+</el-button> -->
       <el-button class="save-button" @click="addEvent" type="success">Save</el-button>
     </div>
     <ul class="events-day" v-for="day in sortedEvents">

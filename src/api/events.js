@@ -98,7 +98,6 @@ const _events = {
           title: 'Pain Areas',
           type: 'checkbox',
           options: {
-            max: 3,
             options: [
               'Head',
               'Behind the eye',

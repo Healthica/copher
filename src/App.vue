@@ -146,13 +146,15 @@ html, body {
   height: 24px;
   margin-top: -1px;
 }
-.checkbox-edit-option:not(:first-child):not(:last-child) input {
+.checkbox-edit-option input {
   border-radius: 0;
 }
 .checkbox-edit-option:first-child input {
-  border-radius: 3px 3px 0 0;
+  border-top-left-radius: 3px;
+  border-top-right-radius: 3px;
 }
 .checkbox-edit-option:last-child input {
-  border-radius: 0 0 3px 3px;
+  border-bottom-left-radius: 3px;
+  border-bottom-right-radius: 3px;
 }
 </style>

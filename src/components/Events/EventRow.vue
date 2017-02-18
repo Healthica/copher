@@ -28,6 +28,7 @@ export default {
       this.clickHandler(this.event.id)
     },
     should_display(field) {
+      return true
       if (!this.event.views.row_show) {
         return false
       } else {

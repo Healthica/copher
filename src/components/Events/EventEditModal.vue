@@ -95,12 +95,11 @@ export default {
       this.$emit('close')
     },
     addField(field) {
-      this.event.fields.push({
+      this.event.fields.push(Object.assign({
         id: uuid.v4(),
         title: '',
-        type: field,
-        value: this.defaultValue(field)
-      })
+        type: field
+      }, this.defaultValue(field)))
     },
     fieldType(type) {
       switch (type) {
@@ -123,19 +122,19 @@ export default {
     defaultValue(type) {
       switch (type) {
         case 'checkbox':
-          return []
+          return { value: [], options: { options: [''] }}
           break;
         case 'duration_minutes':
-          return 0
+          return { value: 0 }
           break;
         case 'rank_stars':
-          return 2.5
+          return {value: 2.5 }
           break;
         case 'weight':
-          return 70
+          return {value: 70 }
           break;
         default:
-          return null
+          return {}
       }
     },
     deleteField(id) {
