@@ -1,27 +1,6 @@
 <template>
   <div class="log-app">
-    <div class="new-event-container">
-      <input type="text"
-        v-model="newEventText"
-        @keyup.enter="newEventSubmit"
-        @keyup="calcSuggestions"
-        @keydown.up.prevent="suggestionsUp"
-        @keydown.down.prevent="suggestionsDown"
-        @focus="newEventTextFocus"
-        @blur="newEventTextUnfocus"
-        class="new-event-input"
-        placeholder="What would you like to log?"
-        tabindex="1"
-        ref="newEventInput"
-        />
-      <!-- <el-button class="edit-button" @click="editEvent" type="default">+</el-button> -->
-      <el-button class="save-button" @click="addEvent" type="success">Save</el-button>
-      <div v-if="showSuggestions" class="newEventSuggestions">
-        <div v-for="s in newEventTextSuggestionsCache.suggestions" class="newEventSuggestionsItem" :class="{active:s.active}">
-          {{ s.latest.title }}
-        </div>
-      </div>
-    </div>
+    <new-event-input @showEditEventModal="showEditEventModal" @duplicateEvent="duplicateEvent"></new-event-input>
     <ul class="events-day" v-for="day in sortedEvents">
       <li class="events-day-title">
         <el-tooltip v-if="day.title.relative" class="item" effect="light" :content="day.title.relative" placement="top">
@@ -43,19 +22,18 @@
 import { mapGetters } from 'vuex'
 import uuid from 'uuid'
 import moment from 'moment'
+import NewEventInput from './Events/NewEventInput'
 import EventRow from './Events/EventRow'
 import EventEditModal from './Events/EventEditModal'
 
 export default {
   components: {
+    NewEventInput,
     EventRow,
     EventEditModal
   },
   data() {
     return {
-      newEventText: '',
-      newEventInputIsFocused: false,
-      newEventTextSuggestionsCache: { query: '', suggestions: [] },
       eventModalVisible: false,
       eventCopy: {},
       eventCopyUnwatcher: null
@@ -85,112 +63,9 @@ export default {
         days[day.i].events.push(e)
       })
       return days
-    },
-    showSuggestions(state) {
-      return true
-      return state.newEventInputIsFocused && state.newEventTextSuggestionsCache.suggestions.length > 0
     }
   },
   methods: {
-    calcSuggestions() {
-      if (this.newEventText === this.newEventTextSuggestionsCache.query) {
-        return
-      } else if (this.newEventText.length === 0) {
-        this.newEventTextSuggestionsCache = {
-          query: '',
-          suggestions: []
-        }
-        return
-      }
-      this.newEventTextSuggestionsCache.query = this.newEventText
-      //TODO improve performance on big number of events, and use something better than startsWith()
-      const matches = _.groupBy(_.filter(this.events.data, e => e.title.startsWith(this.newEventText)), 'title')
-      const suggestions = _.orderBy(_.map(matches, e => {
-        return {
-          count: e.length,
-          latest: _.pick(_.maxBy(e, moment(e.time)), ['id', 'title', 'time']),
-          active: false
-        }
-      }), 'count', ['desc'])
-      const topSuggestions = _.take(suggestions, 5)
-      this.newEventTextSuggestionsCache.suggestions = topSuggestions
-      return topSuggestions
-    },
-    newEventSubmit(ev) {
-      const suggestions = this.newEventTextSuggestionsCache.suggestions
-      const i = _.findIndex(suggestions, { active: true })
-      if (i === -1) {
-        this.addEvent(ev)
-      } else {
-        // Duplicate
-        const id = suggestions[i].latest.id
-        const event = _.find(this.events.data, e => e.id === id)
-        this.duplicateEvent(_.cloneDeep(event))
-        this.newEventText = ''
-        this.$refs['newEventInput'].blur()
-      }
-    },
-    suggestionsUp(ev) {
-      ev.preventDefault()
-      const suggestions = this.newEventTextSuggestionsCache.suggestions
-      const i = _.findIndex(suggestions, { active: true })
-      if (i === -1) {
-        suggestions[suggestions.length - 1].active = true
-      } else if (i === 0) {
-        suggestions[i].active = false
-        suggestions[suggestions.length - 1].active = true
-      } else {
-        suggestions[i].active = false
-        suggestions[i - 1].active = true
-      }
-    },
-    suggestionsDown() {
-      const suggestions = this.newEventTextSuggestionsCache.suggestions
-      const i = _.findIndex(suggestions, { active: true })
-      if (i === -1) {
-        suggestions[0].active = true
-      } else if (i === suggestions.length - 1) {
-        suggestions[i].active = false
-        suggestions[0].active = true
-      } else {
-        suggestions[i].active = false
-        suggestions[i + 1].active = true
-      }
-    },
-    newEventTextFocus() {
-      this.newEventInputIsFocused = true
-    },
-    newEventTextUnfocus() {
-      this.newEventText = ''
-      this.newEventInputIsFocused = false
-      this.calcSuggestions()
-    },
-    addEvent(ev, options) {
-      if (!options) {
-        options = {}
-      }
-      if (this.newEventText.length === 0 && options.allow_empty !== true && ev.ctrlKey !== true) {
-        return
-      }
-      const _id = uuid.v4()
-      this.$store.dispatch('addEvent', {
-        id: _id,
-        title: this.newEventText,
-        time: moment().format(),
-        fields: []
-      })
-      this.$store.dispatch('syncEvents')
-      this.newEventText = ''
-      this.$refs['newEventInput'].blur()
-      if (ev.ctrlKey) {
-        this.showEditEventModal(_id)
-      }
-      return _id
-    },
-    editEvent(ev) {
-      const _id = this.addEvent(ev, { allow_empty: true })
-      this.showEditEventModal(_id)
-    },
     showEditEventModal(id) {
       this.eventCopy = _.cloneDeep(_.find(this.$store.state.events.data, o => o.id === id))
       this.openEditEventModal()
