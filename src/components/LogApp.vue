@@ -114,7 +114,9 @@ export default {
     onCloseEditEventModal() {
       this.eventCopyUnwatcher()
       this.eventCopyUnwatcher = null
-      this.$store.dispatch('updateEventAddTransaction', _.cloneDeep(this.eventCopy))
+      if (this.eventCopy._isDeleted !== true) {
+        this.$store.dispatch('updateEventAddTransaction', _.cloneDeep(this.eventCopy))
+      }
     },
     onChangeEventField(e) {
       this.$store.dispatch('setEvent', e)

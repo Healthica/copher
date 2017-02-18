@@ -177,6 +177,7 @@ export default {
         cancelButtonText: 'Cancel',
         type: 'warning'
       }).then(() => {
+        this.event._isDeleted = true
         this.close()
         this.$store.dispatch('deleteEvent', this.event)
       }).catch(()=>{})

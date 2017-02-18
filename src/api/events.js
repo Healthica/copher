@@ -139,6 +139,9 @@ export default {
           } else if (t.type === 'UPDATE') {
             const index =  _.findIndex(_events.data, { id: t.event.id })
             _events.data.splice(index, 1, _.cloneDeep(t.event))
+          } else if (t.type === 'DELETE') {
+            const index =  _.findIndex(_events.data, { id: t.event.id })
+            _events.data.splice(index, 1)
           }
         })
 

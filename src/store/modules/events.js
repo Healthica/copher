@@ -97,6 +97,14 @@ const mutations = {
 
   [types.UPDATE_EVENT_ADD_TRANSACTION] (state, event) {
     state.transactions.push({ type: 'UPDATE', event: event })
+  },
+
+  [types.DELETE_EVENT] (state, event) {
+    const i = _.findIndex(state.data, e => e.id === event.id)
+    if (i > -1) {
+      state.data.splice(i, 1)
+    }
+    state.transactions.push({ type: 'DELETE', event: event })
   }
 }
 
