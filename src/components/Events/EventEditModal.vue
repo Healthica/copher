@@ -61,6 +61,7 @@
         <el-dropdown-item command="select">Select</el-dropdown-item>
         <el-dropdown-item command="number">Number</el-dropdown-item>
         <el-dropdown-item command="text">Text</el-dropdown-item>
+        <el-dropdown-item command="switch">Switch</el-dropdown-item>
       </el-dropdown-menu>
     </el-dropdown>
     <el-dropdown v-else class="modalEditActionsDropdown" trigger="click" @command="eventAction">
@@ -136,6 +137,9 @@ export default {
         case 'text':
           return 'Text'
           break;
+        case 'switch':
+          return 'Switch'
+          break;
         default:
           return type
       }
@@ -164,6 +168,9 @@ export default {
           break;
         case 'text':
           return { title: 'Notes', value: '' }
+          break;
+        case 'switch':
+          return { value: false }
           break;
         default:
           return {}

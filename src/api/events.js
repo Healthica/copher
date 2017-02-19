@@ -36,6 +36,11 @@ const _events = {
               'Other'
             ]
           }
+        }, {
+          id: '_sleep_is_natural',
+          title: 'Natural Wakeup',
+          type: 'switch',
+          value: false
         }
       ]
     }, {

@@ -8,6 +8,7 @@
     <select-field v-else-if="field.type === 'select'" :field="field" :view="view"></select-field>
     <number-field v-else-if="field.type === 'number'" :field="field" :view="view"></number-field>
     <text-field v-else-if="field.type === 'text'" :field="field" :view="view"></text-field>
+    <switch-field v-else-if="field.type === 'switch'" :field="field" :view="view"></switch-field>
   </span>
 </template>
 
@@ -21,6 +22,7 @@ import Length from './FieldTypes/Length'
 import SelectField from './FieldTypes/Select'
 import NumberField from './FieldTypes/Number'
 import TextField from './FieldTypes/Text'
+import SwitchField from './FieldTypes/Switch'
 
 export default {
   props: ['field', 'view'],
@@ -32,7 +34,8 @@ export default {
     Length,
     SelectField,
     NumberField,
-    TextField
+    TextField,
+    SwitchField
   },
   computed: {
     has_value() {
