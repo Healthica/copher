@@ -24,11 +24,20 @@ const _events = {
           title: 'Quality',
           type: 'rank_stars',
           value: 3
+        }, {
+          id: '_sleep_type',
+          title: 'Type',
+          type: 'select',
+          value: 'Regular',
+          options: {
+            options: [
+              'Nap',
+              'Regular',
+              'Other'
+            ]
+          }
         }
-      ],
-      views: {
-        row_show: ['_sleep_duration']
-      }
+      ]
     }, {
       id: uuid.v4(),
       title: 'Body Weight',
@@ -43,10 +52,7 @@ const _events = {
             units: 'kg'
           }
         }
-      ],
-      views: {
-        row_show: ['_measurement_weight']
-      }
+      ]
     }, {
       id: uuid.v4(),
       title: 'Run',
@@ -66,10 +72,7 @@ const _events = {
             units: 'km'
           }
         }
-      ],
-      views: {
-        row_show: ['_measurement_weight']
-      }
+      ]
     }, {
       id: uuid.v4(),
       title: 'Sleep',
@@ -96,10 +99,7 @@ const _events = {
           type: 'duration',
           value: 400
         }
-      ],
-      views: {
-        row_show: ['_sleep_duration', '_sleep_quality', '_sleep_duration1', '_sleep_duration2', '_sleep_duration3']
-      }
+      ]
     }, {
       id: uuid.v4(),
       title: 'Headache',
@@ -133,10 +133,7 @@ const _events = {
           },
           value: ['Behind the eye', 'Neck']
         }
-      ],
-      views: {
-        row_show: ['_headache_pain_areas', '_headache_duration']
-      }
+      ]
     }
   ]
 }

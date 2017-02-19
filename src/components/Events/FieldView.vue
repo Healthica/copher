@@ -5,6 +5,7 @@
     <rank-stars v-else-if="field.type === 'rank_stars'" :field="field" :view="view"></rank-stars>
     <weight v-else-if="field.type === 'weight'" :field="field" :view="view"></weight>
     <length v-else-if="field.type === 'length'" :field="field" :view="view"></length>
+    <select-field v-else-if="field.type === 'select'" :field="field" :view="view"></select-field>
   </span>
 </template>
 
@@ -15,6 +16,7 @@ import Checkbox from './FieldTypes/Checkbox'
 import RankStars from './FieldTypes/RankStars'
 import Weight from './FieldTypes/Weight'
 import Length from './FieldTypes/Length'
+import SelectField from './FieldTypes/Select'
 
 export default {
   props: ['field', 'view'],
@@ -23,7 +25,8 @@ export default {
     Checkbox,
     RankStars,
     Weight,
-    Length
+    Length,
+    SelectField
   },
   computed: {
     has_value() {

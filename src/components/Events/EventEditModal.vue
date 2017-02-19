@@ -119,6 +119,9 @@ export default {
         case 'length':
           return 'Length'
           break;
+        case 'select':
+          return 'Select'
+          break;
         default:
           return type
       }
@@ -139,6 +142,8 @@ export default {
           break;
         case 'length':
           return { value: 5, options: { units: 'm' } }
+        case 'select':
+          return { value: '', options: { option: [''] } }
           break;
         default:
           return {}
