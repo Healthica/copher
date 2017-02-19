@@ -58,6 +58,8 @@
         <el-dropdown-item command="rank_stars">Stars Rank</el-dropdown-item>
         <el-dropdown-item command="weight">Weight</el-dropdown-item>
         <el-dropdown-item command="length">Length</el-dropdown-item>
+        <el-dropdown-item command="select">Select</el-dropdown-item>
+        <el-dropdown-item command="number">Number</el-dropdown-item>
       </el-dropdown-menu>
     </el-dropdown>
     <el-dropdown v-else class="modalEditActionsDropdown" trigger="click" @command="eventAction">
@@ -122,6 +124,9 @@ export default {
         case 'select':
           return 'Select'
           break;
+        case 'number':
+          return 'Number'
+          break;
         default:
           return type
       }
@@ -143,7 +148,10 @@ export default {
         case 'length':
           return { value: 5, options: { units: 'm' } }
         case 'select':
-          return { value: '', options: { option: [''] } }
+          return { value: '', options: { options: [''] } }
+          break;
+        case 'number':
+          return { value: 0 }
           break;
         default:
           return {}

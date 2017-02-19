@@ -6,6 +6,7 @@
     <weight v-else-if="field.type === 'weight'" :field="field" :view="view"></weight>
     <length v-else-if="field.type === 'length'" :field="field" :view="view"></length>
     <select-field v-else-if="field.type === 'select'" :field="field" :view="view"></select-field>
+    <number-field v-else-if="field.type === 'number'" :field="field" :view="view"></number-field>
   </span>
 </template>
 
@@ -17,6 +18,7 @@ import RankStars from './FieldTypes/RankStars'
 import Weight from './FieldTypes/Weight'
 import Length from './FieldTypes/Length'
 import SelectField from './FieldTypes/Select'
+import NumberField from './FieldTypes/Number'
 
 export default {
   props: ['field', 'view'],
@@ -26,7 +28,8 @@ export default {
     RankStars,
     Weight,
     Length,
-    SelectField
+    SelectField,
+    NumberField
   },
   computed: {
     has_value() {

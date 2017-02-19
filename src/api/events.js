@@ -51,6 +51,11 @@ const _events = {
           options: {
             units: 'kg'
           }
+        }, {
+          id: '_body_number',
+          title: 'Some Number',
+          type: 'number',
+          value: 43
         }
       ]
     }, {
