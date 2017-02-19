@@ -30,6 +30,7 @@
 import { mapGetters } from 'vuex'
 import uuid from 'uuid'
 import moment from 'moment'
+import NewEventParser from './NewEventParser'
 
 export default {
   data() {
@@ -74,12 +75,13 @@ export default {
         return
       }
       const _id = uuid.v4()
-      this.$store.dispatch('addEvent', {
+      const newEvent = Object.assign({
         id: _id,
         title: this.newEventText,
         time: moment().format(),
         fields: []
-      })
+      }, NewEventParser(this.newEventText))
+      this.$store.dispatch('addEvent', newEvent)
       this.newEventText = ''
       this.$refs['newEventInput'].blur()
       if (ev.ctrlKey) {
