@@ -76,6 +76,11 @@ const _events = {
           options: {
             units: 'km'
           }
+        }, {
+          id: '_sleep_notes',
+          title: 'Notes',
+          type: 'text',
+          value: "It was slightly raining.\nSlowed down a bit as a precaution."
         }
       ]
     }, {

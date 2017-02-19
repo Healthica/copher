@@ -1,5 +1,5 @@
 <template>
-  <div class="modal" @keyup.enter="close">
+  <div class="modal" @keyup.enter="modalOnEnter">
     <div class="headerButtons">
       <el-popover
         v-if="editMode"
@@ -60,6 +60,7 @@
         <el-dropdown-item command="length">Length</el-dropdown-item>
         <el-dropdown-item command="select">Select</el-dropdown-item>
         <el-dropdown-item command="number">Number</el-dropdown-item>
+        <el-dropdown-item command="text">Text</el-dropdown-item>
       </el-dropdown-menu>
     </el-dropdown>
     <el-dropdown v-else class="modalEditActionsDropdown" trigger="click" @command="eventAction">
@@ -97,6 +98,11 @@ export default {
     close() {
       this.$emit('close')
     },
+    modalOnEnter(ev) {
+      if (ev.target.tagName.toLowerCase() !== 'textarea') {
+        this.close()
+      }
+    },
     addField(field) {
       this.event.fields.push(Object.assign({
         id: uuid.v4(),
@@ -127,6 +133,9 @@ export default {
         case 'number':
           return 'Number'
           break;
+        case 'text':
+          return 'Text'
+          break;
         default:
           return type
       }
@@ -152,6 +161,9 @@ export default {
           break;
         case 'number':
           return { value: 0 }
+          break;
+        case 'text':
+          return { title: 'Notes', value: '' }
           break;
         default:
           return {}
