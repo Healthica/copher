@@ -54,7 +54,7 @@
       </el-button>
       <el-dropdown-menu slot="dropdown">
         <el-dropdown-item command="checkbox">Checkbox</el-dropdown-item>
-        <el-dropdown-item command="duration_minutes">Duration</el-dropdown-item>
+        <el-dropdown-item command="duration">Duration</el-dropdown-item>
         <el-dropdown-item command="rank_stars">Stars Rank</el-dropdown-item>
         <el-dropdown-item command="weight">Weight</el-dropdown-item>
       </el-dropdown-menu>
@@ -106,7 +106,7 @@ export default {
         case 'checkbox':
           return 'Checkbox'
           break;
-        case 'duration_minutes':
+        case 'duration':
           return 'Duration'
           break;
         case 'rank_stars':
@@ -124,7 +124,7 @@ export default {
         case 'checkbox':
           return { value: [], options: { options: [''] } }
           break;
-        case 'duration_minutes':
+        case 'duration':
           return { value: 0 }
           break;
         case 'rank_stars':
