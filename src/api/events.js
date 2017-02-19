@@ -31,14 +31,17 @@ const _events = {
       }
     }, {
       id: uuid.v4(),
-      title: 'Weight Measurement',
+      title: 'Body Weight',
       time: moment().subtract(2, 'days').subtract(Math.round(1000 * Math.random()), 'minutes').format(),
       fields: [
         {
-          id: '_measurement_weight',
+          id: '_body_weight',
           title: 'Weight',
           type: 'weight',
-          value: 85
+          value: 85,
+          options: {
+            units: 'kg'
+          }
         }
       ],
       views: {

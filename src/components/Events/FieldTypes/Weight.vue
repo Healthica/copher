@@ -11,6 +11,12 @@
         <span class="lbs">({{ weight_lbs }})</span>
       </div>
     </div>
+    <div v-else-if="view === 'modalEdit'" class="weight-options">
+      <el-select v-model="field.options.units" placeholder="Select">
+        <el-option label="Kilograms" value="kg"></el-option>
+        <el-option label="Grams" value="g"></el-option>
+      </el-select>
+    </div>
   </span>
 </template>
 
@@ -20,13 +26,21 @@ export default {
   props: ['field', 'view'],
   computed: {
     weight() {
-      return `${this.field.value}kg`
+      return `${this.field.value}${this.field.options.units || 'kg'}`
     },
     weight_lbs() {
-      const nearExact = this.field.value/0.45359237
+      const nearExact = (this.field.value * (this.field.options.units === 'kg' ? 1 : 0.01))/0.45359237
       const lbs = Math.floor(nearExact)
       const oz = (nearExact - lbs) * 16
-      return `${lbs} lb`
+      if (lbs > 10) {
+        return `${lbs} lb`
+      } else if (lbs > 1) {
+        return `${lbs} lb ${oz} oz`
+      } else if (oz > 5) {
+        return `${Math.floor(oz)} oz`
+      } else {
+        return `${oz.toFixed(1)} oz`
+      }
     }
   }
 }
@@ -41,5 +55,9 @@ export default {
   line-height: 30px;
   display: inline-block;
   vertical-align: bottom;
+}
+.weight-options {
+  margin-top: 6px;
+  margin-left: 50px;
 }
 </style>
