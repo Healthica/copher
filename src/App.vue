@@ -39,8 +39,21 @@ export default {
 </script>
 
 <style>
+@font-face {
+  font-family: 'Open Sans';
+  font-style: normal;
+  font-weight: 300;
+  src: local('Open Sans Light'), local('OpenSans-Light'), url(/static/open-sans-latin-300.woff2) format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2212, U+2215;
+}
+@font-face {
+  font-family: 'Open Sans';
+  font-style: normal;
+  font-weight: 400;
+  src: local('Open Sans'), local('OpenSans'), url(/static/open-sans-latin-400.woff2) format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2212, U+2215;
+}
 html, body {
-  font-family: Helvetica, Arial, sans-serif;
   padding: 0;
   margin: 0;
   width: 100%;
@@ -51,10 +64,17 @@ html, body {
   -moz-box-sizing: border-box;
   box-sizing: border-box;
 }
+html, body, input, textarea, button, select {
+  font-family: 'Open Sans', sans-serif;
+}
 #app {
   margin: 0;
   height: 100%;
   color: #4D4D4D;
+}
+.text-light {
+  font-weight: 300;
+  letter-spacing: 1px;
 }
 .left-nav {
   display: block;

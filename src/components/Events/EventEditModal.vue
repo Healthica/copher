@@ -122,16 +122,16 @@ export default {
     defaultValue(type) {
       switch (type) {
         case 'checkbox':
-          return { value: [], options: { options: [''] }}
+          return { value: [], options: { options: [''] } }
           break;
         case 'duration_minutes':
           return { value: 0 }
           break;
         case 'rank_stars':
-          return {value: 2.5 }
+          return { value: 2.5 }
           break;
         case 'weight':
-          return {value: 70 }
+          return { value: 70, options: { units: 'kg' } }
           break;
         default:
           return {}
