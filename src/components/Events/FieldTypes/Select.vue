@@ -14,14 +14,14 @@
         </el-option>
       </el-select>
     </div>
-    <div v-else-if="view === 'modalEdit'" class="select-options">
+    <div v-else-if="view === 'modalEdit'" class="checkbox-options">
       <div>
-        <div v-for="(o, i) in field.options.options" class="select-edit-option">
-          <el-input class="select-edit-option-input" v-model="field.options.options[i]"></el-input>
+        <div v-for="(o, i) in field.options.options" class="checkbox-edit-option">
+          <el-input class="checkbox-edit-option-input" v-model="field.options.options[i]"></el-input>
           <el-button class="el-button--link" icon="close" size="mini" @click="removeOption(i)"></el-button>
         </div>
       </div>
-      <el-button class="select-options-add el-button--link" icon="plus" size="mini" @click="addOption">Add Option</el-button>
+      <el-button class="checkbox-options-add el-button--link" icon="plus" size="mini" @click="addOption">Add Option</el-button>
     </div>
   </span>
 </template>
@@ -42,21 +42,21 @@ export default {
 </script>
 
 <style scoped>
-.select-options {
+.checkbox-options {
   margin-top: 6px;
   margin-left: 50px;
 }
-.select-edit-option {
+.checkbox-edit-option {
   display: flex;
 }
-.select-edit-option-input {
+.checkbox-edit-option-input {
   font-size: 12px;
   max-width: 200px;
 }
-.select-edit-option .el-button--link {
+.checkbox-edit-option .el-button--link {
   font-size: 8px;
 }
-.select-options-add {
+.checkbox-options-add {
   margin-top: 6px;
   font-size: 10px;
 }

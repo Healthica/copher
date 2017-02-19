@@ -7,7 +7,7 @@
     <div v-else-if="view === 'modal'" class="event-modal-field">
       <div class="event-modal-field-header">{{ field.title }}</div>
       <div class="event-modal-field-content">
-          <el-switch v-model="field.value" on-text="" off-text=""></el-switch>
+        <el-switch v-model="field.value" on-text="" off-text=""></el-switch>
       </div>
     </div>
   </span>
