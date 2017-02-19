@@ -49,6 +49,29 @@ const _events = {
       }
     }, {
       id: uuid.v4(),
+      title: 'Run',
+      time: moment().subtract(2, 'days').subtract(Math.round(1000 * Math.random()), 'minutes').format(),
+      fields: [
+        {
+          id: '_run_duration',
+          title: 'Duration',
+          type: 'duration',
+          value: 130
+        }, {
+          id: '_run_length',
+          title: 'Length',
+          type: 'length',
+          value: 4.5,
+          options: {
+            units: 'km'
+          }
+        }
+      ],
+      views: {
+        row_show: ['_measurement_weight']
+      }
+    }, {
+      id: uuid.v4(),
       title: 'Sleep',
       time: moment().subtract(3, 'days').subtract(Math.round(1000 * Math.random()), 'minutes').format(),
       fields: [
