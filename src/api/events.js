@@ -17,7 +17,7 @@ const _events = {
         {
           id: '_sleep_duration',
           title: 'Duration',
-          type: 'duration_minutes',
+          type: 'duration',
           value: 450
         }, {
           id: '_sleep_quality',
@@ -60,17 +60,17 @@ const _events = {
         // }, {
           id: '_sleep_duration1',
           title: 'Duration1',
-          type: 'duration_minutes',
+          type: 'duration',
           value: 600
         }, {
           id: '_sleep_duration2',
           title: 'Duration2',
-          type: 'duration_minutes',
+          type: 'duration',
           value: 500
         }, {
           id: '_sleep_duration3',
           title: 'Duration3',
-          type: 'duration_minutes',
+          type: 'duration',
           value: 400
         }
       ],
@@ -85,7 +85,7 @@ const _events = {
         {
           id: '_headache_duration',
           title: 'Duration',
-          type: 'duration_minutes',
+          type: 'duration',
           value: 15
         }, {
           id: '_headache_intensity',

@@ -27,13 +27,13 @@ export default {
   data() {
     return {
       field_type: 'Duration',
-      hours: Math.round(this.field.value / 60),
+      hours: Math.floor(this.field.value / 60),
       minutes: Math.round(this.field.value % 60)
     }
   },
   computed: {
     formattedHours() {
-      const hours = Math.round(this.field.value / 60)
+      const hours = Math.floor(this.field.value / 60)
       const minutes = Math.round(this.field.value % 60)
       return `${hours}:${minutes < 10 ? '0' : ''}${minutes}`
     }
