@@ -11,8 +11,8 @@
     </el-menu>
     <div>
       <div class="status-indicator">
-        <span class="status-circle green">&#9679;</span>
-        <span class="status-text">Online</span>
+        <span class="status-circle" :class="statusClass">&#9679;</span>
+        <span class="status-text">{{ statusText }}</span>
       </div>
       <el-popover popper-class="popover-no-padding" ref="profilepop" placement="top" width="160" v-model="profile_menu_visible">
         <div class="popover-button" @click="closeProfileMenu">Register</div>
@@ -20,18 +20,48 @@
         <div class="popover-button" @click="closeProfileMenu">Logout</div>
       </el-popover>
       <div class="profile-menu" v-popover:profilepop>
-        Guest
+        {{ user.name }}
       </div>
     </div>
   </div>
 </template>
 
 <script>
+import { mapGetters } from 'vuex'
   export default {
     props: ['default-active'],
     data() {
       return {
         profile_menu_visible: false
+      }
+    },
+    computed: {
+      ...mapGetters(['user']),
+      statusText(state) {
+        switch(this.user.status) {
+          case 'connecting':
+            return 'Connecting...'
+          case 'syncing':
+            return 'Syncing'
+          case 'online':
+            return 'Online'
+          case 'has_updates':
+            return 'Updates available'
+          case 'disconnected':
+            return 'Disconnected'
+            break;
+          default:
+            return 'Offline'
+        }
+      },
+      statusClass(state) {
+        return {
+          'grey': this.user.status === 'disconnected',
+          'green': this.user.status === 'online',
+          'yellow': this.user.status === 'syncing' || this.user.status === 'connecting',
+          'orange': this.user.status === 'has_updates',
+          'red': this.user.status === 'offline'
+        }
       }
     },
     methods: {
