@@ -104,6 +104,31 @@ html, body, input, textarea, button, select {
   padding: 0;
 }
 
+.el-dialog--tiny {
+  min-width: 360px;
+}
+
+@media screen and (max-width: 480px) {
+  .el-dialog--tiny {
+    min-width: initial;
+    width: 100%;
+  }
+}
+.el-dialog--tiny .el-checkbox-group {
+  margin-left: 26px;
+}
+.el-dialog--tiny .el-checkbox__input {
+  position: absolute;
+  left: -26px;
+}
+.el-dialog--tiny .el-checkbox {
+  white-space: normal;
+  line-height: 20px;
+}
+.el-dialog--tiny .el-checkbox__label {
+  padding-left: 0;
+}
+
 .eventModal .el-dialog__header {
   display: none;
 }

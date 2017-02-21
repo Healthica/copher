@@ -15,10 +15,28 @@
         <span class="status-text">{{ statusText }}</span>
       </div>
       <el-popover popper-class="popover-no-padding" ref="profilepop" placement="top" width="160" v-model="profile_menu_visible">
-        <div class="popover-button" @click="closeProfileMenu">Register</div>
-        <div class="popover-button" @click="closeProfileMenu">Login</div>
+        <div v-if="user.is_guest" class="popover-button" @click="closeProfileMenu">Register</div>
+        <div v-if="user.is_guest" class="popover-button" @click="openLoginModal">Login</div>
         <div class="popover-button" @click="closeProfileMenu">Logout</div>
       </el-popover>
+      <el-dialog title="Login" v-model="login_modal_visible" size="tiny">
+        <el-form label-position="top" label-width="100px" :model="loginForm">
+          <el-form-item label="Email">
+            <el-input type="email" v-model="loginForm.login" auto-complete="on"></el-input>
+          </el-form-item>
+          <el-form-item label="Password">
+            <el-input type="password" v-model="loginForm.password"></el-input>
+          </el-form-item>
+          <el-form-item label="Move Events" prop="type">
+            <el-checkbox-group v-model="loginForm.add_events">
+              <el-checkbox label="Add the existing events to the account I'm logging in to" name="type"></el-checkbox>
+            </el-checkbox-group>
+          </el-form-item>
+        </el-form>
+        <span slot="footer" class="dialog-footer">
+          <el-button type="primary" @click="login_modal_visible = false">Login</el-button>
+        </span>
+      </el-dialog>
       <div class="profile-menu" v-popover:profilepop>
         {{ user.name }}
       </div>
@@ -32,7 +50,13 @@ import { mapGetters } from 'vuex'
     props: ['default-active'],
     data() {
       return {
-        profile_menu_visible: false
+        profile_menu_visible: false,
+        login_modal_visible: false,
+        loginForm: {
+          login: '',
+          password: '',
+          add_events: false
+        }
       }
     },
     computed: {
@@ -69,6 +93,13 @@ import { mapGetters } from 'vuex'
         this.$emit('changePage', page)
       },
       closeProfileMenu() {
+        this.profile_menu_visible = false
+      },
+      openLoginModal() {
+        this.loginForm.login = ''
+        this.loginForm.password = ''
+        this.loginForm.add_events = false
+        this.login_modal_visible = true
         this.profile_menu_visible = false
       }
     }

@@ -6,7 +6,7 @@ import _ from 'lodash'
 const state = {
   id: null,
   name: 'Guest',
-  is_logged_in: false,
+  is_guest: true,
   settings: {},
   status: 'offline'
 }
