@@ -15,11 +15,27 @@
         <span class="status-text">{{ statusText }}</span>
       </div>
       <el-popover popper-class="popover-no-padding" ref="profilepop" placement="top" width="160" v-model="profile_menu_visible">
-        <div v-if="user.is_guest" class="popover-button" @click="closeProfileMenu">Register</div>
+        <div v-if="user.is_guest" class="popover-button" @click="openRegisterModal">Register</div>
         <div v-if="user.is_guest" class="popover-button" @click="openLoginModal">Login</div>
-        <div class="popover-button" @click="closeProfileMenu">Logout</div>
+        <div class="popover-button" @click="logout">Logout</div>
       </el-popover>
-      <el-dialog title="Login" v-model="login_modal_visible" size="tiny">
+      <el-dialog title="Create Account" v-model="registerForm.visible" size="tiny">
+        <el-form label-position="top" label-width="100px" :model="registerForm">
+          <el-form-item label="Email">
+            <el-input type="email" v-model="registerForm.login" auto-complete="on"></el-input>
+          </el-form-item>
+          <el-form-item label="Strong Password">
+            <el-input type="password" v-model="registerForm.password"></el-input>
+          </el-form-item>
+          <el-form-item label="Your Name">
+            <el-input type="text" v-model="registerForm.name"></el-input>
+          </el-form-item>
+        </el-form>
+        <span slot="footer" class="dialog-footer">
+          <el-button type="primary" @click="submitRegisterModal" :disabled="registerForm.loading">Submit</el-button>
+        </span>
+      </el-dialog>
+      <el-dialog title="Login" v-model="loginForm.visible" size="tiny">
         <el-form label-position="top" label-width="100px" :model="loginForm">
           <el-form-item label="Email">
             <el-input type="email" v-model="loginForm.login" auto-complete="on"></el-input>
@@ -34,7 +50,7 @@
           </el-form-item>
         </el-form>
         <span slot="footer" class="dialog-footer">
-          <el-button type="primary" @click="login_modal_visible = false">Login</el-button>
+          <el-button type="primary" @click="submitLoginModal">Login</el-button>
         </span>
       </el-dialog>
       <div class="profile-menu" v-popover:profilepop>
@@ -46,16 +62,28 @@
 
 <script>
 import { mapGetters } from 'vuex'
+import User from '../api/user'
+
   export default {
     props: ['default-active'],
     data() {
       return {
         profile_menu_visible: false,
-        login_modal_visible: false,
         loginForm: {
+          visible: false,
+          loading: false,
           login: '',
           password: '',
-          add_events: false
+          add_events: false,
+          errors: []
+        },
+        registerForm: {
+          visible: false,
+          loading: false,
+          login: '',
+          password: '',
+          name: '',
+          errors: []
         }
       }
     },
@@ -95,12 +123,56 @@ import { mapGetters } from 'vuex'
       closeProfileMenu() {
         this.profile_menu_visible = false
       },
+      logout() {
+        this.profile_menu_visible = false
+        User.logout().then(({ success }) => {
+          location.reload()
+        }).catch(payload => {
+          console.log('payload', payload)
+        })
+      },
       openLoginModal() {
         this.loginForm.login = ''
         this.loginForm.password = ''
         this.loginForm.add_events = false
-        this.login_modal_visible = true
+        this.loginForm.visible = true
         this.profile_menu_visible = false
+      },
+      submitLoginModal() {
+        this.loginForm.loading = true
+        User.login({
+          login: this.loginForm.login,
+          password: this.loginForm.password
+        }).then(({success, user_id}) => {
+          this.loginForm.visible = false
+          location.reload() //TODO regular sync
+        }).catch(payload => {
+          console.log('payload', payload);
+          this.loginForm.errors = payload.errors
+        })
+      },
+      openRegisterModal() {
+        this.registerForm.login = ''
+        this.registerForm.password = ''
+        this.registerForm.name = ''
+        this.registerForm.loading = false
+        this.registerForm.visible = true
+        this.profile_menu_visible = false
+      },
+      submitRegisterModal() {
+        this.registerForm.loading = true
+        User.register({
+          login: this.registerForm.login,
+          password: this.registerForm.password,
+          name: this.registerForm.name
+        }).then(({success, user_id}) => {
+          this.registerForm.visible = false
+          console.log('user_id', user_id, success);
+          //TODO update store
+        }).catch(payload => {
+          console.log('payload', payload);
+          this.registerForm.errors = payload.errors
+        })
       }
     }
   }

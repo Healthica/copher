@@ -23,12 +23,16 @@ export default {
       })
     })
   },
-  post(url, params) {
+  post(url, params, wwwFormUrlEncode) {
     return new Promise((resolve, reject) => {
+      const formParams = new URLSearchParams()
+      for (let k in params) {
+        formParams.append(k, params[k])
+      }
       axios({
         method: 'post',
         url: API_BASE_URL + url,
-        data: params,
+        data: wwwFormUrlEncode === true ? formParams : params,
         withCredentials: true
       }).then(response => {
         if (response.data.success === true) {
