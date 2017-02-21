@@ -27,12 +27,15 @@ const actions = {
         })
       })
     } else {
-      eventsAPI.postEvents(state.version, state.transactions).then(({ version, data }) => {
-        if (data) {
-          commit(types.SET_EVENTS, { version, data })
-        } else {
-          commit(types.SET_EVENTS_VERSION, { version })
+      eventsAPI.postEvents(state.version, state.transactions).then(({ success, version, has_new_events }) => {
+        if (success) {
           commit(types.CLEAR_EVENTS_TRANSACTIONS)
+        }
+        if (version) {
+          commit(types.SET_EVENTS_VERSION, { version })
+        }
+        if (has_new_events) {
+          // Notify to refresh
         }
       })
       .catch((payload) => {
