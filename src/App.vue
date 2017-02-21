@@ -100,6 +100,10 @@ html, body, input, textarea, button, select {
   border: 0 solid transparent;
 }
 
+.popover-no-padding {
+  padding: 0;
+}
+
 .eventModal .el-dialog__header {
   display: none;
 }
