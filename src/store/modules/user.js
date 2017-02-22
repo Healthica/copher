@@ -13,8 +13,11 @@ const state = {
 
 const actions = {
   setStatus({ commit }, status) {
-    commit(types.ADD_EVENT, event)
-  }
+    commit(types.SET_USER_STATUS, status)
+  },
+  setUser({ commit }, user) {
+    commit(types.SET_USER, user)
+  },
 }
 
 const getters = {
@@ -24,6 +27,11 @@ const getters = {
 const mutations = {
   [types.SET_USER_STATUS] (state, status) {
     state.status = status
+  },
+  [types.SET_USER] (state, user) {
+    state.id = user.id
+    state.name = user.name
+    state.is_guest = (_.has(user, 'auth_by') && user.auth_by !== 'none') ? false : true
   }
 }
 

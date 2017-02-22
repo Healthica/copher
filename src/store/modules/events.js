@@ -10,12 +10,15 @@ const state = {
 }
 
 const actions = {
-  syncEvents({ commit }) {
+  syncEvents({ commit, dispatch }) {
     if (state.transactions.length === 0) {
+      dispatch('setStatus', 'connecting')
       eventsAPI.getEvents().then(({ version, data }) => {
         commit(types.SET_EVENTS, { version, data })
+        dispatch('setStatus', 'online')
       })
       .catch((payload) => {
+        dispatch('setStatus', 'disconnected')
         console.error(payload)
         _.each(payload.errors, e => {
           Vue.prototype.$message({
@@ -27,6 +30,7 @@ const actions = {
         })
       })
     } else {
+      dispatch('setStatus', 'syncing')
       eventsAPI.postEvents(state.version, state.transactions).then(({ success, version, has_new_events }) => {
         if (success) {
           commit(types.CLEAR_EVENTS_TRANSACTIONS)
@@ -36,9 +40,13 @@ const actions = {
         }
         if (has_new_events) {
           // Notify to refresh
+          dispatch('setStatus', 'has_updates')
+        } else {
+          dispatch('setStatus', 'online')
         }
       })
       .catch((payload) => {
+        dispatch('setStatus', 'disconnected')
         console.error(payload)
         _.each(payload.errors, e => {
           Vue.prototype.$message({

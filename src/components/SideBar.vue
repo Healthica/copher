@@ -131,6 +131,16 @@ import User from '../api/user'
           console.log('payload', payload)
         })
       },
+      getUser() {
+        this.profile_menu_visible = false
+        User.getUser().then(({ success, user }) => {
+          this.$store.dispatch('setUser', user)
+          this.$store.dispatch('setStatus', 'online')
+        }).catch(payload => {
+          this.$store.dispatch('setStatus', 'disconnected')
+          console.log('payload', payload)
+        })
+      },
       openLoginModal() {
         this.loginForm.login = ''
         this.loginForm.password = ''
@@ -143,8 +153,9 @@ import User from '../api/user'
         User.login({
           login: this.loginForm.login,
           password: this.loginForm.password
-        }).then(({success, user_id}) => {
+        }).then(({success, user}) => {
           this.loginForm.visible = false
+          this.$store.dispatch('setUser', user)
           this.$store.dispatch('syncEvents')
         }).catch(payload => {
           console.log('payload', payload);
@@ -165,16 +176,18 @@ import User from '../api/user'
           login: this.registerForm.login,
           password: this.registerForm.password,
           name: this.registerForm.name
-        }).then(({success, user_id}) => {
+        }).then(({success, user}) => {
           this.registerForm.visible = false
-          console.log('user_id', user_id, success);
-          //TODO update store
+          this.$store.dispatch('setUser', user)
           this.$store.dispatch('syncEvents')
         }).catch(payload => {
           console.log('payload', payload);
           this.registerForm.errors = payload.errors
         })
       }
+    },
+    created() {
+      this.getUser()
     }
   }
 </script>

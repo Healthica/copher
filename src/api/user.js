@@ -16,5 +16,8 @@ export default {
       password: password,
       name: name
     }, true)
+  },
+  getUser() {
+    return API.get('user')
   }
 }
