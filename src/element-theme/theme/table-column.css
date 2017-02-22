@@ -434,7 +434,7 @@
     margin-bottom: 0;
 }/*
   Recompile theme:
-  node_modules/.bin/et -c src/element-theme/element-theme-copher.css -o src/element-theme/theme
+  node_modules/.bin/et -c src/element-theme/element-theme-veeta.css -o src/element-theme/theme
 */:root{/* Transition
   -------------------------- *//* Colors
   -------------------------- *//* Link

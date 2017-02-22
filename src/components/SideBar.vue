@@ -2,8 +2,8 @@
   <div class="side-nav">
     <el-menu class="el-menu" theme="dark" @select="onChange">
       <div class="logo">
-        <img src="../assets/copher_logo.svg">
-        <span>Copher</span>
+        <img src="../assets/veeta_logo.svg">
+        <span>Veeta</span>
       </div>
       <el-menu-item index="log-app" class="text-light">Log</el-menu-item>
       <el-menu-item index="dashboard" class="text-light">Dashboard</el-menu-item>

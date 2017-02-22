@@ -15582,7 +15582,7 @@
     height: 56px;
     line-height: 56px;
     font-size: 14px;
-    color: #fff;
+    color: #3A476F;
     padding: 0 20px;
     cursor: pointer;
     position: relative;
@@ -19592,7 +19592,7 @@
 }
 /*
   Recompile theme:
-  node_modules/.bin/et -c src/element-theme/element-theme-copher.css -o src/element-theme/theme
+  node_modules/.bin/et -c src/element-theme/element-theme-veeta.css -o src/element-theme/theme
 */
 :root {
     /* Transition

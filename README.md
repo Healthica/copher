@@ -1,6 +1,6 @@
-# copher
+# Veeta
 
-> Copher App
+> Veeta App
 
 ## Build Setup
 
