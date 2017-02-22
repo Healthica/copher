@@ -43,11 +43,11 @@
           <el-form-item label="Password">
             <el-input type="password" v-model="loginForm.password"></el-input>
           </el-form-item>
-          <el-form-item label="Move Events" prop="type">
+          <!-- <el-form-item label="Move Events" prop="type">
             <el-checkbox-group v-model="loginForm.add_events">
               <el-checkbox label="Add the existing events to the account I'm logging in to" name="type"></el-checkbox>
             </el-checkbox-group>
-          </el-form-item>
+          </el-form-item> -->
         </el-form>
         <span slot="footer" class="dialog-footer">
           <el-button type="primary" @click="submitLoginModal">Login</el-button>
@@ -145,7 +145,7 @@ import User from '../api/user'
           password: this.loginForm.password
         }).then(({success, user_id}) => {
           this.loginForm.visible = false
-          location.reload() //TODO regular sync
+          this.$store.dispatch('syncEvents')
         }).catch(payload => {
           console.log('payload', payload);
           this.loginForm.errors = payload.errors
@@ -169,6 +169,7 @@ import User from '../api/user'
           this.registerForm.visible = false
           console.log('user_id', user_id, success);
           //TODO update store
+          this.$store.dispatch('syncEvents')
         }).catch(payload => {
           console.log('payload', payload);
           this.registerForm.errors = payload.errors
