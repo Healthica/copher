@@ -165,7 +165,7 @@ html, body, input, textarea, button, select {
 .eventModalTitle {
   font-size: 18px;
 }
-.eventModalTitle input:not(:focus) {
+.eventModalTitle:not(:focus) {
   border: 1px solid transparent;
 }
 .event-modal-field {

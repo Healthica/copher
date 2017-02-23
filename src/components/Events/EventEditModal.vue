@@ -17,7 +17,7 @@
       </div>
       <div class="closeButton" @click="close">&times;</div>
     </div>
-    <el-input class="eventModalTitle" placeholder="Event title" v-model="event.title"></el-input>
+    <input class="uk-input eventModalTitle" type="text" placeholder="Event title" v-model="event.title" />
     <p>
       <el-date-picker
         v-model="event.time"
