@@ -60,7 +60,7 @@
     </div>
     <div v-if="editMode" class="modalEditAddField">
       <button class="uk-button uk-button-default uk-button-small" type="button">New Field</button>
-      <div uk-dropdown="mode: click">
+      <div uk-dropdown="mode: click" ref="newFieldDropdown">
         <ul class="uk-nav uk-dropdown-nav">
           <li><a @click="addField('checkbox')">Checkbox</a></li>
           <li><a @click="addField('duration')">Duration</a></li>
@@ -115,6 +115,7 @@ export default {
       }
     },
     addField(field) {
+      this.$refs['newFieldDropdown'].classList.remove('uk-open')
       this.event.fields.push(Object.assign({
         id: uuid.v4(),
         title: '',
