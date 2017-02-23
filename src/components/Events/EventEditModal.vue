@@ -27,29 +27,19 @@
     </p>
     <div v-for="(f, i) in event.fields">
       <div class="field-edit-main" v-if="editMode">
-        <!-- <a :class="{notVisible: i === 0}" @click="moveFieldUp(f.id)">
-          <span uk-icon="icon: triangle-up"></span>
-        </a>
-        <a :class="{notVisible: i === (event.fields.length-1)}" @click="moveFieldDown(f.id)">
-          <span uk-icon="icon: triangle-down"></span>
-        </a> -->
+        <el-button class="el-button--link" :class="{notVisible: i === 0}" icon="caret-top" size="mini" @click="moveFieldUp(f.id)"></el-button>
+        <el-button class="el-button--link" :class="{notVisible: i === (event.fields.length-1)}" icon="caret-bottom" size="mini" @click="moveFieldDown(f.id)"></el-button>
         <div class="field-type">
-          <label class="uk-form-label" for="form-stacked-text">Field type</label>
-          <div class="uk-form-controls">
-            <input class="uk-input" type="text" :value="fieldType(f.type)" disabled />
-          </div>
+          <div class="field-type-description">Field type</div>
+          <el-input :value="fieldType(f.type)" disabled></el-input>
         </div>
         <div class="field-title">
-          <label class="uk-form-label" for="form-stacked-text">Title</label>
-          <div class="uk-form-controls">
-            <input class="uk-input" type="text" placeholder="Field title" v-model="f.title" />
-          </div>
+          <div class="field-type-description">Title</div>
+          <el-input placeholder="Field title" v-model="f.title"></el-input>
         </div>
-        <a @click="deleteField(f.id)">
-          <span uk-icon="icon: close"></span>
-        </a>
+        <el-button class="el-button--link" icon="close" size="mini" @click="deleteField(f.id)"></el-button>
       </div>
-      <field-view class="event-options"
+      <field-view class="event-field"
         :field="f" :view="editMode?'modalEdit':'modal'"
         :key="f.id"
         @deleteField="deleteField"
@@ -58,31 +48,31 @@
         >
       </field-view>
     </div>
-    <div v-if="editMode" class="modalEditAddField">
-      <button class="uk-button uk-button-default uk-button-small" type="button">New Field</button>
-      <div uk-dropdown="mode: click">
-        <ul class="uk-nav uk-dropdown-nav">
-          <li><a @click="addField('checkbox')">Checkbox</a></li>
-          <li><a @click="addField('duration')">Duration</a></li>
-          <li><a @click="addField('rank_stars')">Stars</a></li>
-          <li><a @click="addField('weight')">Weight</a></li>
-          <li><a @click="addField('length')">Length</a></li>
-          <li><a @click="addField('select')">Select</a></li>
-          <li><a @click="addField('number')">Number</a></li>
-          <li><a @click="addField('text')">Text</a></li>
-          <li><a @click="addField('switch')">Switch</a></li>
-        </ul>
-      </div>
-    </div>
-    <div v-else class="modalEditActionsDropdown">
-      <button class="uk-button uk-button-default uk-button-small" type="button">Actions</button>
-      <div uk-dropdown="mode: click">
-        <ul class="uk-nav uk-dropdown-nav">
-          <li><a @click="eventAction('duplicate')">Duplicate</a></li>
-          <li><a @click="eventAction('delete')">Delete</a></li>
-        </ul>
-      </div>
-    </div>
+    <el-dropdown class="modalEditAddField" v-if="editMode" trigger="click" @command="addField">
+      <el-button type="primary" size="small">
+        Add Field <i class="el-icon-caret-bottom el-icon--right"></i>
+      </el-button>
+      <el-dropdown-menu slot="dropdown">
+        <el-dropdown-item command="checkbox">Checkbox</el-dropdown-item>
+        <el-dropdown-item command="duration">Duration</el-dropdown-item>
+        <el-dropdown-item command="rank_stars">Stars Rank</el-dropdown-item>
+        <el-dropdown-item command="weight">Weight</el-dropdown-item>
+        <el-dropdown-item command="length">Length</el-dropdown-item>
+        <el-dropdown-item command="select">Select</el-dropdown-item>
+        <el-dropdown-item command="number">Number</el-dropdown-item>
+        <el-dropdown-item command="text">Text</el-dropdown-item>
+        <el-dropdown-item command="switch">Switch</el-dropdown-item>
+      </el-dropdown-menu>
+    </el-dropdown>
+    <el-dropdown v-else class="modalEditActionsDropdown" trigger="click" @command="eventAction">
+      <el-button size="small">
+        Actions <i class="el-icon-caret-bottom el-icon--right"></i>
+      </el-button>
+      <el-dropdown-menu slot="dropdown">
+        <el-dropdown-item command="duplicate"><i class="el-icon-plus"></i> Duplicate</el-dropdown-item>
+        <el-dropdown-item command="delete"><i class="el-icon-delete"></i> Delete</el-dropdown-item>
+      </el-dropdown-menu>
+    </el-dropdown>
   </div>
 </template>
 
@@ -266,7 +256,7 @@ export default {
   font-size: 20px;
 }
 .field-edit-main {
-  margin-top: 30px;
+  margin-top: 24px;
   display: flex;
 }
 .field-edit-main > *:not(.field-title):not(.field-type) {
@@ -275,11 +265,7 @@ export default {
   align-self: flex-end;
   margin: 0;
   margin-bottom: 6px;
-  padding: 4px;
-  color: #666;
-}
-.field-edit-main > *:not(.field-title):not(.field-type):hover {
-  color: #000;
+  padding: 6px;
 }
 .field-edit-main .field-type {
   margin: 0 6px;
@@ -292,11 +278,6 @@ export default {
 .field-edit-main .field-type-description {
   font-size: 12px;
   color: #838C91;
-}
-.event-options {
-  display: block;
-  /*margin-left: 62px;*/
-  margin-top: 6px;
 }
 .modalEditAddField {
   margin-top: 36px;

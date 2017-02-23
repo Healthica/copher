@@ -190,19 +190,6 @@ html, body, input, textarea, button, select {
   }
 }
 
-/* UI kit */
-.uk-dropdown {
-  padding: 12px;
-}
-a.no-link {
-  color: inherit;
-  text-decoration: none;
-  opacity: 0.8;
-}
-a.no-link:hover {
-  opacity: 1;
-}
-
 .checkbox-edit-option-input input {
   padding: 12px 6px;
   height: 24px;

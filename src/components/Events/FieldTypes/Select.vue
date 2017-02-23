@@ -15,18 +15,13 @@
       </el-select>
     </div>
     <div v-else-if="view === 'modalEdit'" class="checkbox-options">
-      <a @click="showOptions = !showOptions" class="no-link">
-        <span v-if="showOptions" uk-icon="icon: triangle-down" key="caret-down"></span>
-        <span v-else uk-icon="icon: triangle-right" key="caret-right"></span>
-        Options
-      </a>
-      <div v-if="showOptions">
+      <div>
         <div v-for="(o, i) in field.options.options" class="checkbox-edit-option">
           <el-input class="checkbox-edit-option-input" v-model="field.options.options[i]"></el-input>
           <el-button class="el-button--link" icon="close" size="mini" @click="removeOption(i)"></el-button>
         </div>
-        <el-button class="checkbox-options-add el-button--link" icon="plus" size="mini" @click="addOption">Add Option</el-button>
       </div>
+      <el-button class="checkbox-options-add el-button--link" icon="plus" size="mini" @click="addOption">Add Option</el-button>
     </div>
   </span>
 </template>
@@ -42,16 +37,15 @@ export default {
     removeOption(i) {
       this.field.options.options.splice(i, 1)
     }
-  },
-  data() {
-    return {
-      showOptions: false
-    }
   }
 }
 </script>
 
 <style scoped>
+.checkbox-options {
+  margin-top: 6px;
+  margin-left: 50px;
+}
 .checkbox-edit-option {
   display: flex;
 }

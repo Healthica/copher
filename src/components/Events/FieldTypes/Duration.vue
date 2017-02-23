@@ -15,6 +15,8 @@
         </el-input-number>
       </div>
     </div>
+    <div v-else-if="view === 'modalEdit'" class="">
+    </div>
   </span>
 </template>
 
