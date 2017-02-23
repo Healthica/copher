@@ -11,11 +11,17 @@
         <el-button slot="reference" class="el-button--link" icon="information" size="mini"></el-button>
       </el-popover>
       <div class="editFields">
-        <el-button v-if="editMode" class="save-button" @click="editMode=false" type="success" size="small">Done</el-button>
-        <span v-else-if="hasFields" @click="editMode=true">Edit Fields</span>
-        <span v-else @click="editMode=true">Add Fields</span>
+        <button v-if="editMode" @click="editMode=false" class="uk-button uk-button-primary uk-button-small">
+          Done
+        </button>
+        <button v-else-if="hasFields" @click="editMode=true" class="uk-button uk-button-text uk-button-small">
+          Edit Fields
+        </button>
+        <button v-else @click="editMode=true" class="uk-button uk-button-text uk-button-small">
+          Add Fields
+        </button>
       </div>
-      <div class="closeButton" @click="close">&times;</div>
+      <div class="closeButton" @click="close"><span uk-icon="icon: close"></span></div>
     </div>
     <input class="uk-input eventModalTitle" type="text" placeholder="Event title" v-model="event.title" />
     <p>
@@ -88,7 +94,8 @@
 
 <script>
 import FieldView from './FieldView'
-import uuid from 'uuid'
+import uuid from 'uuid/v4'
+import _findIndex from 'lodash/findIndex'
 
 export default {
   props: ['event'],
@@ -117,7 +124,7 @@ export default {
     addField(field) {
       this.$refs['newFieldDropdown'].classList.remove('uk-open')
       this.event.fields.push(Object.assign({
-        id: uuid.v4(),
+        id: uuid(),
         title: '',
         type: field
       }, this.defaultValue(field)))
@@ -193,20 +200,20 @@ export default {
         cancelButtonText: 'Cancel',
         type: 'warning'
       }).then(() => {
-        const i = _.findIndex(this.event.fields, e => e.id === id)
+        const i = _findIndex(this.event.fields, e => e.id === id)
         if (i > -1) {
           this.event.fields.splice(i, 1)
         }
       }).catch(()=>{})
     },
     moveFieldUp(id) {
-      const i = _.findIndex(this.event.fields, e => e.id === id)
+      const i = _findIndex(this.event.fields, e => e.id === id)
       if (i > 0) {
         this.event.fields.splice(i, 0, this.event.fields.splice(i - 1, 1)[0])
       }
     },
     moveFieldDown(id) {
-      const i = _.findIndex(this.event.fields, e => e.id === id)
+      const i = _findIndex(this.event.fields, e => e.id === id)
       if (i > -1 && i < this.event.fields.length - 1) {
         this.event.fields.splice(i, 0, this.event.fields.splice(i + 1, 1)[0])
       }
@@ -243,7 +250,7 @@ export default {
   visibility: hidden;
 }
 .modal {
-  padding: 36px 24px;
+  padding: 42px 24px 36px;
   position: relative;
 }
 .headerButtons {
@@ -262,9 +269,6 @@ export default {
 }
 .editFields {
   font-size: 14px;
-}
-.closeButton {
-  font-size: 20px;
 }
 .field-edit-main {
   margin-top: 30px;

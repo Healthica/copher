@@ -20,11 +20,15 @@
 
 <script>
 import { mapGetters } from 'vuex'
-import uuid from 'uuid'
+import uuid from 'uuid/v4'
 import moment from 'moment'
 import NewEventInput from './Events/NewEventInput'
 import EventRow from './Events/EventRow'
 import EventEditModal from './Events/EventEditModal'
+import _sortBy from 'lodash/sortBy'
+import _each from 'lodash/each'
+import _cloneDeep from 'lodash/cloneDeep'
+import _find from 'lodash/find'
 
 export default {
   components: {
@@ -42,7 +46,7 @@ export default {
   computed: {
     ...mapGetters(['events']),
     sortedEvents(state) {
-      const sortedEvents = _.sortBy(state.events.data, [ o => -moment(o.time).valueOf() ])
+      const sortedEvents = _sortBy(state.events.data, [ o => -moment(o.time).valueOf() ])
       const days = []
       let day = { i: -1, title: '' }
       const dayFormat = (time) => {
@@ -54,7 +58,7 @@ export default {
         }
         return { main: mt.format('ddd, D MMM'), relative: mt.fromNow() }
       }
-      _.each(sortedEvents, e => {
+      _each(sortedEvents, e => {
         if (day.i === -1 || day.title.main !== dayFormat(e.time).main) {
           day.i++
           day.title = dayFormat(e.time)
@@ -67,7 +71,7 @@ export default {
   },
   methods: {
     showEditEventModal(id) {
-      this.eventCopy = _.cloneDeep(_.find(this.$store.state.events.data, o => o.id === id))
+      this.eventCopy = _cloneDeep(_find(this.$store.state.events.data, o => o.id === id))
       this.openEditEventModal()
     },
     openEditEventModal() {
@@ -81,14 +85,14 @@ export default {
       this.eventCopyUnwatcher()
       this.eventCopyUnwatcher = null
       if (this.eventCopy._isDeleted !== true) {
-        this.$store.dispatch('updateEventAddTransaction', _.cloneDeep(this.eventCopy))
+        this.$store.dispatch('updateEventAddTransaction', _cloneDeep(this.eventCopy))
       }
     },
     onChangeEventField(e) {
       this.$store.dispatch('setEvent', e)
     },
     duplicateEvent(e) {
-      const _id = uuid.v4()
+      const _id = uuid()
       this.$store.dispatch('addEvent', Object.assign(e, {
         id: _id,
         time: moment().format()
@@ -112,67 +116,6 @@ export default {
 }
 .log-app::-webkit-scrollbar {
   display: none;
-}
-.new-event-container {
-  position: fixed;
-  z-index: 2000;
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex;
-  height: 68px;
-  right: 0;
-  top: 0;
-  left: 180px;
-  -webkit-box-align: center;
-  -ms-flex-align: center;
-  align-items: center;
-  -webkit-box-pack: justify;
-  -ms-flex-pack: justify;
-  justify-content: space-between;
-  background: #fff;
-  box-shadow: 0 2px 8px 0 rgba(0,0,0,.1);
-  min-width: 600px;
-}
-.new-event-input {
-  font-size: 18px;
-  width: 100%;
-  height: 72px;
-  line-height: 72px;
-  padding: 0 12px 0 36px;
-  border: 0;
-  overflow: hidden;
-  white-space: nowrap;
-  background: 0 0;
-}
-.new-event-input:focus {
-  outline: 0;
-  box-shadow: none;
-}
-.new-event-input:focus::-webkit-input-placeholder { color: transparent; }
-.new-event-input:focus:-moz-placeholder { color: transparent; }
-.new-event-input:focus::-moz-placeholder { color: transparent; }
-.new-event-input:focus:-ms-input-placeholder { color: transparent; }
-.save-button {
-  margin-right: 18px;
-}
-.edit-button {
-  margin-right: 18px;
-}
-.newEventSuggestions {
-  position: absolute;
-  top: 68px;
-  left: 0;
-  min-width: 200px;
-  background-color: #fff;
-  box-shadow: 0 3px 5px 0 rgba(0,0,0,.1);
-}
-.newEventSuggestionsItem {
-  padding: 12px 12px 12px 36px;
-}
-.newEventSuggestionsItem.active {
-  background-color: #298FCA;
-  color: #fff;
-  cursor: pointer;
 }
 
 .events-day {

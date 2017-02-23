@@ -1,7 +1,7 @@
 import userAPI from '../../api/user'
 import * as types from '../mutation-types'
 import Vue from 'vue'
-import _ from 'lodash'
+import _has from 'lodash/has'
 
 const state = {
   id: null,
@@ -31,7 +31,7 @@ const mutations = {
   [types.SET_USER] (state, user) {
     state.id = user.id
     state.name = user.name
-    state.is_guest = (_.has(user, 'auth_by') && user.auth_by !== 'none') ? false : true
+    state.is_guest = (_has(user, 'auth_by') && user.auth_by !== 'none') ? false : true
   }
 }
 

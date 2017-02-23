@@ -28,9 +28,21 @@
 
 <script>
 import { mapGetters } from 'vuex'
-import uuid from 'uuid'
+import uuid from 'uuid/v4'
 import moment from 'moment'
 import NewEventParser from './NewEventParser'
+import _sortBy from 'lodash/sortBy'
+import _each from 'lodash/each'
+import _groupBy from 'lodash/groupBy'
+import _filter from 'lodash/filter'
+import _orderBy from 'lodash/orderBy'
+import _map from 'lodash/map'
+import _pick from 'lodash/pick'
+import _maxBy from 'lodash/maxBy'
+import _take from 'lodash/take'
+import _findIndex from 'lodash/findIndex'
+import _find from 'lodash/find'
+import _cloneDeep from 'lodash/cloneDeep'
 
 export default {
   data() {
@@ -43,7 +55,7 @@ export default {
   computed: {
     ...mapGetters(['events']),
     sortedEvents(state) {
-      const sortedEvents = _.sortBy(state.events.data, [ o => -moment(o.time).valueOf() ])
+      const sortedEvents = _sortBy(state.events.data, [ o => -moment(o.time).valueOf() ])
       const days = []
       let day = { i: -1, title: '' }
       const dayFormat = (time) => {
@@ -55,7 +67,7 @@ export default {
         }
         return { main: mt.format('ddd, D MMM'), relative: mt.fromNow() }
       }
-      _.each(sortedEvents, e => {
+      _each(sortedEvents, e => {
         if (day.i === -1 || day.title.main !== dayFormat(e.time).main) {
           day.i++
           day.title = dayFormat(e.time)
@@ -74,7 +86,7 @@ export default {
       if (this.newEventText.length === 0) {
         return
       }
-      const _id = uuid.v4()
+      const _id = uuid()
       const newEvent = Object.assign({
         id: _id,
         title: this.newEventText,
@@ -100,28 +112,28 @@ export default {
       }
       this.newEventTextSuggestionsCache.query = this.newEventText
       //TODO improve performance on big number of events, and use something better than startsWith()
-      const matches = _.groupBy(_.filter(this.events.data, e => e.title.startsWith(this.newEventText)), 'title')
-      const suggestions = _.orderBy(_.map(matches, e => {
+      const matches = _groupBy(_filter(this.events.data, e => e.title.startsWith(this.newEventText)), 'title')
+      const suggestions = _orderBy(_map(matches, e => {
         return {
           count: e.length,
-          latest: _.pick(_.maxBy(e, e => moment(e.time).valueOf()), ['id', 'title', 'time']),
+          latest: _pick(_maxBy(e, e => moment(e.time).valueOf()), ['id', 'title', 'time']),
           active: false
         }
       }), 'count', ['desc'])
-      const topSuggestions = _.take(suggestions, 5)
+      const topSuggestions = _take(suggestions, 5)
       this.newEventTextSuggestionsCache.suggestions = topSuggestions
       return topSuggestions
     },
     newEventSubmit(ev) {
       const suggestions = this.newEventTextSuggestionsCache.suggestions
-      const i = _.findIndex(suggestions, { active: true })
+      const i = _findIndex(suggestions, { active: true })
       if (i === -1) {
         this.addEvent(ev)
       } else {
         // Duplicate
         const id = suggestions[i].latest.id
-        const event = _.find(this.events.data, e => e.id === id)
-        this.$emit('duplicateEvent', _.cloneDeep(event))
+        const event = _find(this.events.data, e => e.id === id)
+        this.$emit('duplicateEvent', _cloneDeep(event))
         this.newEventText = ''
         this.$refs['newEventInput'].blur()
       }
@@ -129,7 +141,7 @@ export default {
     suggestionsUp(ev) {
       ev.preventDefault()
       const suggestions = this.newEventTextSuggestionsCache.suggestions
-      const i = _.findIndex(suggestions, { active: true })
+      const i = _findIndex(suggestions, { active: true })
       if (i === -1) {
         suggestions[suggestions.length - 1].active = true
       } else if (i === 0) {
@@ -142,7 +154,7 @@ export default {
     },
     suggestionsDown() {
       const suggestions = this.newEventTextSuggestionsCache.suggestions
-      const i = _.findIndex(suggestions, { active: true })
+      const i = _findIndex(suggestions, { active: true })
       if (i === -1) {
         suggestions[0].active = true
       } else if (i === suggestions.length - 1) {
@@ -155,7 +167,7 @@ export default {
     },
     suggestionsSet(index) {
       const suggestions = this.newEventTextSuggestionsCache.suggestions
-      const i = _.findIndex(suggestions, { active: true })
+      const i = _findIndex(suggestions, { active: true })
       if (i > -1) {
         suggestions[i].active = false
       }
@@ -180,7 +192,7 @@ export default {
 <style scoped>
 .new-event-container {
   position: fixed;
-  z-index: 2000;
+  z-index: 900;
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;

@@ -1,7 +1,9 @@
 import eventsAPI from '../../api/events'
 import * as types from '../mutation-types'
 import Vue from 'vue'
-import _ from 'lodash'
+import _each from 'lodash/each'
+import _findIndex from 'lodash/findIndex'
+import _cloneDeep from 'lodash/cloneDeep'
 
 const state = {
   version: 0,
@@ -20,7 +22,7 @@ const actions = {
       .catch((payload) => {
         dispatch('setStatus', 'disconnected')
         console.error(payload)
-        _.each(payload.errors, e => {
+        _each(payload.errors, e => {
           Vue.prototype.$message({
             type: 'error',
             message: e.text,
@@ -48,7 +50,7 @@ const actions = {
       .catch((payload) => {
         dispatch('setStatus', 'disconnected')
         console.error(payload)
-        _.each(payload.errors, e => {
+        _each(payload.errors, e => {
           Vue.prototype.$message({
             type: 'error',
             message: e.text,
@@ -102,8 +104,8 @@ const mutations = {
   },
 
   [types.SET_EVENT_FIELD] (state, event) {
-    const index =  _.findIndex(state.data, { id: event.id })
-    state.data.splice(index, 1, _.cloneDeep(event))
+    const index =  _findIndex(state.data, { id: event.id })
+    state.data.splice(index, 1, _cloneDeep(event))
   },
 
   [types.UPDATE_EVENT_ADD_TRANSACTION] (state, event) {
@@ -111,7 +113,7 @@ const mutations = {
   },
 
   [types.DELETE_EVENT] (state, event) {
-    const i = _.findIndex(state.data, e => e.id === event.id)
+    const i = _findIndex(state.data, e => e.id === event.id)
     if (i > -1) {
       state.data.splice(i, 1)
     }

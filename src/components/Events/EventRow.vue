@@ -10,6 +10,8 @@
 <script>
 import moment from 'moment'
 import FieldView from './FieldView'
+import _indexOf from 'lodash/indexOf'
+import _cloneDeep from 'lodash/cloneDeep'
 
 export default {
   props: ['event', 'clickHandler'],
@@ -33,11 +35,11 @@ export default {
       if (!this.event.views.row_show) {
         return false
       } else {
-        return _.indexOf(this.event.views.row_show, field.id) > -1
+        return _indexOf(this.event.views.row_show, field.id) > -1
       }
     },
     duplicateEvent(e) {
-      this.$emit('duplicateEvent', _.cloneDeep(this.event))
+      this.$emit('duplicateEvent', _cloneDeep(this.event))
     }
   }
 }
