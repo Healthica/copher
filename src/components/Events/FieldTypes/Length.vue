@@ -11,12 +11,19 @@
         <span class="inches">({{ length_inches }})</span>
       </div>
     </div>
-    <div v-else-if="view === 'modalEdit'" class="length-options">
-      <el-select v-model="field.options.units" placeholder="Select">
-        <el-option label="Meters" value="m"></el-option>
-        <el-option label="Centimeters" value="cm"></el-option>
-        <el-option label="Kilometers" value="km"></el-option>
-      </el-select>
+    <div v-else-if="view === 'modalEdit'">
+      <a @click="showOptions = !showOptions" class="no-link">
+        <span v-if="showOptions" uk-icon="icon: triangle-down" key="caret-down"></span>
+        <span v-else uk-icon="icon: triangle-right" key="caret-right"></span>
+        Options
+      </a>
+      <div v-if="showOptions">
+        <el-select v-model="field.options.units" placeholder="Select">
+          <el-option label="Meters" value="m"></el-option>
+          <el-option label="Centimeters" value="cm"></el-option>
+          <el-option label="Kilometers" value="km"></el-option>
+        </el-select>
+      </div>
     </div>
   </span>
 </template>
@@ -56,6 +63,11 @@ export default {
         return `${inch.toFixed(1)} inch`
       }
     }
+  },
+  data() {
+    return {
+      showOptions: false
+    }
   }
 }
 </script>
@@ -69,9 +81,5 @@ export default {
   line-height: 30px;
   display: inline-block;
   vertical-align: bottom;
-}
-.length-options {
-  margin-top: 6px;
-  margin-left: 50px;
 }
 </style>
