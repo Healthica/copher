@@ -27,8 +27,8 @@
     </p>
     <div v-for="(f, i) in event.fields">
       <div class="field-edit-main" v-if="editMode">
-        <el-button class="el-button--link" :class="{notVisible: i === 0}" icon="caret-top" size="mini" @click="moveFieldUp(f.id)"></el-button>
-        <el-button class="el-button--link" :class="{notVisible: i === (event.fields.length-1)}" icon="caret-bottom" size="mini" @click="moveFieldDown(f.id)"></el-button>
+        <!-- <el-button class="el-button--link" :class="{notVisible: i === 0}" icon="caret-top" size="mini" @click="moveFieldUp(f.id)"></el-button>
+        <el-button class="el-button--link" :class="{notVisible: i === (event.fields.length-1)}" icon="caret-bottom" size="mini" @click="moveFieldDown(f.id)"></el-button> -->
         <div class="field-type">
           <div class="field-type-description">Field type</div>
           <el-input :value="fieldType(f.type)" disabled></el-input>
@@ -39,7 +39,7 @@
         </div>
         <el-button class="el-button--link" icon="close" size="mini" @click="deleteField(f.id)"></el-button>
       </div>
-      <field-view class="event-field"
+      <field-view class="event-options"
         :field="f" :view="editMode?'modalEdit':'modal'"
         :key="f.id"
         @deleteField="deleteField"
@@ -256,7 +256,7 @@ export default {
   font-size: 20px;
 }
 .field-edit-main {
-  margin-top: 24px;
+  margin-top: 30px;
   display: flex;
 }
 .field-edit-main > *:not(.field-title):not(.field-type) {
@@ -278,6 +278,12 @@ export default {
 .field-edit-main .field-type-description {
   font-size: 12px;
   color: #838C91;
+}
+.event-options {
+  display: block;
+  /*margin-left: 62px;*/
+  margin-top: 6px;
+  margin-left: 6px;
 }
 .modalEditAddField {
   margin-top: 36px;

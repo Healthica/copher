@@ -95,6 +95,15 @@ html, body, input, textarea, button, select {
   background-color: #EDEFF4;
   overflow: hidden;
 }
+a.no-link {
+  cursor: pointer;
+  color: inherit;
+  text-decoration: none;
+  opacity: 0.8;
+}
+a.no-link:hover {
+  opacity: 1;
+}
 
 .el-button--link {
   border: 0 solid transparent;
