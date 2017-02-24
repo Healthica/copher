@@ -209,15 +209,15 @@ import User from '../api/user'
     align-items: center;
   }
   .logo img {
-    height: 40px;
+    height: 36px;
   }
   .logo span {
     color: #E4F0F6;
     margin-left: 10px;
-    font-size: 14px;
-    font-weight: bold;
+    font-size: 16px;
     position: relative;
-    top: -4px;
+    top: 2px;
+    line-height: 36px;
   }
   .status-indicator {
     padding: 12px;
