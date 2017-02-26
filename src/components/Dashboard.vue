@@ -15,13 +15,20 @@ export default {
     },
     options() {
       return {
+        title: 'Coffee Sugar vs Taste',
         type: 'line', // line/bar/histogram
-        group_by: 'day', // hour/day/week/month
-        group_value: 'sum', // sum/average/median
+        group_by: 'day', // none/hour/day/week/month
+        group_value: 'average', // sum/average/median
+        range: 7, // * group_by
         datasets: [
           {
-            label: 'Coffee',
-            event_match: 'coffee'
+            label: 'Sugar',
+            event_match: 'coffee',
+            field_match: 'sugar'
+          }, {
+            label: 'Taste',
+            event_match: 'coffee',
+            field_match: 'taste'
           }
         ]
       }
