@@ -4,3 +4,6 @@ export const events = state => {
 export const user = state => {
   return state.user
 }
+export const dashboard = state => {
+  return state.dashboard
+}

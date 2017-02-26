@@ -4,6 +4,7 @@ import * as actions from './actions'
 import * as getters from './getters'
 import events from './modules/events'
 import user from './modules/user'
+import dashboard from './modules/dashboard'
 
 Vue.use(Vuex)
 
@@ -14,7 +15,8 @@ export default new Vuex.Store({
   getters,
   modules: {
     events,
-    user
+    user,
+    dashboard
   },
   strict: debug
 })

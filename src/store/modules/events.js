@@ -77,10 +77,6 @@ const actions = {
   }
 }
 
-const getters = {
-  // events: state => state.events
-}
-
 const mutations = {
   [types.SET_EVENTS] (state, { version, data }) {
     state.version = version
@@ -122,6 +118,5 @@ const mutations = {
 export default {
   state,
   actions,
-  getters,
   mutations
 }
