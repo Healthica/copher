@@ -1,5 +1,5 @@
 <template>
-  <div class="">
+  <div class="" @click="chartClick()">
     <line-chart v-if="options.type === 'line'" :chartData="eventsData" :options="chartOptions"></line-chart>
     <div v-else> Unknown {{ options.type }}</div>
   </div>
@@ -99,6 +99,12 @@ export default {
         },
         legend: {
           display: false
+        },
+        tooltips: {
+          enabled: false
+        },
+        layout: {
+          padding: 12
         }
       } : {
 
@@ -114,6 +120,9 @@ export default {
         month: 'months'
       }
       return this.options.range - 1 - moment().diff(moment(date), units[this.options.group_by] || 'days')
+    },
+    chartClick() {
+      this.$emit('zoom')
     }
   },
   data() {

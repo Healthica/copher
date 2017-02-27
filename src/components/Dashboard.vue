@@ -3,20 +3,21 @@
     <div class="charts-list">
       <el-card class="chart-card" v-for="c in dashboard.charts">
         <div slot="header" class="header clearfix">
-          <span>
+          <span @click="chartZoomin(c)">
             {{ c.title }}
           </span>
-          <el-dropdown class="chart-dropdown" trigger="click">
+          <el-dropdown class="chart-dropdown" trigger="click" @command="dropdownSelect">
             <span class="el-dropdown-link">
               <el-button class="chart-dropdown-trigger" type="text"><i class="el-icon-more"></i></el-button>
             </span>
             <el-dropdown-menu slot="dropdown">
-              <el-dropdown-item>Edit</el-dropdown-item>
-              <el-dropdown-item>Delete</el-dropdown-item>
+              <el-dropdown-item command="edit">Edit</el-dropdown-item>
+              <el-dropdown-item command="duplicate">Duplicate</el-dropdown-item>
+              <el-dropdown-item command="delete">Delete</el-dropdown-item>
             </el-dropdown-menu>
           </el-dropdown>
         </div>
-        <events-chart :events="events.data" :options="c" view="preview"></events-chart>
+        <events-chart :events="events.data" :options="c" view="preview" @zoom="chartZoomin(c)"></events-chart>
       </el-card>
     </div>
   </div>
@@ -29,6 +30,14 @@ export default {
   components: { EventsChart },
   computed: {
     ...mapGetters(['dashboard', 'events'])
+  },
+  methods: {
+    chartZoomin(chart) {
+      console.log('Zoom', chart)
+    },
+    dropdownSelect(e) {
+      console.log('dd', e)
+    }
   }
 }
 </script>
@@ -47,6 +56,10 @@ export default {
   max-width: 300px;
   margin: 18px 12px;
   font-size: 12px;
+  cursor: zoom-in;
+}
+.chart-card:hover {
+  background-color: #FDFAE5;
 }
 .chart-card .header {
   font-size: 14px;
