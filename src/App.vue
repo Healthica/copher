@@ -1,39 +1,17 @@
 <template>
   <div id="app">
-    <side-bar class="left-nav" :default-active="page" v-on:changePage="changePage"></side-bar>
-    <div class="right-pane">
-      <div class="right-pane-inner">
-        <log-app v-if="page === 'log-app'"></log-app>
-        <dashboard v-if="page === 'dashboard'"></dashboard>
-        <settings v-if="page === 'settings'"></settings>
-      </div>
-    </div>
+    <side-bar class="left-nav"></side-bar>
+    <router-view class="right-pane"></router-view>
   </div>
 </template>
 
 <script>
 import SideBar from './components/SideBar'
-import LogApp from './components/LogApp'
-import Dashboard from './components/Dashboard'
-import Settings from './components/Settings'
 
 export default {
   name: 'app',
   components: {
-    SideBar,
-    LogApp,
-    Dashboard,
-    Settings
-  },
-  data() {
-    return {
-      page: 'log-app'
-    }
-  },
-  methods: {
-    changePage(newPage) {
-      this.page = newPage
-    }
+    SideBar
   }
 }
 </script>

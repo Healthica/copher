@@ -1,14 +1,14 @@
 <template>
   <div class="side-nav">
-    <el-menu class="el-menu" theme="dark" @select="onChange">
+    <div class="navbar text-light">
       <div class="logo">
         <img src="../assets/veeta_logo.svg">
         <span>Veeta</span>
       </div>
-      <el-menu-item index="log-app" class="text-light">Log</el-menu-item>
-      <el-menu-item index="dashboard" class="text-light">Dashboard</el-menu-item>
-      <el-menu-item index="settings" class="text-light">Settings</el-menu-item>
-    </el-menu>
+      <router-link to="/" exact>Log</router-link>
+      <router-link to="/dashboard">Dashboard</router-link>
+      <router-link to="/settings">Settings</router-link>
+    </div>
     <div>
       <div class="status-indicator">
         <span class="status-circle" :class="statusClass">&#9679;</span>
@@ -65,7 +65,6 @@ import { mapGetters } from 'vuex'
 import User from '../api/user'
 
   export default {
-    props: ['default-active'],
     data() {
       return {
         profile_menu_visible: false,
@@ -117,9 +116,6 @@ import User from '../api/user'
       }
     },
     methods: {
-      onChange(page) {
-        this.$emit('changePage', page)
-      },
       closeProfileMenu() {
         this.profile_menu_visible = false
       },
@@ -200,8 +196,24 @@ import User from '../api/user'
     background-color: #36405F;
     color: #B2B9D0;
   }
-  .el-menu {
-    border-radius: 0;
+  .navbar {
+    display: flex;
+    flex-direction: column;
+  }
+  .navbar a {
+    font-size: 14px;
+    padding: 12px 18px;
+    color: #fff;
+    text-decoration: none;
+    opacity: 0.8;
+    border-left: 3px solid transparent;
+  }
+  .navbar a:hover {
+    opacity: 1;
+  }
+  .navbar a.router-link-active {
+    color: #BCD9EA;
+    border-left: 3px solid #BCD9EA;
   }
   .logo {
     padding: 20px;
