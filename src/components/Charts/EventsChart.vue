@@ -1,6 +1,6 @@
 <template>
   <div class="">
-    <line-chart v-if="options.type === 'line'" :chartData="eventsData"></line-chart>
+    <line-chart v-if="options.type === 'line'" :chartData="eventsData" :options="chartOptions"></line-chart>
     <div v-else> Unknown {{ options.type }}</div>
   </div>
 </template>
@@ -11,12 +11,12 @@ import _ from 'lodash'
 import moment from 'moment'
 
 export default {
-  props: ['events', 'options'],
+  props: ['events', 'options', 'view'],
   components: { LineChart },
   computed: {
     eventsData() {
       const datasets = {}
-      const colors = ['#f87979', '#79f879', '#7979f8']
+      const colors = ['#FFAB4A', '#61BD4F', '#0079BF', '#C377E0', '#EB5A46', '#F2D600', '#FF80CE', '#00C2E0']
       _.each(this.options.datasets, (d, i) => { datasets[d.label] = {
         label: d.label,
         borderColor: colors[i % colors.length],
@@ -47,10 +47,10 @@ export default {
             datasets[k].data[b] = 0
           } else {
             if (this.options.group_value === 'sum') {
-              datasets[k].data[b] = _.reduce(bucket, (sum, n) => { return sum + n }, 0 ).toFixed(1)
+              datasets[k].data[b] = (_.reduce(bucket, (sum, n) => { return sum + parseFloat(n) }, 0 )).toFixed(1)
             } else {
               // Average
-              datasets[k].data[b] = (_.reduce(bucket, (sum, n) => { return sum + n }, 0 ) / (bucket.length || 1)).toFixed(1)
+              datasets[k].data[b] = (_.reduce(bucket, (sum, n) => { return sum + parseFloat(n) }, 0 ) / (bucket.length || 1)).toFixed(1)
             }
           }
         })
@@ -85,6 +85,24 @@ export default {
           }
       }
       return _.times(this.options.range, fn)
+    },
+    chartOptions() {
+      return this.view === 'preview' ? 
+      {
+        scales: {
+          xAxes: [{
+            display: false
+          }],
+          yAxes: [{
+            display: false
+          }]
+        },
+        legend: {
+          display: false
+        }
+      } : {
+
+      }
     }
   },
   methods: {

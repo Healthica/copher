@@ -131,6 +131,10 @@ a.no-link:hover {
   margin-left: 0;
 }
 
+.el-card__header, .el-card__body {
+  padding: 12px 18px;
+}
+
 .event-row-field {
   display: inline-block;
   position: relative;
