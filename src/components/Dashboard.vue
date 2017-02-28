@@ -54,11 +54,11 @@
           </el-input>
         </el-form-item>
         <el-form-item label="Datasets">
-          <div v-for="d in chosenChartCopy.datasets" class="chart-edit-dataset-item">
+          <div v-for="(d, m) in chosenChartCopy.datasets" class="chart-edit-dataset-item">
             <el-input v-model="d.label"><template slot="prepend">Label</template></el-input>
             <el-input v-model="d.event_match"><template slot="prepend">Event</template></el-input>
             <el-input v-model="d.field_match"><template slot="prepend">Field</template></el-input>
-            <el-button class="chart-delete-dataset-btn el-button--link" icon="close" size="mini" @click="deleteDataset">Delete</el-button>
+            <el-button class="chart-delete-dataset-btn el-button--link" icon="close" size="mini" @click="deleteDataset(m)">Delete</el-button>
           </div>
           <el-button class="chart-add-dataset-btn el-button--link" icon="plus" size="mini" @click="addDataset">Add Dataset</el-button>
         </el-form-item>
@@ -95,7 +95,7 @@ export default {
   },
   methods: {
     addNewChart() {
-      this.$store.dispatch('addEmptyChart').then(() => {
+      this.$store.dispatch('addChart').then(() => {
         this.chartZoomin(this.dashboard.charts[0])
       })
     },
@@ -115,15 +115,23 @@ export default {
         }).then(() => {
           this.$store.dispatch('deleteChart', parseInt(matches[2], 10))
         }).catch(()=>{})
+      } else if (matches[1] === 'duplicate') {
+        this.$store.dispatch('addChart', _.cloneDeep(this.dashboard.charts[parseInt(matches[2], 10)])).then(() => {
+          this.chartZoomin(this.dashboard.charts[0])
+        })
       } else {
-        console.log('command', command)
+        console.error('Unknown chart command', command)
       }
     },
     addDataset() {
-      console.log('addDataset');
+      this.chosenChartCopy.datasets.push({
+        label: '',
+        event_match: '',
+        field_match: ''
+      })
     },
-    deleteDataset() {
-      console.log('deleteDataset');
+    deleteDataset(n) {
+      this.chosenChartCopy.datasets.splice(n, 1)
     }
   },
   data() {

@@ -43,8 +43,8 @@ const state = {
 }
 
 const actions = {
-  addEmptyChart({ commit }) {
-    commit(types.ADD_EMPTY_CHART)
+  addChart({ commit }, chart) {
+    commit(types.ADD_CHART, chart)
   },
   deleteChart({ commit }, i) {
     commit(types.DELETE_CHART, i)
@@ -52,15 +52,18 @@ const actions = {
 }
 
 const mutations = {
-  [types.ADD_EMPTY_CHART] (state) {
-    state.charts.unshift({
-      title: 'Chart Title',
-      type: 'line',
-      group_by: 'day',
-      group_value: 'average',
-      range: 10,
-      datasets: []
-    })
+  [types.ADD_CHART] (state, chart) {
+    if (!chart) {
+      chart = {
+        title: 'New Chart',
+        type: 'line',
+        group_by: 'day',
+        group_value: 'average',
+        range: 10,
+        datasets: []
+      }
+    }
+    state.charts.unshift(chart)
   },
   [types.DELETE_CHART] (state, i) {
     if (i < state.charts.length) {
