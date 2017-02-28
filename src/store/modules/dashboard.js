@@ -45,6 +45,9 @@ const state = {
 const actions = {
   addEmptyChart({ commit }) {
     commit(types.ADD_EMPTY_CHART)
+  },
+  deleteChart({ commit }, i) {
+    commit(types.DELETE_CHART, i)
   }
 }
 
@@ -58,6 +61,11 @@ const mutations = {
       range: 10,
       datasets: []
     })
+  },
+  [types.DELETE_CHART] (state, i) {
+    if (i < state.charts.length) {
+      state.charts.splice(i, 1)
+    }
   }
 }
 

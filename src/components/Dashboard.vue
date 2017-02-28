@@ -2,7 +2,7 @@
   <div class="dashboard">
     <el-button @click="addNewChart" class="new-chart-btn" type="success">Create New Chart</el-button>
     <div class="charts-list">
-      <el-card class="chart-card" v-for="c in dashboard.charts">
+      <el-card class="chart-card" v-for="(c, i) in dashboard.charts">
         <div slot="header" class="header clearfix">
           <span @click="chartZoomin(c)">
             {{ c.title }}
@@ -14,7 +14,7 @@
             <el-dropdown-menu slot="dropdown">
               <el-dropdown-item command="edit">Edit</el-dropdown-item>
               <el-dropdown-item command="duplicate">Duplicate</el-dropdown-item>
-              <el-dropdown-item command="delete">Delete</el-dropdown-item>
+              <el-dropdown-item :command="'delete-' + i">Delete</el-dropdown-item>
             </el-dropdown-menu>
           </el-dropdown>
         </div>
@@ -69,8 +69,17 @@ export default {
       this.chartEditModalVisible = true
     },
     dropdownSelect(command, chart) {
+      let matches
       if (command === 'edit') {
-        this.chartZoomin(chart)
+        this.chartZoomin(chart._self)
+      } else if (matches = command.match(/^delete-(\d)+$/)) {
+        this.$confirm('This will permenantly remove the chart. Continue?', 'Warning', {
+          confirmButtonText: 'Delete',
+          cancelButtonText: 'Cancel',
+          type: 'warning'
+        }).then(() => {
+          this.$store.dispatch('deleteChart', parseInt(matches[1], 10))
+        }).catch(()=>{})
       } else {
         console.log('command', command)
       }

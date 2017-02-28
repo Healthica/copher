@@ -105,6 +105,9 @@ export default {
         },
         layout: {
           padding: 12
+        },
+        animation: {
+          duration: 0
         }
       } : {
 
