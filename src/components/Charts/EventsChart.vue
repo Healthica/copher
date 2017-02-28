@@ -110,7 +110,9 @@ export default {
           duration: 0
         }
       } : {
-
+        animation: {
+          duration: 0
+        }
       }
     }
   },

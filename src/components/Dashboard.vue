@@ -22,7 +22,9 @@
       </el-card>
     </div>
     <el-dialog v-model="chartFullScreenModalVisible" size="full">
-      <events-chart :events="events.data" :options="dashboard.charts[chartEditId]" view="full"></events-chart>
+      <div :style="fullScreenModalStyle">
+        <events-chart :events="events.data" :options="dashboard.charts[chartEditId]" view="full"></events-chart>
+      </div>
     </el-dialog>
     <el-dialog v-model="chartEditModalVisible" size="tiny">
       <el-form label-width="100px" label-position="left">
@@ -80,7 +82,14 @@ import EventsChart from './Charts/EventsChart'
 export default {
   components: { EventsChart },
   computed: {
-    ...mapGetters(['dashboard', 'events'])
+    ...mapGetters(['dashboard', 'events']),
+    fullScreenModalStyle() {
+      const w = Math.max(document.documentElement.clientWidth, window.innerWidth || 0) - 50
+      const h = Math.max(document.documentElement.clientHeight, window.innerHeight || 0) - 70
+      return {
+        width: Math.max(Math.min(w, h), 300) + 'px'
+      }
+    }
   },
   methods: {
     addNewChart() {
