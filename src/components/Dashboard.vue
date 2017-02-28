@@ -101,12 +101,12 @@ export default {
       this.chartEditId = parseInt(index, 10)
       this.chartFullScreenModalVisible = true
     },
-    dropdownSelect(command, chart) {
+    dropdownSelect(command) {
       const matches = command.match(/^(.*)-(\d)+$/)
       const index = parseInt(matches[2], 10)
       if (matches[1] === 'edit') {
         this.chartEditId = index
-        this.chosenChartCopy = _.cloneDeep(chart)
+        this.chosenChartCopy = _.cloneDeep(this.dashboard.charts[index])
         this.chartEditModalVisible = true
       } else if (matches[1] === 'delete') {
         this.$confirm('This will permenantly remove the chart. Continue?', 'Warning', {
