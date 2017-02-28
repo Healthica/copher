@@ -16,7 +16,9 @@ export default {
   created() {
     this.$store.dispatch('syncEvents')
     window.setInterval(() => {
-      this.$store.dispatch('syncEvents')
+      if (this.$store.state.events.pause_sync !== true) {
+        this.$store.dispatch('syncEvents')
+      }
     }, 10000)
   }
 }

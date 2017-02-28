@@ -6,7 +6,8 @@ import _ from 'lodash'
 const state = {
   version: 0,
   data: [],
-  transactions: []
+  transactions: [],
+  pause_sync: false
 }
 
 const actions = {
@@ -77,6 +78,14 @@ const actions = {
   updateEventAddTransaction({ commit, dispatch }, event) {
     commit(types.UPDATE_EVENT_ADD_TRANSACTION, event)
     dispatch('syncEvents')
+  },
+
+  pauseSync({ commit, dispatch }) {
+    commit(types.PAUSE_SYNC)
+  },
+
+  resumeSync({ commit, dispatch }) {
+    commit(types.RESUME_SYNC)
   }
 }
 
@@ -115,6 +124,14 @@ const mutations = {
       state.data.splice(i, 1)
     }
     state.transactions.push({ type: 'DELETE', event: event })
+  },
+
+  [types.PAUSE_SYNC] (state) {
+    state.pause_sync = true
+  },
+
+  [types.RESUME_SYNC] (state) {
+    state.pause_sync = false
   }
 }
 

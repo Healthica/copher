@@ -21,6 +21,9 @@
         <events-chart :events="events.data" :options="c" view="preview" @zoom="chartZoomin(c, i)"></events-chart>
       </el-card>
     </div>
+    <el-dialog v-model="chartFullScreenModalVisible" size="full">
+      <events-chart :events="events.data" :options="dashboard.charts[chartEditId]" view="full"></events-chart>
+    </el-dialog>
     <el-dialog v-model="chartEditModalVisible" size="tiny">
       <el-form label-width="100px" label-position="left">
         <el-form-item label="Title">
@@ -87,14 +90,15 @@ export default {
     },
     chartZoomin(chart, index) {
       this.chartEditId = parseInt(index, 10)
-      this.chosenChartCopy = _.cloneDeep(chart)
-      this.chartEditModalVisible = true
+      this.chartFullScreenModalVisible = true
     },
     dropdownSelect(command, chart) {
       const matches = command.match(/^(.*)-(\d)+$/)
       const index = parseInt(matches[2], 10)
       if (matches[1] === 'edit') {
-        this.chartZoomin(this.dashboard.charts[index], index)
+        this.chartEditId = index
+        this.chosenChartCopy = _.cloneDeep(chart)
+        this.chartEditModalVisible = true
       } else if (matches[1] === 'delete') {
         this.$confirm('This will permenantly remove the chart. Continue?', 'Warning', {
           confirmButtonText: 'Delete',
@@ -134,8 +138,25 @@ export default {
     return {
       chartEditId: null,
       chartEditModalVisible: false,
+      chartFullScreenModalVisible: false,
       chosenChartCopy: {}
     }
+  },
+  watch: {
+    chartEditModalVisible(val) {
+      if (val === true) {
+        this.$store.dispatch('pauseSync')
+      } else {
+        this.$store.dispatch('resumeSync')
+      }
+    },
+    chartFullScreenModalVisible(val) {
+      if (val === true) {
+        this.$store.dispatch('pauseSync')
+      } else {
+        this.$store.dispatch('resumeSync')
+      }
+    },
   }
 }
 </script>

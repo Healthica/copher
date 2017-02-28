@@ -96,6 +96,15 @@ export default {
       this.$store.dispatch('syncEvents')
       this.showEditEventModal(_id)
     }
+  },
+  watch: {
+    eventModalVisible(val) {
+      if (val === true) {
+        this.$store.dispatch('pauseSync')
+      } else {
+        this.$store.dispatch('resumeSync')
+      }
+    }
   }
 }
 </script>
