@@ -29,8 +29,8 @@
         <el-form-item label="Chart Type">
           <el-select v-model="chosenChartCopy.type">
             <el-option label="Line" value="line"></el-option>
-            <el-option label="Bar" value="bar"></el-option>
-            <el-option label="Histogram" value="histogram"></el-option>
+            <el-option label="Bar" value="bar" :disabled="true"></el-option>
+            <el-option label="Histogram" value="histogram" :disabled="true"></el-option>
           </el-select>
         </el-form-item>
         <el-form-item label="Group By">
@@ -45,7 +45,7 @@
           <el-select v-model="chosenChartCopy.group_value">
             <el-option label="Sum" value="sum"></el-option>
             <el-option label="Average" value="average"></el-option>
-            <el-option label="Median" value="median"></el-option>
+            <el-option label="Median" value="median" :disabled="true"></el-option>
           </el-select>
         </el-form-item>
         <el-form-item label="Span">

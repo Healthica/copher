@@ -74,7 +74,6 @@ const mutations = {
     }
   },
   [types.UPDATE_CHART] (state, payload) {
-    console.log('pp', payload)
     state.charts[payload.index] = payload.chart
   }
 }
