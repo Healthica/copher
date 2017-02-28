@@ -96,9 +96,6 @@ export default {
       this.$store.dispatch('syncEvents')
       this.showEditEventModal(_id)
     }
-  },
-  created() {
-    this.$store.dispatch('syncEvents')
   }
 }
 </script>

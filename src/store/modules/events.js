@@ -35,13 +35,13 @@ const actions = {
         if (success) {
           commit(types.CLEAR_EVENTS_TRANSACTIONS)
         }
-        if (version) {
-          commit(types.SET_EVENTS_VERSION, { version })
-        }
         if (has_new_events) {
           // Notify to refresh
           dispatch('setStatus', 'has_updates')
         } else {
+          if (version) {
+            commit(types.SET_EVENTS_VERSION, { version })
+          }
           dispatch('setStatus', 'online')
         }
       })
@@ -60,20 +60,23 @@ const actions = {
     }
   },
 
-  addEvent({ commit }, event) {
+  addEvent({ commit, dispatch }, event) {
     commit(types.ADD_EVENT, event)
+    dispatch('syncEvents')
   },
 
   setEvent({ commit }, event) {
     commit(types.SET_EVENT_FIELD, event)
   },
 
-  deleteEvent({ commit }, event) {
+  deleteEvent({ commit, dispatch }, event) {
     commit(types.DELETE_EVENT, event)
+    dispatch('syncEvents')
   },
 
-  updateEventAddTransaction({ commit }, event) {
+  updateEventAddTransaction({ commit, dispatch }, event) {
     commit(types.UPDATE_EVENT_ADD_TRANSACTION, event)
+    dispatch('syncEvents')
   }
 }
 

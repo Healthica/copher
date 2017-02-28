@@ -12,6 +12,12 @@ export default {
   name: 'app',
   components: {
     SideBar
+  },
+  created() {
+    this.$store.dispatch('syncEvents')
+    window.setInterval(() => {
+      this.$store.dispatch('syncEvents')
+    }, 10000)
   }
 }
 </script>
