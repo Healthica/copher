@@ -43,9 +43,22 @@ const state = {
 }
 
 const actions = {
+  addEmptyChart({ commit }) {
+    commit(types.ADD_EMPTY_CHART)
+  }
 }
 
 const mutations = {
+  [types.ADD_EMPTY_CHART] (state) {
+    state.charts.unshift({
+      title: 'Chart Title',
+      type: 'line',
+      group_by: 'day',
+      group_value: 'average',
+      range: 10,
+      datasets: []
+    })
+  }
 }
 
 export default {

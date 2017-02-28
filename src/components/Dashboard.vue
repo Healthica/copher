@@ -1,5 +1,6 @@
 <template>
   <div class="dashboard">
+    <el-button @click="addNewChart" class="new-chart-btn" type="success">Create New Chart</el-button>
     <div class="charts-list">
       <el-card class="chart-card" v-for="c in dashboard.charts">
         <div slot="header" class="header clearfix">
@@ -20,6 +21,18 @@
         <events-chart :events="events.data" :options="c" view="preview" @zoom="chartZoomin(c)"></events-chart>
       </el-card>
     </div>
+    <el-dialog v-model="chartEditModalVisible" size="tiny">
+      Title <el-input v-model="chosenChartCopy.title"></el-input>
+      type <el-input v-model="chosenChartCopy.type"></el-input>
+      group_by <el-input v-model="chosenChartCopy.group_by"></el-input>
+      group_value <el-input v-model="chosenChartCopy.group_value"></el-input>
+      range <el-input v-model="chosenChartCopy.range"></el-input>
+      {{ chosenChartCopy.datasets }}
+      <span slot="footer" class="dialog-footer">
+        <el-button @click="chartEditModalVisible = false">Cancel</el-button>
+        <el-button type="primary" @click="chartEditModalVisible = false">Save</el-button>
+      </span>
+    </el-dialog>
   </div>
 </template>
 
@@ -29,14 +42,45 @@ import EventsChart from './Charts/EventsChart'
 export default {
   components: { EventsChart },
   computed: {
-    ...mapGetters(['dashboard', 'events'])
+    ...mapGetters(['dashboard', 'events']),
+    chosenChart() {
+      if (this.dashboard.charts[this.chartEditId]) {
+        return _.cloneDeep(this.dashboard.charts[this.chartEditId])
+      } else {
+        return {
+          title: '',
+          type: 'line',
+          group_by: 'day',
+          group_value: 'average',
+          range: 10,
+          datasets: []
+        }
+      }
+    }
   },
   methods: {
-    chartZoomin(chart) {
-      console.log('Zoom', chart)
+    addNewChart() {
+      this.$store.dispatch('addEmptyChart').then(() => {
+        this.chartZoomin(this.dashboard.charts[0])
+      })
     },
-    dropdownSelect(e) {
-      console.log('dd', e)
+    chartZoomin(chart) {
+      this.chosenChartCopy = _.cloneDeep(chart)
+      this.chartEditModalVisible = true
+    },
+    dropdownSelect(command, chart) {
+      if (command === 'edit') {
+        this.chartZoomin(chart)
+      } else {
+        console.log('command', command)
+      }
+    }
+  },
+  data() {
+    return {
+      chartEditId: null,
+      chartEditModalVisible: false,
+      chosenChartCopy: {}
     }
   }
 }
@@ -47,6 +91,10 @@ export default {
   height: 100%;
   overflow-y: scroll;
   background-color: #EDEFF4;
+}
+.new-chart-btn {
+  float:right;
+  margin: 18px 12px;
 }
 .charts-list {
   display: flex;
