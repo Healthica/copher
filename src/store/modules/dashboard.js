@@ -48,6 +48,9 @@ const actions = {
   },
   deleteChart({ commit }, i) {
     commit(types.DELETE_CHART, i)
+  },
+  updateChart({ commit }, payload) {
+    commit(types.UPDATE_CHART, payload)
   }
 }
 
@@ -69,6 +72,10 @@ const mutations = {
     if (i < state.charts.length) {
       state.charts.splice(i, 1)
     }
+  },
+  [types.UPDATE_CHART] (state, payload) {
+    console.log('pp', payload)
+    state.charts[payload.index] = payload.chart
   }
 }
 

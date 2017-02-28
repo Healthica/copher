@@ -4,7 +4,7 @@
     <div class="charts-list">
       <el-card class="chart-card" v-for="(c, i) in dashboard.charts">
         <div slot="header" class="header clearfix">
-          <span @click="chartZoomin(c)">
+          <span @click="chartZoomin(c, i)">
             {{ c.title }}
           </span>
           <el-dropdown class="chart-dropdown" trigger="click" @command="dropdownSelect">
@@ -18,7 +18,7 @@
             </el-dropdown-menu>
           </el-dropdown>
         </div>
-        <events-chart :events="events.data" :options="c" view="preview" @zoom="chartZoomin(c)"></events-chart>
+        <events-chart :events="events.data" :options="c" view="preview" @zoom="chartZoomin(c, i)"></events-chart>
       </el-card>
     </div>
     <el-dialog v-model="chartEditModalVisible" size="tiny">
@@ -65,7 +65,7 @@
       </el-form>
       <span slot="footer" class="dialog-footer">
         <el-button @click="chartEditModalVisible = false">Cancel</el-button>
-        <el-button type="primary" @click="chartEditModalVisible = false">Save</el-button>
+        <el-button type="primary" @click="saveChartChanges">Save</el-button>
       </span>
     </el-dialog>
   </div>
@@ -77,21 +77,7 @@ import EventsChart from './Charts/EventsChart'
 export default {
   components: { EventsChart },
   computed: {
-    ...mapGetters(['dashboard', 'events']),
-    chosenChart() {
-      if (this.dashboard.charts[this.chartEditId]) {
-        return _.cloneDeep(this.dashboard.charts[this.chartEditId])
-      } else {
-        return {
-          title: '',
-          type: 'line',
-          group_by: 'day',
-          group_value: 'average',
-          range: 10,
-          datasets: []
-        }
-      }
-    }
+    ...mapGetters(['dashboard', 'events'])
   },
   methods: {
     addNewChart() {
@@ -99,24 +85,26 @@ export default {
         this.chartZoomin(this.dashboard.charts[0])
       })
     },
-    chartZoomin(chart) {
+    chartZoomin(chart, index) {
+      this.chartEditId = parseInt(index, 10)
       this.chosenChartCopy = _.cloneDeep(chart)
       this.chartEditModalVisible = true
     },
     dropdownSelect(command, chart) {
-      let matches = command.match(/^(.*)-(\d)+$/)
+      const matches = command.match(/^(.*)-(\d)+$/)
+      const index = parseInt(matches[2], 10)
       if (matches[1] === 'edit') {
-        this.chartZoomin(this.dashboard.charts[parseInt(matches[2], 10)])
+        this.chartZoomin(this.dashboard.charts[index], index)
       } else if (matches[1] === 'delete') {
         this.$confirm('This will permenantly remove the chart. Continue?', 'Warning', {
           confirmButtonText: 'Delete',
           cancelButtonText: 'Cancel',
           type: 'warning'
         }).then(() => {
-          this.$store.dispatch('deleteChart', parseInt(matches[2], 10))
+          this.$store.dispatch('deleteChart', index)
         }).catch(()=>{})
       } else if (matches[1] === 'duplicate') {
-        this.$store.dispatch('addChart', _.cloneDeep(this.dashboard.charts[parseInt(matches[2], 10)])).then(() => {
+        this.$store.dispatch('addChart', _.cloneDeep(this.dashboard.charts[index])).then(() => {
           this.chartZoomin(this.dashboard.charts[0])
         })
       } else {
@@ -132,6 +120,14 @@ export default {
     },
     deleteDataset(n) {
       this.chosenChartCopy.datasets.splice(n, 1)
+    },
+    saveChartChanges() {
+      this.$store.dispatch('updateChart', {
+        index: this.chartEditId,
+        chart: this.chosenChartCopy
+      }).then(() => {
+        this.chartEditModalVisible = false
+      })
     }
   },
   data() {
