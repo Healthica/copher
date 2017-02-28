@@ -12,8 +12,8 @@
               <el-button class="chart-dropdown-trigger" type="text"><i class="el-icon-more"></i></el-button>
             </span>
             <el-dropdown-menu slot="dropdown">
-              <el-dropdown-item command="edit">Edit</el-dropdown-item>
-              <el-dropdown-item command="duplicate">Duplicate</el-dropdown-item>
+              <el-dropdown-item :command="'edit-' + i">Edit</el-dropdown-item>
+              <el-dropdown-item :command="'duplicate-' + i">Duplicate</el-dropdown-item>
               <el-dropdown-item :command="'delete-' + i">Delete</el-dropdown-item>
             </el-dropdown-menu>
           </el-dropdown>
@@ -22,12 +22,47 @@
       </el-card>
     </div>
     <el-dialog v-model="chartEditModalVisible" size="tiny">
-      Title <el-input v-model="chosenChartCopy.title"></el-input>
-      type <el-input v-model="chosenChartCopy.type"></el-input>
-      group_by <el-input v-model="chosenChartCopy.group_by"></el-input>
-      group_value <el-input v-model="chosenChartCopy.group_value"></el-input>
-      range <el-input v-model="chosenChartCopy.range"></el-input>
-      {{ chosenChartCopy.datasets }}
+      <el-form label-width="100px" label-position="left">
+        <el-form-item label="Title">
+          <el-input v-model="chosenChartCopy.title"></el-input>
+        </el-form-item>
+        <el-form-item label="Chart Type">
+          <el-select v-model="chosenChartCopy.type">
+            <el-option label="Line" value="line"></el-option>
+            <el-option label="Bar" value="bar"></el-option>
+            <el-option label="Histogram" value="histogram"></el-option>
+          </el-select>
+        </el-form-item>
+        <el-form-item label="Group By">
+          <el-select v-model="chosenChartCopy.group_by">
+            <el-option label="Hour" value="hour"></el-option>
+            <el-option label="Day" value="day"></el-option>
+            <el-option label="Week" value="week"></el-option>
+            <el-option label="Month" value="month"></el-option>
+          </el-select>
+        </el-form-item>
+        <el-form-item label="Group Value">
+          <el-select v-model="chosenChartCopy.group_value">
+            <el-option label="Sum" value="sum"></el-option>
+            <el-option label="Average" value="average"></el-option>
+            <el-option label="Median" value="median"></el-option>
+          </el-select>
+        </el-form-item>
+        <el-form-item label="Span">
+          <el-input v-model="chosenChartCopy.range">
+            <template slot="append">{{ chosenChartCopy.group_by }}s</template>
+          </el-input>
+        </el-form-item>
+        <el-form-item label="Datasets">
+          <div v-for="d in chosenChartCopy.datasets" class="chart-edit-dataset-item">
+            <el-input v-model="d.label"><template slot="prepend">Label</template></el-input>
+            <el-input v-model="d.event_match"><template slot="prepend">Event</template></el-input>
+            <el-input v-model="d.field_match"><template slot="prepend">Field</template></el-input>
+            <el-button class="chart-delete-dataset-btn el-button--link" icon="close" size="mini" @click="deleteDataset">Delete</el-button>
+          </div>
+          <el-button class="chart-add-dataset-btn el-button--link" icon="plus" size="mini" @click="addDataset">Add Dataset</el-button>
+        </el-form-item>
+      </el-form>
       <span slot="footer" class="dialog-footer">
         <el-button @click="chartEditModalVisible = false">Cancel</el-button>
         <el-button type="primary" @click="chartEditModalVisible = false">Save</el-button>
@@ -69,20 +104,26 @@ export default {
       this.chartEditModalVisible = true
     },
     dropdownSelect(command, chart) {
-      let matches
-      if (command === 'edit') {
-        this.chartZoomin(chart._self)
-      } else if (matches = command.match(/^delete-(\d)+$/)) {
+      let matches = command.match(/^(.*)-(\d)+$/)
+      if (matches[1] === 'edit') {
+        this.chartZoomin(this.dashboard.charts[parseInt(matches[2], 10)])
+      } else if (matches[1] === 'delete') {
         this.$confirm('This will permenantly remove the chart. Continue?', 'Warning', {
           confirmButtonText: 'Delete',
           cancelButtonText: 'Cancel',
           type: 'warning'
         }).then(() => {
-          this.$store.dispatch('deleteChart', parseInt(matches[1], 10))
+          this.$store.dispatch('deleteChart', parseInt(matches[2], 10))
         }).catch(()=>{})
       } else {
         console.log('command', command)
       }
+    },
+    addDataset() {
+      console.log('addDataset');
+    },
+    deleteDataset() {
+      console.log('deleteDataset');
     }
   },
   data() {
@@ -95,7 +136,7 @@ export default {
 }
 </script>
 
-<style scoped>
+<style>
 .dashboard {
   height: 100%;
   overflow-y: scroll;
@@ -132,5 +173,42 @@ export default {
 }
 .chart-dropdown-trigger:not(:hover) {
   color: inherit;
+}
+.chart-edit-dataset-item {
+  margin-bottom: 36px;
+}
+.chart-edit-dataset-item .el-input-group__prepend {
+  min-width: 60px;
+}
+.chart-edit-dataset-item > .el-input:nth-child(2) {
+  position: relative;
+  top: -1px;
+}
+.chart-edit-dataset-item > .el-input:nth-child(3) {
+  position: relative;
+  top: -2px;
+}
+.chart-edit-dataset-item > .el-input:not(:first-of-type) .el-input-group__prepend {
+  border-top-left-radius: 0;
+}
+.chart-edit-dataset-item > .el-input:not(:first-of-type) .el-input__inner {
+  border-top-right-radius: 0;
+}
+.chart-edit-dataset-item > .el-input:not(:last-of-type) .el-input-group__prepend {
+  border-bottom-left-radius: 0;
+}
+.chart-edit-dataset-item > .el-input:not(:last-of-type) .el-input__inner {
+  border-bottom-right-radius: 0;
+}
+.chart-delete-dataset-btn {
+  float: right;
+}
+.chart-add-dataset-btn, .chart-delete-dataset-btn {
+  font-size: 12px;
+}
+.chart-add-dataset-btn i, .chart-delete-dataset-btn i {
+  font-size: 8px;
+  position: relative;
+  top: -1px;
 }
 </style>
