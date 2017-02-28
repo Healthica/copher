@@ -26,7 +26,7 @@
         <events-chart :events="events.data" :options="dashboard.charts[chartEditId]" view="full"></events-chart>
       </div>
     </el-dialog>
-    <el-dialog v-model="chartEditModalVisible" size="tiny">
+    <el-dialog v-model="chartEditModalVisible" size="tiny" :close-on-click-modal="false" :show-close="false">
       <el-form label-width="100px" label-position="left">
         <el-form-item label="Title">
           <el-input v-model="chosenChartCopy.title"></el-input>
@@ -118,7 +118,9 @@ export default {
         }).catch(()=>{})
       } else if (matches[1] === 'duplicate') {
         this.$store.dispatch('addChart', _.cloneDeep(this.dashboard.charts[index])).then(() => {
-          this.chartZoomin(this.dashboard.charts[0])
+          this.chartEditId = 0
+          this.chosenChartCopy = _.cloneDeep(this.dashboard.charts[0])
+          this.chartEditModalVisible = true
         })
       } else {
         console.error('Unknown chart command', command)
