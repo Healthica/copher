@@ -94,7 +94,9 @@ export default {
   methods: {
     addNewChart() {
       this.$store.dispatch('addChart').then(() => {
-        this.chartZoomin(this.dashboard.charts[0])
+        this.chartEditId = 0
+        this.chosenChartCopy = _.cloneDeep(this.dashboard.charts[0])
+        this.chartEditModalVisible = true
       })
     },
     chartZoomin(chart, index) {
@@ -167,7 +169,10 @@ export default {
       } else {
         this.$store.dispatch('resumeSync')
       }
-    },
+    }
+  },
+  created() {
+    this.$store.dispatch('getCharts')
   }
 }
 </script>

@@ -1,60 +1,40 @@
 import * as types from '../mutation-types'
+import chartsAPI from '../../api/charts'
 import Vue from 'vue'
 import _ from 'lodash'
 
 const state = {
-  charts: [
-    {
-      title: 'Coffee Sugar vs Taste',
-      type: 'line', // line/bar/histogram
-      group_by: 'day', // none/hour/day/week/month
-      group_value: 'average', // sum/average/median
-      range: 10, // * group_by
-      datasets: [
-        {
-          label: 'Sugar',
-          event_match: 'coffee',
-          field_match: 'sugar'
-        }, {
-          label: 'Taste',
-          event_match: 'coffee',
-          field_match: 'taste'
-        }
-      ]
-    }, {
-      title: 'Coffee Sugar vs Taste',
-      type: 'line', // line/bar/histogram
-      group_by: 'day', // none/hour/day/week/month
-      group_value: 'sum', // sum/average/median
-      range: 7, // * group_by
-      datasets: [
-        {
-          label: 'Sugar',
-          event_match: 'coffee',
-          field_match: 'sugar'
-        }, {
-          label: 'Taste',
-          event_match: 'coffee',
-          field_match: 'taste'
-        }
-      ]
-    },
-  ]
+  charts: []
 }
 
 const actions = {
-  addChart({ commit }, chart) {
+  addChart({ commit, dispatch }, chart) {
     commit(types.ADD_CHART, chart)
   },
-  deleteChart({ commit }, i) {
+  deleteChart({ commit, dispatch }, i) {
     commit(types.DELETE_CHART, i)
+    dispatch('saveCharts')
   },
-  updateChart({ commit }, payload) {
+  updateChart({ commit, dispatch }, payload) {
     commit(types.UPDATE_CHART, payload)
+    dispatch('saveCharts')
+  },
+  getCharts({ commit }) {
+    chartsAPI.getCharts().then(({ charts }) => {
+      commit(types.SET_CHARTS, charts)
+    })
+  },
+  saveCharts({ commit, state }) {
+    chartsAPI.postCharts(state.charts).then(({ success }) => {
+      console.log('charts save', success);
+    })
   }
 }
 
 const mutations = {
+  [types.SET_CHARTS] (state, charts) {
+    state.charts = charts
+  },
   [types.ADD_CHART] (state, chart) {
     if (!chart) {
       chart = {

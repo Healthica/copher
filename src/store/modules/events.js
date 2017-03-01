@@ -13,7 +13,6 @@ const state = {
 const actions = {
   syncEvents({ commit, dispatch }) {
     if (state.transactions.length === 0) {
-      dispatch('setStatus', 'connecting')
       eventsAPI.getEvents().then(({ version, data }) => {
         commit(types.SET_EVENTS, { version, data })
         dispatch('setStatus', 'online')
