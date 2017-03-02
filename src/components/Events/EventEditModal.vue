@@ -79,7 +79,7 @@ export default {
     addField(field) {
       this.event.fields.push(Object.assign({
         id: uuid.v4(),
-        title: '',
+        title: this.fieldType(field),
         type: field
       }, this.defaultValue(field)))
     },
@@ -92,7 +92,7 @@ export default {
           return 'Duration'
           break;
         case 'rank_stars':
-          return 'Stars Rank'
+          return 'Rank'
           break;
         case 'weight':
           return 'Weight'
@@ -133,7 +133,7 @@ export default {
         case 'length':
           return { value: 5, options: { units: 'm' } }
         case 'select':
-          return { value: '', options: { options: [''] } }
+          return { value: '', options: { options: [] } }
           break;
         case 'number':
           return { value: 0 }

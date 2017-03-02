@@ -34,6 +34,9 @@ export default {
 .event-row-field {
   pointer-events: none;
 }
+.event-row-field-header {
+  top: -15px;
+}
 .event-modal-field-content {
   position: relative;
   top: 6px;

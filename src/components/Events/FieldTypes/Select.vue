@@ -8,27 +8,17 @@
       <div class="event-modal-field-header">
         <el-input placeholder="Field title" v-model="field.title"></el-input>
       </div>
-      <el-select v-model="field.value" placeholder="Select">
-        <el-option
-          v-for="o in field.options.options"
-          :label="o"
-          :value="o">
-        </el-option>
-      </el-select>
-    </div>
-    <div v-else-if="view === 'modalEdit'">
-      <a @click="showOptions = !showOptions" class="no-link">
-        <i v-if="showOptions" class="el-icon-caret-bottom"></i>
-        <i v-else class="el-icon-caret-right"></i>
-        Options
-      </a>
-      <div v-if="showOptions">
-        <div v-for="(o, i) in field.options.options" class="checkbox-edit-option">
-          <el-input class="checkbox-edit-option-input" v-model="field.options.options[i]"></el-input>
-          <el-button class="el-button--link" icon="close" size="mini" @click="removeOption(i)"></el-button>
-        </div>
-        <el-button class="checkbox-options-add el-button--link" icon="plus" size="mini" @click="addOption">Add Option</el-button>
-      </div>
+      <span ref="selectContainer">
+        <el-select v-model="field.value" :popper-class="isCtrlSelect ? 'deleteMode' : null"
+          :filterable="!isCtrlSelect" :allow-create="true" placeholder="Select"
+          @change="onSelectChange" @visible-change="onSelectToggle">
+          <el-option
+            v-for="o in field.options.options"
+            :label="o"
+            :value="o">
+          </el-option>
+        </el-select>
+      </span>
     </div>
   </span>
 </template>
@@ -38,16 +28,39 @@
 export default {
   props: ['field', 'view'],
   methods: {
-    addOption() {
-      this.field.options.options.push('')
-    },
     removeOption(i) {
       this.field.options.options.splice(i, 1)
+    },
+    onSelectChange(option) {
+      if (option === '') {
+        return
+      } else if (this.isCtrlSelect) {
+        this.removeOption(_.indexOf(this.field.options.options, option), 1)
+        this.field.value = ''
+      } else if (_.indexOf(this.field.options.options, option) === -1) {
+        this.field.options.options.push(option)
+      }
+    },
+    onSelectToggle(is_open) {
+      if (is_open) {
+        this.$refs['selectContainer'].addEventListener("click", this.handleClick, false)
+      } else {
+        this.$refs['selectContainer'].removeEventListener("click", this.handleClick)
+        this.isCtrlSelect = false
+      }
+    },
+    handleClick(e) {
+      if (e.ctrlKey === true) {
+        this.isCtrlSelect = true
+      } else {
+        this.isCtrlSelect = false
+      }
     }
   },
   data() {
     return {
-      showOptions: false
+      showOptions: false,
+      isCtrlSelect: false
     }
   }
 }

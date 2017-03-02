@@ -228,6 +228,16 @@ a.no-link:hover {
   }
 }
 
+.el-select-dropdown.deleteMode .el-select-dropdown__item.selected, .el-select-dropdown.deleteMode .el-select-dropdown__item.hover {
+  background-color: #fff;
+  color: #3A476F;
+}
+.el-select-dropdown.deleteMode .el-select-dropdown__item:hover {
+  background-color: #6E2F1A;
+  color: #FBEDEB;
+  text-decoration: line-through;
+}
+
 .checkbox-edit-option-input input {
   padding: 12px 6px;
   height: 24px;
