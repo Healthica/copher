@@ -177,27 +177,9 @@ export default {
       }
     },
     deleteField(id) {
-      this.$confirm('Deleting this field will also delete its value. Continue?', 'Warning', {
-        confirmButtonText: 'Delete',
-        cancelButtonText: 'Cancel',
-        type: 'warning'
-      }).then(() => {
-        const i = _.findIndex(this.event.fields, e => e.id === id)
-        if (i > -1) {
-          this.event.fields.splice(i, 1)
-        }
-      }).catch(()=>{})
-    },
-    moveFieldUp(id) {
       const i = _.findIndex(this.event.fields, e => e.id === id)
-      if (i > 0) {
-        this.event.fields.splice(i, 0, this.event.fields.splice(i - 1, 1)[0])
-      }
-    },
-    moveFieldDown(id) {
-      const i = _.findIndex(this.event.fields, e => e.id === id)
-      if (i > -1 && i < this.event.fields.length - 1) {
-        this.event.fields.splice(i, 0, this.event.fields.splice(i + 1, 1)[0])
+      if (i > -1) {
+        this.event.fields.splice(i, 1)
       }
     },
     eventAction(action) {
@@ -213,15 +195,9 @@ export default {
       }
     },
     deleteEvent() {
-      this.$confirm('This will permenantly delete the event and all its data. Continue?', 'Warning', {
-        confirmButtonText: 'Delete',
-        cancelButtonText: 'Cancel',
-        type: 'warning'
-      }).then(() => {
-        this.event._isDeleted = true
-        this.close()
-        this.$store.dispatch('deleteEvent', this.event)
-      }).catch(()=>{})
+      this.event._isDeleted = true
+      this.close()
+      this.$store.dispatch('deleteEvent', this.event)
     }
   }
 }
