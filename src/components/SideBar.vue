@@ -205,8 +205,12 @@ import User from '../api/user'
     padding: 12px 18px;
     color: #fff;
     text-decoration: none;
-    opacity: 0.8;
     border-left: 3px solid transparent;
+    cursor: default;
+  }
+  .navbar a:not(.router-link-active) {
+    cursor: pointer;
+    opacity: 0.8;
   }
   .navbar a:hover {
     opacity: 1;
@@ -214,6 +218,7 @@ import User from '../api/user'
   .navbar a.router-link-active {
     color: #BCD9EA;
     border-left: 3px solid #BCD9EA;
+    background-color: #3A476F;
   }
   .logo {
     padding: 20px;
