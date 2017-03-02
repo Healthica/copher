@@ -94,6 +94,11 @@ a.no-link:hover {
 .el-button--link {
   border: 0 solid transparent;
 }
+.el-button i {
+  font-size: 0.75em;
+  position: relative;
+  top: -0.12em;
+}
 
 .popover-no-padding {
   padding: 0;
@@ -137,6 +142,16 @@ a.no-link:hover {
 .eventModal .el-checkbox {
   margin: 0 18px 12px 0;
   margin-left: 0;
+}
+
+.el-dropdown-menu__item {
+  font-size: 14px;
+  line-height: 14px;
+  padding: 12px;
+  min-width: 120px;
+}
+.el-dropdown-menu__item i {
+  margin-right: 6px;
 }
 
 .el-card__header, .el-card__body {
