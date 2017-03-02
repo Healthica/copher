@@ -5,7 +5,9 @@
       {{ field.value }}
     </div>
     <div v-else-if="view === 'modal'" class="event-modal-field">
-      <div class="event-modal-field-header">{{ field.title }}</div>
+      <div class="event-modal-field-header">
+        <el-input placeholder="Field title" v-model="field.title"></el-input>
+      </div>
       <div class="event-modal-field-content">
         <el-input-number v-model="field.value" :step="1"></el-input-number>
       </div>
@@ -21,7 +23,4 @@ export default {
 </script>
 
 <style scoped>
-.event-modal-field-header {
-  padding-top: 10px;
-}
 </style>

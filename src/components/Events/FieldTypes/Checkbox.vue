@@ -5,7 +5,9 @@
       {{ textValues }}
     </div>
     <div v-else-if="view === 'modal'" class="event-modal-field">
-      <div class="event-modal-field-header">{{ field.title }}</div>
+      <div class="event-modal-field-header">
+        <el-input placeholder="Field title" v-model="field.title"></el-input>
+      </div>
       <el-checkbox-group v-model="field.value">
         <el-checkbox :label="o" v-for="o in field.options.options">{{ o }}</el-checkbox>
       </el-checkbox-group>
@@ -48,6 +50,9 @@ export default {
     },
     removeOption(i) {
       this.field.options.options.splice(i, 1)
+    },
+    deleteField() {
+      this.$emit('deleteField')
     }
   },
   data() {

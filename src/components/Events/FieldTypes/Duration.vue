@@ -5,7 +5,9 @@
       {{ formattedHours }}
     </div>
     <div v-else-if="view === 'modal'" class="event-modal-field">
-      <div class="event-modal-field-header">{{ field.title }}</div>
+      <div class="event-modal-field-header">
+        <el-input placeholder="Field title" v-model="field.title"></el-input>
+      </div>
       <div class="event-modal-field-content">
         <el-input-number v-model="hours" :min="0" :max="23">
           <template slot="prepend">Hours</template>

@@ -79,7 +79,12 @@ export default {
         id: _id,
         title: this.newEventText,
         time: moment().format(),
-        fields: []
+        fields: [{
+          id: uuid.v4(),
+          title: 'Notes',
+          type: 'text',
+          value: ''
+        }]
       }, NewEventParser(this.newEventText))
       this.$store.dispatch('addEvent', newEvent)
       this.newEventText = ''

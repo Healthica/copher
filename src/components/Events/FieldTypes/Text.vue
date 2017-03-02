@@ -5,7 +5,9 @@
       {{ field.value.replace("\n", ' ') }}
     </div>
     <div v-else-if="view === 'modal'" class="event-modal-field">
-      <div class="event-modal-field-header">{{ field.title }}</div>
+      <div class="event-modal-field-header">
+        <el-input placeholder="Field title" v-model="field.title"></el-input>
+      </div>
       <div class="event-modal-field-content">
         <el-input type="textarea"
           :autosize="{ minRows: 2, maxRows: 4}"
@@ -27,8 +29,5 @@ export default {
   max-width: 180px;
   overflow: hidden;
   text-overflow: ellipsis;
-}
-.event-modal-field-header {
-  padding-top: 10px;
 }
 </style>

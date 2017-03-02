@@ -179,20 +179,44 @@ a.no-link:hover {
 .eventModalTitle {
   font-size: 18px;
 }
-.eventModalTitle input:not(:focus) {
+.eventModalTitle input:not(:focus), .eventModalHeader .el-date-editor input:not(:focus) {
   border: 1px solid transparent;
+}
+.eventModalHeader .el-date-editor {
+  width: 160px;
+}
+.eventModalHeader .el-date-editor i {
+  display: none;
+}
+.eventModalHeader .el-date-editor input {
+  padding-right: 10px;
 }
 .event-modal-field {
   display: flex;
-  margin: 24px 0;
+  padding: 12px 6px;
 }
 .event-modal-field-header {
-  font-weight: bold;
   width: 120px;
   flex: 0 1 auto;
+  margin-right: 6px;
+}
+.event-modal-field-header input:not(:focus) {
+  border: 1px solid transparent;
+  background: none;
+}
+.event-modal-field-header input{
+  font-weight: bold;
 }
 .event-modal-field-content {
   flex: 1 1 0%;
+}
+.event-field-delete-btn {
+  background: none;
+  opacity: 0.35;
+  padding: 12px;
+}
+.event-field-delete-btn:hover {
+  opacity: 1;
 }
 @media screen and (max-width: 480px) {
   .event-modal-field {
