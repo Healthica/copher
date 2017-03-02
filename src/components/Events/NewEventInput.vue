@@ -70,7 +70,7 @@ export default {
     }
   },
   methods: {
-    addEvent(ev) {
+    addEvent() {
       if (this.newEventText.length === 0) {
         return
       }
@@ -84,9 +84,7 @@ export default {
       this.$store.dispatch('addEvent', newEvent)
       this.newEventText = ''
       this.$refs['newEventInput'].blur()
-      if (ev.ctrlKey) {
-        this.$emit('showEditEventModal', _id)
-      }
+      this.$emit('showEditEventModal', _id)
     },
     calcSuggestions() {
       if (this.newEventText === this.newEventTextSuggestionsCache.query) {
@@ -112,11 +110,11 @@ export default {
       this.newEventTextSuggestionsCache.suggestions = topSuggestions
       return topSuggestions
     },
-    newEventSubmit(ev) {
+    newEventSubmit() {
       const suggestions = this.newEventTextSuggestionsCache.suggestions
       const i = _.findIndex(suggestions, { active: true })
       if (i === -1) {
-        this.addEvent(ev)
+        this.addEvent()
       } else {
         // Duplicate
         const id = suggestions[i].latest.id
