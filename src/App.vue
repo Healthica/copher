@@ -228,14 +228,23 @@ a.no-link:hover {
   }
 }
 
-.el-select-dropdown.deleteMode .el-select-dropdown__item.selected, .el-select-dropdown.deleteMode .el-select-dropdown__item.hover {
-  background-color: #fff;
-  color: #3A476F;
+.field-options-remove-option-btn {
+  background: none;
+  float: right;
+  opacity: 0.5;
+}
+.field-options-remove-option-btn:hover {
+  opacity: 1;
+  color: #6E2F1A;
 }
 .el-select-dropdown.deleteMode .el-select-dropdown__item:hover {
   background-color: #6E2F1A;
   color: #FBEDEB;
   text-decoration: line-through;
+}
+.el-select-dropdown .el-select-dropdown__item.selected .field-options-remove-option-btn,
+.el-select-dropdown.deleteMode .el-select-dropdown__item.hover .field-options-remove-option-btn {
+  color: #fff;
 }
 
 .checkbox-edit-option-input input {

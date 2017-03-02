@@ -9,13 +9,17 @@
         <el-input placeholder="Field title" v-model="field.title"></el-input>
       </div>
       <span ref="selectContainer">
-        <el-select v-model="field.value" :popper-class="isCtrlSelect ? 'deleteMode' : null"
-          :filterable="!isCtrlSelect" :allow-create="true" placeholder="Select"
-          @change="onSelectChange" @visible-change="onSelectToggle">
+        <el-select v-model="field.value" :popper-class="isDeleteMode ? 'deleteMode' : null"
+          :filterable="true" :allow-create="true" placeholder="Select"
+          @change="onSelectChange">
           <el-option
-            v-for="o in field.options.options"
+            v-for="(o, i) in field.options.options"
             :label="o"
             :value="o">
+            {{ o }}
+            <span @mouseover="isDeleteMode = true" @mouseout="isDeleteMode = false">
+              <el-button class="el-button--link field-options-remove-option-btn" icon="close" size="mini" @click.stop="removeOption(i)"></el-button>
+            </span>
           </el-option>
         </el-select>
       </span>
@@ -29,38 +33,24 @@ export default {
   props: ['field', 'view'],
   methods: {
     removeOption(i) {
+      if (this.field.value === this.field.options.options[i]) {
+        this.field.value = ''
+      }
       this.field.options.options.splice(i, 1)
+      this.isDeleteMode = false
     },
     onSelectChange(option) {
-      if (option === '') {
+      if (option === '' || this.isDeleteMode) {
         return
-      } else if (this.isCtrlSelect) {
-        this.removeOption(_.indexOf(this.field.options.options, option), 1)
-        this.field.value = ''
       } else if (_.indexOf(this.field.options.options, option) === -1) {
         this.field.options.options.push(option)
-      }
-    },
-    onSelectToggle(is_open) {
-      if (is_open) {
-        this.$refs['selectContainer'].addEventListener("click", this.handleClick, false)
-      } else {
-        this.$refs['selectContainer'].removeEventListener("click", this.handleClick)
-        this.isCtrlSelect = false
-      }
-    },
-    handleClick(e) {
-      if (e.ctrlKey === true) {
-        this.isCtrlSelect = true
-      } else {
-        this.isCtrlSelect = false
       }
     }
   },
   data() {
     return {
       showOptions: false,
-      isCtrlSelect: false
+      isDeleteMode: false
     }
   }
 }
