@@ -22,26 +22,47 @@
 <script>
 
 export default {
-  props: ['field', 'view'],
+  props: ['field', 'view', 'filter'],
   computed: {
     availableUnits() {
-      return [
-        '',
-        'Gram',
-        'Kilogram',
-        'Ounce',
-        'Pound',
-        'Gallon',
-        'Centimeter',
-        'Meter',
-        'Kilometer',
-        'Inch',
-        'Foot',
-        'Yard',
-        'Mile',
-        'Hours',
-        'Minutes'
-      ]
+      switch (this.filter) {
+        case 'weight':
+          return [
+            'Gram',
+            'Kilogram',
+            'Ounce',
+            'Pound'
+          ]
+          break;
+        case 'length':
+          return [
+            'Centimeter',
+            'Meter',
+            'Kilometer',
+            'Inch',
+            'Foot',
+            'Yard',
+            'Mile'
+          ]
+          break;
+        default:
+          return [
+            'Gram',
+            'Kilogram',
+            'Ounce',
+            'Pound',
+            'Gallon',
+            'Centimeter',
+            'Meter',
+            'Kilometer',
+            'Inch',
+            'Foot',
+            'Yard',
+            'Mile',
+            'Hours',
+            'Minutes'
+          ]
+      }
     }
   }
 }

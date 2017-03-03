@@ -34,15 +34,14 @@
         <i class="el-icon-plus"></i> Add Field
       </el-button>
       <el-dropdown-menu slot="dropdown">
-        <el-dropdown-item command="units">Units</el-dropdown-item>
         <el-dropdown-item command="weight">Weight</el-dropdown-item>
         <el-dropdown-item command="length">Distance</el-dropdown-item>
-        <el-dropdown-item command="select">Select</el-dropdown-item>
-        <el-dropdown-item command="number">Number</el-dropdown-item>
         <el-dropdown-item command="text">Text</el-dropdown-item>
         <el-dropdown-item command="duration">Duration</el-dropdown-item>
         <el-dropdown-item command="rank_stars">Stars Rank</el-dropdown-item>
         <el-dropdown-item command="switch">Switch</el-dropdown-item>
+        <el-dropdown-item command="select">Select</el-dropdown-item>
+        <el-dropdown-item command="units">Units</el-dropdown-item>
       </el-dropdown-menu>
     </el-dropdown>
   </div>
@@ -85,11 +84,14 @@ export default {
     },
     fieldType(type) {
       switch (type) {
-        case 'units':
-          return 'Units'
+        case 'weight':
+          return 'Weight'
           break;
-        case 'checkbox':
-          return 'Checkbox'
+        case 'length':
+          return 'Length'
+          break;
+        case 'text':
+          return 'Text'
           break;
         case 'duration':
           return 'Duration'
@@ -97,23 +99,14 @@ export default {
         case 'rank_stars':
           return 'Rank'
           break;
-        case 'weight':
-          return 'Weight'
-          break;
-        case 'length':
-          return 'Length'
+        case 'switch':
+          return 'Switch'
           break;
         case 'select':
           return 'Select'
           break;
-        case 'number':
-          return 'Number'
-          break;
-        case 'text':
-          return 'Text'
-          break;
-        case 'switch':
-          return 'Switch'
+        case 'units':
+          return 'Units'
           break;
         default:
           return type
@@ -121,11 +114,14 @@ export default {
     },
     defaultValue(type) {
       switch (type) {
-        case 'units':
-          return { value: 0, options: { units: '' } }
+        case 'weight':
+          return { value: 70, options: { units: 'Kilogram' } }
           break;
-        case 'checkbox':
-          return { value: [], options: { options: [''] } }
+        case 'length':
+          return { value: 5, options: { units: 'Meter' } }
+          break;
+        case 'text':
+          return { title: 'Notes', value: '' }
           break;
         case 'duration':
           return { value: 0 }
@@ -133,22 +129,14 @@ export default {
         case 'rank_stars':
           return { value: 2.5 }
           break;
-        case 'weight':
-          return { value: 70, options: { units: 'kg' } }
+        case 'switch':
+          return { value: false }
           break;
-        case 'length':
-          return { value: 5, options: { units: 'm' } }
         case 'select':
           return { value: '', options: { options: [] } }
           break;
-        case 'number':
-          return { value: 0 }
-          break;
-        case 'text':
-          return { title: 'Notes', value: '' }
-          break;
-        case 'switch':
-          return { value: false }
+        case 'units':
+          return { value: 0, options: { units: '' } }
           break;
         default:
           return {}
