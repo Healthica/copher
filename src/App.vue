@@ -49,6 +49,7 @@ html, body {
   -webkit-box-sizing: border-box;
   -moz-box-sizing: border-box;
   box-sizing: border-box;
+  transition: none !important;
 }
 html, body, input, textarea, button, select {
   font-family: 'Open Sans', sans-serif;
@@ -182,6 +183,9 @@ a.no-link:hover {
 .eventModalTitle input:not(:focus), .eventModalHeader .el-date-editor input:not(:focus) {
   border: 1px solid transparent;
 }
+.eventModalTitle input:not(:focus):hover, .eventModalHeader .el-date-editor input:not(:focus):hover {
+  border: 1px solid #D2D7E5;
+}
 .eventModalHeader .el-date-editor {
   width: 160px;
 }
@@ -203,6 +207,9 @@ a.no-link:hover {
 .event-modal-field-header input:not(:focus) {
   border: 1px solid transparent;
   background: none;
+}
+.event-modal-field-header input:not(:focus):hover {
+  border: 1px solid #D2D7E5;
 }
 .event-modal-field-header input{
   font-weight: bold;
