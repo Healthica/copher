@@ -1,0 +1,63 @@
+<template>
+  <span>
+    <div v-if="view === 'row'" class="event-row-field">
+      <div class="event-row-field-header">{{ field.title }}</div>
+      {{ field.value }} {{ field.options.units }}
+    </div>
+    <div v-else-if="view === 'modal'" class="event-modal-field">
+      <div class="event-modal-field-header">
+        <el-input placeholder="Field title" v-model="field.title"></el-input>
+      </div>
+      <span class="units-field-values-container">
+        <el-input-number v-model="field.value" :controls="false"></el-input-number>
+        <el-select v-model="field.options.units"
+          :filterable="true" :allow-create="true" placeholder="Units">
+          <el-option v-for="o in availableUnits" :label="o" :value="o"></el-option>
+        </el-select>
+      </span>
+    </div>
+  </span>
+</template>
+
+<script>
+
+export default {
+  props: ['field', 'view'],
+  computed: {
+    availableUnits() {
+      return [
+        '',
+        'Gram',
+        'Kilogram',
+        'Ounce',
+        'Pound',
+        'Gallon',
+        'Centimeter',
+        'Meter',
+        'Kilometer',
+        'Inch',
+        'Foot',
+        'Yard',
+        'Mile',
+        'Hours',
+        'Minutes'
+      ]
+    }
+  }
+}
+</script>
+
+<style>
+.units-field-values-container {
+  display: flex;
+}
+.units-field-values-container .el-input-number input {
+  border-top-right-radius: 0;
+  border-bottom-right-radius: 0;
+}
+.units-field-values-container .el-select input {
+  border-top-left-radius: 0;
+  border-bottom-left-radius: 0;
+  border-left: 0 solid transparent;
+}
+</style>

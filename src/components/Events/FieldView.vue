@@ -1,6 +1,7 @@
 <template>
   <span v-if="has_value" class="field" :class="{'field-hover-delete': deleteHover}">
     <duration v-if="field.type === 'duration'" :field="field" :view="view"></duration>
+    <units-field v-else-if="field.type === 'units'" :field="field" :view="view"></units-field>
     <checkbox v-else-if="field.type === 'checkbox'" :field="field" :view="view"></checkbox>
     <rank-stars v-else-if="field.type === 'rank_stars'" :field="field" :view="view"></rank-stars>
     <weight v-else-if="field.type === 'weight'" :field="field" :view="view"></weight>
@@ -19,6 +20,7 @@
 <script>
 
 import Duration from './FieldTypes/Duration'
+import UnitsField from './FieldTypes/Units'
 import Checkbox from './FieldTypes/Checkbox'
 import RankStars from './FieldTypes/RankStars'
 import Weight from './FieldTypes/Weight'
@@ -32,6 +34,7 @@ export default {
   props: ['field', 'view'],
   components: {
     Duration,
+    UnitsField,
     Checkbox,
     RankStars,
     Weight,

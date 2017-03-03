@@ -34,6 +34,7 @@
         <i class="el-icon-plus"></i> Add Field
       </el-button>
       <el-dropdown-menu slot="dropdown">
+        <el-dropdown-item command="units">Units</el-dropdown-item>
         <el-dropdown-item command="weight">Weight</el-dropdown-item>
         <el-dropdown-item command="length">Distance</el-dropdown-item>
         <el-dropdown-item command="select">Select</el-dropdown-item>
@@ -84,6 +85,9 @@ export default {
     },
     fieldType(type) {
       switch (type) {
+        case 'units':
+          return 'Units'
+          break;
         case 'checkbox':
           return 'Checkbox'
           break;
@@ -117,6 +121,9 @@ export default {
     },
     defaultValue(type) {
       switch (type) {
+        case 'units':
+          return { value: 0, options: { units: '' } }
+          break;
         case 'checkbox':
           return { value: [], options: { options: [''] } }
           break;
