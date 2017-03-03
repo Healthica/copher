@@ -34,14 +34,13 @@
         <i class="el-icon-plus"></i> Add Field
       </el-button>
       <el-dropdown-menu slot="dropdown">
-        <el-dropdown-item command="checkbox">Checkbox</el-dropdown-item>
-        <el-dropdown-item command="duration">Duration</el-dropdown-item>
-        <el-dropdown-item command="rank_stars">Stars Rank</el-dropdown-item>
         <el-dropdown-item command="weight">Weight</el-dropdown-item>
-        <el-dropdown-item command="length">Length</el-dropdown-item>
+        <el-dropdown-item command="length">Distance</el-dropdown-item>
         <el-dropdown-item command="select">Select</el-dropdown-item>
         <el-dropdown-item command="number">Number</el-dropdown-item>
         <el-dropdown-item command="text">Text</el-dropdown-item>
+        <el-dropdown-item command="duration">Duration</el-dropdown-item>
+        <el-dropdown-item command="rank_stars">Stars Rank</el-dropdown-item>
         <el-dropdown-item command="switch">Switch</el-dropdown-item>
       </el-dropdown-menu>
     </el-dropdown>
