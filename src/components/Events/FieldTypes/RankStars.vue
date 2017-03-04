@@ -9,7 +9,7 @@
         <el-input placeholder="Field title" v-model="field.title"></el-input>
       </div>
       <div class="event-modal-field-content">
-        <el-rate v-model="field.value" :allow-half="true"></el-rate>
+        <el-rate v-model="field.value" :allow-half="true" :colors="['#838C91','#838C91','#838C91']"></el-rate>
       </div>
     </div>
   </span>
