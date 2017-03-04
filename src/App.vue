@@ -254,6 +254,53 @@ a.no-link:hover {
   color: #fff;
 }
 
+.duration-field-container {
+  display: flex;
+  position: relative;
+}
+.duration-field-hours-select, .duration-field-minutes-select {
+  max-width: 120px;
+}
+.duration-field-hours-select i, .duration-field-minutes-select i {
+  display: none;
+}
+.duration-field-hours-select input {
+  text-align: right;
+  border-top-right-radius: 0;
+  border-bottom-right-radius: 0;
+  padding-right: 10px !important;
+  border-right: 0 solid transparent;
+}
+.duration-field-minutes-select input {
+  border-top-left-radius: 0;
+  border-bottom-left-radius: 0;
+  border-left: 0 solid transparent;
+  padding-right: 10px !important;
+}
+.duration-field-container:not(:hover):not(:focus) .duration-field-hours-label,
+.duration-field-container:not(:hover):not(:focus) .duration-field-minutes-label {
+  display: none;
+}
+.duration-field-hours-label, .duration-field-minutes-label, .duration-field-separator-label {
+  position: absolute;
+  height: 100%;
+  line-height: 36px;
+  pointer-events: none;
+}
+.duration-field-hours-label, .duration-field-minutes-label {
+  font-size: 12px;
+  color: #838C91;
+}
+.duration-field-hours-label {
+  left: 10px;
+}
+.duration-field-minutes-label {
+  right: 10px;
+}
+.duration-field-separator-label {
+  left: 50%;
+}
+
 .checkbox-edit-option-input input {
   padding: 12px 6px;
   height: 24px;
