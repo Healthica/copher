@@ -1,78 +1,90 @@
 <template>
-  <div class="dashboard">
-    <el-button @click="addNewChart" class="new-chart-btn" type="success">Create New Chart</el-button>
-    <div class="charts-list">
-      <el-card class="chart-card" v-for="(c, i) in dashboard.charts">
-        <div slot="header" class="header clearfix">
-          <span @click="chartZoomin(c, i)">
-            {{ c.title }}
-          </span>
-          <el-dropdown class="chart-dropdown" trigger="click" @command="dropdownSelect">
-            <span class="el-dropdown-link">
-              <el-button class="chart-dropdown-trigger" type="text"><i class="el-icon-more"></i></el-button>
-            </span>
-            <el-dropdown-menu slot="dropdown">
-              <el-dropdown-item :command="'edit-' + i">Edit</el-dropdown-item>
-              <el-dropdown-item :command="'duplicate-' + i">Duplicate</el-dropdown-item>
-              <el-dropdown-item :command="'delete-' + i">Delete</el-dropdown-item>
-            </el-dropdown-menu>
-          </el-dropdown>
+  <div>
+    <div v-if="notEnoughData" class="dashboard">
+      <div class="dashboard-no-data-message">
+        <div class="dashboard-no-data-message-content">
+          <h2 class="text-light">Not Enough Data</h2>
+          <p>
+            Come back later after you add some events to your log!
+          </p>
         </div>
-        <events-chart :events="events.data" :options="c" view="preview" @zoom="chartZoomin(c, i)"></events-chart>
-      </el-card>
-    </div>
-    <el-dialog v-model="chartFullScreenModalVisible" size="full">
-      <div :style="fullScreenModalStyle">
-        <events-chart :events="events.data" :options="dashboard.charts[chartEditId]" view="full"></events-chart>
       </div>
-    </el-dialog>
-    <el-dialog v-model="chartEditModalVisible" size="tiny" :close-on-click-modal="false" :show-close="false">
-      <el-form label-width="100px" label-position="left">
-        <el-form-item label="Title">
-          <el-input v-model="chosenChartCopy.title"></el-input>
-        </el-form-item>
-        <el-form-item label="Chart Type">
-          <el-select v-model="chosenChartCopy.type">
-            <el-option label="Line" value="line"></el-option>
-            <el-option label="Bar" value="bar" :disabled="true"></el-option>
-            <el-option label="Histogram" value="histogram" :disabled="true"></el-option>
-          </el-select>
-        </el-form-item>
-        <el-form-item label="Group By">
-          <el-select v-model="chosenChartCopy.group_by">
-            <el-option label="Hour" value="hour"></el-option>
-            <el-option label="Day" value="day"></el-option>
-            <el-option label="Week" value="week"></el-option>
-            <el-option label="Month" value="month"></el-option>
-          </el-select>
-        </el-form-item>
-        <el-form-item label="Group Value">
-          <el-select v-model="chosenChartCopy.group_value">
-            <el-option label="Sum" value="sum"></el-option>
-            <el-option label="Average" value="average"></el-option>
-            <el-option label="Median" value="median" :disabled="true"></el-option>
-          </el-select>
-        </el-form-item>
-        <el-form-item label="Span">
-          <el-input v-model="chosenChartCopy.range">
-            <template slot="append">{{ chosenChartCopy.group_by }}s</template>
-          </el-input>
-        </el-form-item>
-        <el-form-item label="Datasets">
-          <div v-for="(d, m) in chosenChartCopy.datasets" class="chart-edit-dataset-item">
-            <el-input v-model="d.label"><template slot="prepend">Label</template></el-input>
-            <el-input v-model="d.event_match"><template slot="prepend">Event</template></el-input>
-            <el-input v-model="d.field_match"><template slot="prepend">Field</template></el-input>
-            <el-button class="chart-delete-dataset-btn el-button--link" icon="close" size="mini" @click="deleteDataset(m)">Delete</el-button>
+    </div>
+    <div v-else class="dashboard">
+      <el-button @click="addNewChart" class="new-chart-btn" type="success">Create New Chart</el-button>
+      <div class="charts-list">
+        <el-card class="chart-card" v-for="(c, i) in dashboard.charts">
+          <div slot="header" class="header clearfix">
+            <span @click="chartZoomin(c, i)">
+              {{ c.title }}
+            </span>
+            <el-dropdown class="chart-dropdown" trigger="click" @command="dropdownSelect">
+              <span class="el-dropdown-link">
+                <el-button class="chart-dropdown-trigger" type="text"><i class="el-icon-more"></i></el-button>
+              </span>
+              <el-dropdown-menu slot="dropdown">
+                <el-dropdown-item :command="'edit-' + i">Edit</el-dropdown-item>
+                <el-dropdown-item :command="'duplicate-' + i">Duplicate</el-dropdown-item>
+                <el-dropdown-item :command="'delete-' + i">Delete</el-dropdown-item>
+              </el-dropdown-menu>
+            </el-dropdown>
           </div>
-          <el-button class="chart-add-dataset-btn el-button--link" icon="plus" size="mini" @click="addDataset">Add Dataset</el-button>
-        </el-form-item>
-      </el-form>
-      <span slot="footer" class="dialog-footer">
-        <el-button @click="chartEditModalVisible = false">Cancel</el-button>
-        <el-button type="primary" @click="saveChartChanges">Save</el-button>
-      </span>
-    </el-dialog>
+          <events-chart :events="events.data" :options="c" view="preview" @zoom="chartZoomin(c, i)"></events-chart>
+        </el-card>
+      </div>
+      <el-dialog v-model="chartFullScreenModalVisible" size="full">
+        <div :style="fullScreenModalStyle">
+          <events-chart :events="events.data" :options="dashboard.charts[chartEditId]" view="full"></events-chart>
+        </div>
+      </el-dialog>
+      <el-dialog v-model="chartEditModalVisible" size="tiny" :close-on-click-modal="false" :show-close="false">
+        <el-form label-width="100px" label-position="left">
+          <el-form-item label="Title">
+            <el-input v-model="chosenChartCopy.title"></el-input>
+          </el-form-item>
+          <el-form-item label="Chart Type">
+            <el-select v-model="chosenChartCopy.type">
+              <el-option label="Line" value="line"></el-option>
+              <el-option label="Bar" value="bar" :disabled="true"></el-option>
+              <el-option label="Histogram" value="histogram" :disabled="true"></el-option>
+            </el-select>
+          </el-form-item>
+          <el-form-item label="Group By">
+            <el-select v-model="chosenChartCopy.group_by">
+              <el-option label="Hour" value="hour"></el-option>
+              <el-option label="Day" value="day"></el-option>
+              <el-option label="Week" value="week"></el-option>
+              <el-option label="Month" value="month"></el-option>
+            </el-select>
+          </el-form-item>
+          <el-form-item label="Group Value">
+            <el-select v-model="chosenChartCopy.group_value">
+              <el-option label="Sum" value="sum"></el-option>
+              <el-option label="Average" value="average"></el-option>
+              <el-option label="Median" value="median" :disabled="true"></el-option>
+            </el-select>
+          </el-form-item>
+          <el-form-item label="Span">
+            <el-input v-model="chosenChartCopy.range">
+              <template slot="append">{{ chosenChartCopy.group_by }}s</template>
+            </el-input>
+          </el-form-item>
+          <el-form-item label="Datasets">
+            <div v-for="(d, m) in chosenChartCopy.datasets" class="chart-edit-dataset-item">
+              <el-input v-model="d.label"><template slot="prepend">Label</template></el-input>
+              <el-input v-model="d.event_match"><template slot="prepend">Event</template></el-input>
+              <el-input v-model="d.field_match"><template slot="prepend">Field</template></el-input>
+              <el-button class="chart-delete-dataset-btn el-button--link" icon="close" size="mini" @click="deleteDataset(m)">Delete</el-button>
+            </div>
+            <el-button class="chart-add-dataset-btn el-button--link" icon="plus" size="mini" @click="addDataset">Add Dataset</el-button>
+          </el-form-item>
+        </el-form>
+        <span slot="footer" class="dialog-footer">
+          <el-button @click="chartEditModalVisible = false">Cancel</el-button>
+          <el-button type="primary" @click="saveChartChanges">Save</el-button>
+        </span>
+      </el-dialog>
+    </div>
   </div>
 </template>
 
@@ -89,6 +101,9 @@ export default {
       return {
         width: Math.max(Math.min(w, h), 300) + 'px'
       }
+    },
+    notEnoughData() {
+      return this.events.data.length < 10
     }
   },
   methods: {
@@ -182,6 +197,23 @@ export default {
   height: 100%;
   overflow-y: scroll;
   background-color: #EDEFF4;
+}
+.dashboard-no-data-message {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 60px;
+}
+.dashboard-no-data-message-content {
+  width: 100%;
+  max-width: 400px;
+  padding: 24px 48px;
+  text-align: center;
+  background-color: #E2E4E6;
+}
+.dashboard-no-data-message-content h2 {
+  font-size: 20px;
+  color: #838C91;
 }
 .new-chart-btn {
   float:right;
