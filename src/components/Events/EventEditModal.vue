@@ -34,10 +34,11 @@
         <i class="el-icon-plus"></i> Add Field
       </el-button>
       <el-dropdown-menu slot="dropdown">
-        <el-dropdown-item command="weight">Weight</el-dropdown-item>
-        <el-dropdown-item command="length">Distance</el-dropdown-item>
         <el-dropdown-item command="text">Text</el-dropdown-item>
         <el-dropdown-item command="duration">Duration</el-dropdown-item>
+        <el-dropdown-item command="intensity">Intensity</el-dropdown-item>
+        <el-dropdown-item command="weight">Weight</el-dropdown-item>
+        <el-dropdown-item command="length">Distance</el-dropdown-item>
         <el-dropdown-item command="rank_stars">Stars Rank</el-dropdown-item>
         <el-dropdown-item command="switch">Switch</el-dropdown-item>
         <el-dropdown-item command="select">Select</el-dropdown-item>
@@ -84,17 +85,20 @@ export default {
     },
     fieldType(type) {
       switch (type) {
-        case 'weight':
-          return 'Weight'
-          break;
-        case 'length':
-          return 'Length'
-          break;
         case 'text':
           return 'Text'
           break;
         case 'duration':
           return 'Duration'
+          break;
+        case 'intensity':
+          return 'Intensity'
+          break;
+        case 'weight':
+          return 'Weight'
+          break;
+        case 'length':
+          return 'Length'
           break;
         case 'rank_stars':
           return 'Rank'
@@ -114,17 +118,20 @@ export default {
     },
     defaultValue(type) {
       switch (type) {
-        case 'weight':
-          return { value: 70, options: { units: 'Kilogram' } }
-          break;
-        case 'length':
-          return { value: 5, options: { units: 'Meter' } }
-          break;
         case 'text':
           return { title: 'Notes', value: '' }
           break;
         case 'duration':
           return { value: 0 }
+          break;
+        case 'intensity':
+          return { value: 1, options: { options: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10], customOptions: false } }
+          break;
+        case 'weight':
+          return { value: 70, options: { units: 'Kilogram' } }
+          break;
+        case 'length':
+          return { value: 5, options: { units: 'Meter' } }
           break;
         case 'rank_stars':
           return { value: 2.5 }

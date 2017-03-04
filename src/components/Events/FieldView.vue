@@ -1,9 +1,10 @@
 <template>
   <span v-if="has_value" class="field" :class="{'field-hover-delete': deleteHover}">
-    <units-field  v-if      = "field.type === 'weight'"     :field="field" :view="view" filter="weight"></units-field>
-    <units-field  v-else-if = "field.type === 'length'"     :field="field" :view="view" filter="length"></units-field>
-    <text-field   v-else-if = "field.type === 'text'"       :field="field" :view="view"></text-field>
+    <text-field   v-if      = "field.type === 'text'"       :field="field" :view="view"></text-field>
     <duration     v-else-if = "field.type === 'duration'"   :field="field" :view="view"></duration>
+    <select-field v-else-if = "field.type === 'intensity'"  :field="field" :view="view"></select-field>
+    <units-field  v-else-if = "field.type === 'weight'"     :field="field" :view="view" filter="weight"></units-field>
+    <units-field  v-else-if = "field.type === 'length'"     :field="field" :view="view" filter="length"></units-field>
     <rank-stars   v-else-if = "field.type === 'rank_stars'" :field="field" :view="view"></rank-stars>
     <switch-field v-else-if = "field.type === 'switch'"     :field="field" :view="view"></switch-field>
     <select-field v-else-if = "field.type === 'select'"     :field="field" :view="view"></select-field>

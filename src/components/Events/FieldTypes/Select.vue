@@ -10,14 +10,14 @@
       </div>
       <span ref="selectContainer">
         <el-select v-model="field.value" :popper-class="isDeleteMode ? 'deleteMode' : null"
-          :filterable="true" :allow-create="true" placeholder="Select"
+          :filterable="allowCustomOptions" :allow-create="allowCustomOptions" placeholder="Select"
           @change="onSelectChange">
           <el-option
             v-for="(o, i) in field.options.options"
             :label="o"
             :value="o">
             {{ o }}
-            <span @mouseover="isDeleteMode = true" @mouseout="isDeleteMode = false">
+            <span v-if="allowCustomOptions" @mouseover="isDeleteMode = true" @mouseout="isDeleteMode = false">
               <el-button class="el-button--link field-options-remove-option-btn" icon="close" size="mini" @click.stop="removeOption(i)"></el-button>
             </span>
           </el-option>
@@ -31,6 +31,15 @@
 
 export default {
   props: ['field', 'view'],
+  computed: {
+    allowCustomOptions() {
+      if (_.has(this.field.options, 'customOptions')) {
+        return this.field.options.customOptions
+      } else {
+        return true
+      }
+    }
+  },
   methods: {
     removeOption(i) {
       if (this.field.value === this.field.options.options[i]) {
