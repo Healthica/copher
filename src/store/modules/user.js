@@ -25,9 +25,15 @@ const mutations = {
     state.status = status
   },
   [types.SET_USER] (state, user) {
-    state.id = user.id
-    state.name = user.name
-    state.is_guest = (_.has(user, 'auth_by') && user.auth_by !== 'none') ? false : true
+    if (user.id) {
+      state.id = user.id
+    }
+    if (user.name) {
+      state.name = user.name
+    }
+    if (_.has(user, 'auth_by')) {
+      state.is_guest = user.auth_by !== 'none' ? false : true
+    }
   }
 }
 

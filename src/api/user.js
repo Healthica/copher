@@ -17,6 +17,11 @@ export default {
       name: name
     }, true)
   },
+  update({ name }) {
+    return API.post('profile/update', {
+      name: name
+    })
+  },
   getUser() {
     return API.get('user')
   }
