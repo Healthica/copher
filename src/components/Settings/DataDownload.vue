@@ -8,7 +8,7 @@
         <el-checkbox label="Settings"></el-checkbox>
       </el-checkbox-group>
     </el-form>
-    <el-button type="default" @click="onDownload">Download</el-button>
+    <el-button type="default" @click="onDownload" :disabled="fields.length === 0">Download</el-button>
     <iframe ref="download_iframe" style="display:none;"></iframe>
   </div>
 </template>

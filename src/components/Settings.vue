@@ -1,16 +1,16 @@
 <template>
   <div class="settings">
     <profile></profile>
-    <data-section></data-section>
+    <data-download></data-download>
   </div>
 </template>
 
 <script>
 import Profile from './Settings/Profile'
-import DataSection from './Settings/Data'
+import DataDownload from './Settings/DataDownload'
 
 export default {
-  components: { Profile, DataSection }
+  components: { Profile, DataDownload }
 }
 </script>
 
