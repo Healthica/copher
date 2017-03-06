@@ -160,18 +160,22 @@ a.no-link:hover {
 }
 
 .event-row-field {
-  display: inline-block;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-flow: column;
   position: relative;
   color: #BD903C;
+  height: 100%;
 }
 .event-row-field-header {
   font-size: 10px;
   line-height: 10px;
-  position: absolute;
-  top: 7px;
-  left: 50%;
-  transform: translateX(-50%);
-  color: #CCA42B;
+  opacity: 0.5;
+}
+.event-row-field-value {
+  height: 36px;
+  line-height: 36px;
 }
 
 .eventModal {

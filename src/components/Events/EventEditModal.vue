@@ -39,7 +39,7 @@
         <el-dropdown-item command="intensity">Intensity</el-dropdown-item>
         <el-dropdown-item command="weight">Weight</el-dropdown-item>
         <el-dropdown-item command="length">Distance</el-dropdown-item>
-        <el-dropdown-item command="rank_stars">Stars Rank</el-dropdown-item>
+        <el-dropdown-item command="rank_stars">Stars</el-dropdown-item>
         <el-dropdown-item command="switch">Switch</el-dropdown-item>
         <el-dropdown-item command="select">Select</el-dropdown-item>
         <el-dropdown-item command="units">Units</el-dropdown-item>

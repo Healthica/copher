@@ -2,7 +2,7 @@
   <span>
     <div v-if="view === 'row'" class="event-row-field">
       <div class="event-row-field-header">{{ field.title }}</div>
-      {{ field.value.replace("\n", ' ') }}
+      <div class="event-row-field-value">{{ field.value.replace("\n", ' ') }}</div>
     </div>
     <div v-else-if="view === 'modal'" class="event-modal-field">
       <div class="event-modal-field-header">
@@ -25,7 +25,7 @@ export default {
 </script>
 
 <style scoped>
-.event-row-field {
+.event-row-field-value {
   max-width: 180px;
   overflow: hidden;
   text-overflow: ellipsis;
