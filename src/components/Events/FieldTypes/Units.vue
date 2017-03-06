@@ -59,8 +59,13 @@ export default {
             'Foot',
             'Yard',
             'Mile',
+            'Teaspoon',
+            'Spoon',
+            'Cup',
             'Hours',
-            'Minutes'
+            'Minutes',
+            'Celsius',
+            'Fahrenheit'
           ]
       }
     }
