@@ -3,6 +3,9 @@ import axios from 'axios'
 const API_BASE_URL = process.env.NODE_ENV === 'production' ? '//' : 'http://localhost:3013/'
 
 export default {
+  baseUrl() {
+    return API_BASE_URL
+  },
   get(url, params) {
     return new Promise((resolve, reject) => {
       axios({

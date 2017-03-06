@@ -24,5 +24,10 @@ export default {
   },
   getUser() {
     return API.get('user')
+  },
+  downloadDataUrl(fields) {
+    const query = Object.keys(fields)
+      .map(k => encodeURIComponent(k) + '=' + encodeURIComponent(fields[k])).join('&')
+    return API.baseUrl() + 'download' + '?' + query
   }
 }
