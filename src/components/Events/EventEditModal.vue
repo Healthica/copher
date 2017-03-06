@@ -65,8 +65,7 @@ export default {
   data() {
     return {
       editMode: false,
-      showSaved: false,
-      justOpenedModal: true
+      showSaved: false
     }
   },
   computed: {
@@ -178,27 +177,13 @@ export default {
       this.event._isDeleted = true
       this.close()
       this.$store.dispatch('deleteEvent', this.event)
+    },
+    blinkSavedText() {
+      this.showSaved = true
+      window.setTimeout(() => {
+        this.showSaved = false
+      }, 2000)
     }
-  },
-  watch: {
-    event: {
-      handler: function() {
-        if (this.justOpenedModal) {
-          return
-        }
-        this.showSaved = true
-        window.setTimeout(() => {
-          this.showSaved = false
-        }, 2000)
-      },
-      deep: true
-    }
-  },
-  created() {
-    // Ugly workaround to prevent $watch from firing when the modal is opened
-    window.setTimeout(() => {
-      this.justOpenedModal = false
-    }, 100)
   }
 }
 </script>

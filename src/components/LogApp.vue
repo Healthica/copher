@@ -13,7 +13,7 @@
       <event-row v-for="e in day.events" :event="e" :clickHandler="showEditEventModal" @duplicateEvent="duplicateEvent"></event-row>
     </ul>
     <el-dialog custom-class="eventModal" v-model="eventModalVisible" @close="onCloseEditEventModal" size="large">
-      <event-edit-modal :event="eventCopy" @close="closeEditEventModal" @duplicateEvent="duplicateEvent"></event-edit-modal>
+      <event-edit-modal :event="eventCopy" @close="closeEditEventModal" @duplicateEvent="duplicateEvent" ref="EventEditModal"></event-edit-modal>
     </el-dialog>
   </div>
 </template>
@@ -86,6 +86,7 @@ export default {
     },
     onChangeEventField(e) {
       this.$store.dispatch('setEvent', e)
+      this.$refs.EventEditModal.blinkSavedText()
     },
     duplicateEvent(e) {
       const _id = uuid.v4()
