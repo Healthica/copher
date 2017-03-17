@@ -116,6 +116,7 @@ export default {
   padding-top: 72px;
   height: 100%;
   overflow-y: scroll;
+  background-color: #fff;
 }
 .log-app::-webkit-scrollbar {
   display: none;
