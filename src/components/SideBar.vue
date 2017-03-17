@@ -122,7 +122,7 @@ import User from '../api/user'
       logout() {
         this.profile_menu_visible = false
         User.logout().then(({ success }) => {
-          location.reload()
+          location.href = '/'
         }).catch(payload => {
           console.log('payload', payload)
         })
