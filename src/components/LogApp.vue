@@ -15,6 +15,9 @@
     <el-dialog custom-class="eventModal" v-model="eventModalVisible" @close="onCloseEditEventModal" size="large">
       <event-edit-modal :event="eventCopy" @close="closeEditEventModal" @duplicateEvent="duplicateEvent" ref="EventEditModal"></event-edit-modal>
     </el-dialog>
+    <el-dialog v-model="onboardingModalVisible" @close="closeOnboarding">
+      Welcome!
+    </el-dialog>
   </div>
 </template>
 
@@ -36,11 +39,12 @@ export default {
     return {
       eventModalVisible: false,
       eventCopy: {},
-      eventCopyUnwatcher: null
+      eventCopyUnwatcher: null,
+      onboardingModalVisible: false
     }
   },
   computed: {
-    ...mapGetters(['events']),
+    ...mapGetters(['events', 'user']),
     sortedEvents(state) {
       const sortedEvents = _.sortBy(state.events.data, [ o => -moment(o.time).valueOf() ])
       const days = []
@@ -84,6 +88,9 @@ export default {
         this.$store.dispatch('updateEventAddTransaction', _.cloneDeep(this.eventCopy))
       }
     },
+    closeOnboarding() {
+      this.$store.dispatch('setUser', { show_onboarding: false })
+    },
     onChangeEventField(e) {
       this.$store.dispatch('setEvent', e)
       this.$refs.EventEditModal.blinkSavedText()
@@ -105,6 +112,17 @@ export default {
       } else {
         this.$store.dispatch('resumeSync')
       }
+    }
+  },
+  mounted() {
+    if (this.user.show_onboarding === true) {
+      this.onboardingModalVisible = true
+    } else {
+      this.$store.watch((state) => state.user.show_onboarding, (show_onboarding) => {
+        if (show_onboarding === true) {
+          this.onboardingModalVisible = true
+        }
+      })
     }
   }
 }

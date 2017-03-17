@@ -8,7 +8,8 @@ const state = {
   name: 'Guest',
   is_guest: true,
   settings: {},
-  status: 'offline'
+  status: 'offline',
+  show_onboarding: false
 }
 
 const actions = {
@@ -30,6 +31,9 @@ const mutations = {
     }
     if (user.name) {
       state.name = user.name
+    }
+    if (user.show_onboarding) {
+      state.show_onboarding = user.show_onboarding
     }
     if (_.has(user, 'auth_by')) {
       state.is_guest = user.auth_by !== 'none' ? false : true
