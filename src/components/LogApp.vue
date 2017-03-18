@@ -15,8 +15,8 @@
     <el-dialog custom-class="eventModal" v-model="eventModalVisible" @close="onCloseEditEventModal" size="large">
       <event-edit-modal :event="eventCopy" @close="closeEditEventModal" @duplicateEvent="duplicateEvent" ref="EventEditModal"></event-edit-modal>
     </el-dialog>
-    <el-dialog custom-class="onboardingModal" v-model="onboardingModalVisible" @close="closeOnboarding" size="tiny" :close-on-click-modal="false">
-      <el-carousel trigger="click" height="500px" :autoplay="false" arrow="always">
+    <el-dialog :custom-class="`onboardingModal ${onboardingModalIndex===0?'hiddenPrev':(onboardingModalIndex===2?'hiddenNext':'')}`" v-model="onboardingModalVisible" @close="closeOnboarding" size="tiny" :close-on-click-modal="false">
+      <el-carousel trigger="click" height="500px" :autoplay="false" arrow="always" @change="changeOnboarding" >
         <el-carousel-item>
           <img src="https://d13yacurqjgara.cloudfront.net/users/39185/screenshots/2741760/pi2zza_1x.jpg">
           <h3>Log Everything</h3>
@@ -64,7 +64,8 @@ export default {
       eventModalVisible: false,
       eventCopy: {},
       eventCopyUnwatcher: null,
-      onboardingModalVisible: false
+      onboardingModalVisible: false,
+      onboardingModalIndex: 0
     }
   },
   computed: {
@@ -114,6 +115,9 @@ export default {
     },
     closeOnboarding() {
       this.$store.dispatch('setUser', { show_onboarding: false })
+    },
+    changeOnboarding(index) {
+      this.onboardingModalIndex = index
     },
     onChangeEventField(e) {
       this.$store.dispatch('setEvent', e)
@@ -264,6 +268,10 @@ export default {
 }
 .onboardingModal .el-carousel__item p {
   padding: 0 24px;
+}
+.onboardingModal.hiddenPrev .el-carousel__arrow--left,
+.onboardingModal.hiddenNext .el-carousel__arrow--right {
+  display: none;
 }
 .onboardingModal .el-carousel__item:nth-of-type(1) {
   color: #fff;
