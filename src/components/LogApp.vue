@@ -15,8 +15,32 @@
     <el-dialog custom-class="eventModal" v-model="eventModalVisible" @close="onCloseEditEventModal" size="large">
       <event-edit-modal :event="eventCopy" @close="closeEditEventModal" @duplicateEvent="duplicateEvent" ref="EventEditModal"></event-edit-modal>
     </el-dialog>
-    <el-dialog v-model="onboardingModalVisible" @close="closeOnboarding">
-      Welcome!
+    <el-dialog custom-class="onboardingModal" v-model="onboardingModalVisible" @close="closeOnboarding" size="tiny" :close-on-click-modal="false">
+      <el-carousel trigger="click" height="500px" :autoplay="false" arrow="always">
+        <el-carousel-item>
+          <img src="https://d13yacurqjgara.cloudfront.net/users/39185/screenshots/2741760/pi2zza_1x.jpg">
+          <h3>Log Everything</h3>
+          <p>
+            With Veeta you can record any piece of information - just type it and hit Enter
+          </p>
+        </el-carousel-item>
+        <el-carousel-item>
+          <img src="https://d13yacurqjgara.cloudfront.net/users/39185/screenshots/2448264/ghost_1x.jpg">
+          <h3>Flexible Events</h3>
+          <p>
+            When viewing an event, everything is editable - add your own fields, and set your own titles
+          </p>
+        </el-carousel-item>
+        <el-carousel-item>
+          <img src="https://d13yacurqjgara.cloudfront.net/users/39185/screenshots/3175265/snowman_1x.jpg">
+          <h3>Play Around</h3>
+          <p>
+            Veeta is simple, but powerful. After you get the basics, we highly recommend to watch our Best Practices video.
+          </p>
+          <el-button type="primary" @click="onboardingModalClose">Okay, let's start!</el-button>
+        </el-carousel-item>
+        <el-button class="onboardingModalSkip" type="text" @click="onboardingModalClose">Skip</el-button>
+      </el-carousel>
     </el-dialog>
   </div>
 </template>
@@ -103,6 +127,9 @@ export default {
       }))
       this.$store.dispatch('syncEvents')
       this.showEditEventModal(_id)
+    },
+    onboardingModalClose(e) {
+      this.onboardingModalVisible = false
     }
   },
   watch: {
@@ -128,7 +155,7 @@ export default {
 }
 </script>
 
-<style scoped>
+<style>
 .log-app {
   padding-bottom: 1px;
   padding-top: 72px;
@@ -224,5 +251,45 @@ export default {
 
 .eventModal .el-dialog__header {
   display: none;
+}
+
+.onboardingModal {
+  text-align: center;
+}
+.onboardingModal .el-dialog__header {
+  display: none;
+}
+.onboardingModal .el-dialog__body {
+  padding: 0;
+}
+.onboardingModal .el-carousel__item p {
+  padding: 0 24px;
+}
+.onboardingModal .el-carousel__item:nth-of-type(1) {
+  color: #fff;
+  background-color: #0079BF;
+}
+.onboardingModal .el-carousel__item:nth-of-type(2) {
+  color: #fff;
+  background-color: #61BD4F;
+}
+.onboardingModal .el-carousel__item:nth-of-type(3) {
+  color: #fff;
+  background-color: #A86CC1;
+}
+.onboardingModal img {
+  width: 100%;
+  max-height: 270px;
+}
+.onboardingModalSkip {
+  color: #fff;
+  opacity: 0.5;
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  padding: 12px 24px;
+}
+.onboardingModalSkip:hover {
+  opacity: 1;
 }
 </style>
