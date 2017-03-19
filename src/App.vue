@@ -91,6 +91,20 @@ a.no-link {
 a.no-link:hover {
   opacity: 1;
 }
+@media screen and (max-width: 768px) {
+  .left-nav {
+    z-index: 1100;
+    left: -182px;
+    transition: left 0.1s ease-in-out !important;
+    will-change: left;
+  }
+  .left-nav.open {
+    left: 0;
+  }
+  .right-pane {
+    margin-left: 0;
+  }
+}
 
 .el-button--link {
   border: 0 solid transparent;

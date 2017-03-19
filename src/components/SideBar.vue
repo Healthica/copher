@@ -1,5 +1,9 @@
 <template>
-  <div class="side-nav">
+  <div class="side-nav" :class="{open: mobile_navbar_open}">
+    <div class="mobile-toggler" @click="mobile_navbar_open = !mobile_navbar_open">
+      <img class="hamburger-icon" src="../assets/menu.svg">
+      <img class="arrow-left-icon" src="../assets/arrow-pointing-to-left.svg">
+    </div>
     <div class="navbar text-light">
       <div class="logo">
         <img src="../assets/veeta_logo.svg">
@@ -83,7 +87,8 @@ import User from '../api/user'
           password: '',
           name: '',
           errors: []
-        }
+        },
+        mobile_navbar_open: false
       }
     },
     computed: {
@@ -199,6 +204,29 @@ import User from '../api/user'
   .navbar {
     display: flex;
     flex-direction: column;
+  }
+  .mobile-toggler {
+    display: none;
+    position: absolute;
+    padding: 12px;
+    cursor: pointer;
+  }
+  .mobile-toggler img {
+    width: 20px;
+  }
+  @media screen and (max-width: 768px) {
+    .mobile-toggler {
+      display: block;
+      top: 12px;
+      right: -44px;
+    }
+    .side-nav.open .mobile-toggler .hamburger-icon,
+    .side-nav:not(.open) .mobile-toggler .arrow-left-icon {
+      display: none;
+    }
+    .side-nav.open .mobile-toggler {
+      right: 0;
+    }
   }
   .navbar a {
     font-size: 14px;

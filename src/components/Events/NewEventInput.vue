@@ -183,7 +183,7 @@ export default {
 <style scoped>
 .new-event-container {
   position: fixed;
-  z-index: 2000;
+  z-index: 1000;
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
@@ -199,7 +199,6 @@ export default {
   justify-content: space-between;
   background: #fff;
   box-shadow: 0 2px 8px 0 rgba(0,0,0,.1);
-  min-width: 600px;
 }
 .new-event-input {
   font-size: 18px;
@@ -211,6 +210,14 @@ export default {
   overflow: hidden;
   white-space: nowrap;
   background: 0 0;
+}
+@media screen and (max-width: 768px) {
+  .new-event-container {
+    left: 0;
+  }
+  .new-event-input {
+    padding-left: 48px;
+  }
 }
 .new-event-input:focus {
   outline: 0;
