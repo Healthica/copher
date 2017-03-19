@@ -15,24 +15,24 @@
     <el-dialog custom-class="eventModal" v-model="eventModalVisible" @close="onCloseEditEventModal" size="large">
       <event-edit-modal :event="eventCopy" @close="closeEditEventModal" @duplicateEvent="duplicateEvent" ref="EventEditModal"></event-edit-modal>
     </el-dialog>
-    <el-dialog :custom-class="`onboardingModal ${onboardingModalIndex===0?'hiddenPrev':(onboardingModalIndex===2?'hiddenNext':'')}`" v-model="onboardingModalVisible" @close="closeOnboarding" size="tiny" :close-on-click-modal="false">
-      <el-carousel trigger="click" height="500px" :autoplay="false" arrow="always" @change="changeOnboarding" >
+    <el-dialog v-if="onboardingModalAvailable" :custom-class="`onboardingModal ${onboardingModalIndex===0?'hiddenPrev':(onboardingModalIndex===2?'hiddenNext':'')}`" v-model="onboardingModalVisible" @close="closeOnboarding" size="tiny" :close-on-click-modal="false">
+      <el-carousel trigger="click" height="545px" :autoplay="false" arrow="always" @change="changeOnboarding" >
         <el-carousel-item>
-          <img src="https://d13yacurqjgara.cloudfront.net/users/39185/screenshots/2741760/pi2zza_1x.jpg">
+          <img src="../assets/veeta-add-events.gif">
           <h3>Log Everything</h3>
           <p>
             With Veeta you can record any piece of information - just type it and hit Enter
           </p>
         </el-carousel-item>
         <el-carousel-item>
-          <img src="https://d13yacurqjgara.cloudfront.net/users/39185/screenshots/2448264/ghost_1x.jpg">
+          <img src="../assets/veeta-edit-event.gif">
           <h3>Flexible Events</h3>
           <p>
             When viewing an event, everything is editable - add your own fields, and set your own titles
           </p>
         </el-carousel-item>
         <el-carousel-item>
-          <img src="https://d13yacurqjgara.cloudfront.net/users/39185/screenshots/3175265/snowman_1x.jpg">
+          <img src="../assets/cat-paper.gif" style="max-height:270px">
           <h3>Play Around</h3>
           <p>
             Veeta is simple, but powerful. After you get the basics, we highly recommend to watch our Best Practices video.
@@ -64,6 +64,7 @@ export default {
       eventModalVisible: false,
       eventCopy: {},
       eventCopyUnwatcher: null,
+      onboardingModalAvailable: false,
       onboardingModalVisible: false,
       onboardingModalIndex: 0
     }
@@ -147,10 +148,12 @@ export default {
   },
   mounted() {
     if (this.user.show_onboarding === true) {
+      this.onboardingModalAvailable = true
       this.onboardingModalVisible = true
     } else {
       this.$store.watch((state) => state.user.show_onboarding, (show_onboarding) => {
         if (show_onboarding === true) {
+          this.onboardingModalAvailable = true
           this.onboardingModalVisible = true
         }
       })
@@ -279,15 +282,14 @@ export default {
 }
 .onboardingModal .el-carousel__item:nth-of-type(2) {
   color: #fff;
-  background-color: #61BD4F;
+  background-color: #42548E;
 }
 .onboardingModal .el-carousel__item:nth-of-type(3) {
   color: #fff;
-  background-color: #A86CC1;
+  background-color: #61BD4F;
 }
 .onboardingModal img {
   width: 100%;
-  max-height: 270px;
 }
 .onboardingModalSkip {
   color: #fff;
