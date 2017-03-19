@@ -261,6 +261,7 @@ export default {
 }
 
 .onboardingModal {
+  max-width: 360px;
   text-align: center;
 }
 .onboardingModal .el-dialog__header {
