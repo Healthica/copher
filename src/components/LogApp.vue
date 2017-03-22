@@ -42,6 +42,7 @@
         <el-button class="onboardingModalSkip" type="text" @click="onboardingModalClose">Skip</el-button>
       </el-carousel>
     </el-dialog>
+    <quick-add class="quick-add"></quick-add>
   </div>
 </template>
 
@@ -52,12 +53,14 @@ import moment from 'moment'
 import NewEventInput from './Events/NewEventInput'
 import EventRow from './Events/EventRow'
 import EventEditModal from './Events/EventEditModal'
+import QuickAdd from './Events/QuickAdd'
 
 export default {
   components: {
     NewEventInput,
     EventRow,
-    EventEditModal
+    EventEditModal,
+    QuickAdd
   },
   data() {
     return {
@@ -302,5 +305,10 @@ export default {
 }
 .onboardingModalSkip:hover {
   opacity: 1;
+}
+.quick-add {
+  position: absolute;
+  bottom: 0;
+  right: 0;
 }
 </style>
