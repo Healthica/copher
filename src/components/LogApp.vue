@@ -42,7 +42,7 @@
         <el-button class="onboardingModalSkip" type="text" @click="onboardingModalClose">Skip</el-button>
       </el-carousel>
     </el-dialog>
-    <quick-add class="quick-add"></quick-add>
+    <quick-add class="quick-add" @showEditEventModal="showEditEventModal"></quick-add>
   </div>
 </template>
 

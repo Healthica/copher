@@ -1,5 +1,5 @@
 <template>
-  <div class="quick-add-item" :class="itemClass" @mouseover="checkIsHover" @mouseout="checkIsHover" ref="button">
+  <div class="quick-add-item" :class="itemClass" @click="onClick" @mouseover="checkIsHover" @mouseout="checkIsHover" ref="button">
     <i :class="'el-icon-' + icon"></i>
     <span v-if="is_hover" class="quick-add-item-title">
       <slot></slot>
@@ -10,7 +10,7 @@
 <script>
 
 export default {
-  props: ['icon', 'color', 'size'],
+  props: ['icon', 'color', 'size', 'data'],
   computed: {
     itemClass() {
       const cls = {}
@@ -27,6 +27,9 @@ export default {
     checkIsHover() {
       const el = this.$refs.button
       this.is_hover = el.parentElement.querySelector(':hover') === el
+    },
+    onClick() {
+      this.$emit('open', this.data)
     }
   },
   data() {
