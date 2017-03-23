@@ -81,8 +81,47 @@ export default {
           data: {
             title: 'Workout',
             fields: [{
-              title: 'Notes',
-              type: 'text'
+              title: 'Duration',
+              type: 'duration',
+              value: 0
+            }, {
+              title: 'Type',
+              type: 'select',
+              value: '',
+              options: {
+                options: [
+                  'Aerobics',
+                  'Weight Lifting'
+                ]
+              }
+            }, {
+              title: 'Calories',
+              type: 'units',
+              value: 0,
+              options: {
+                units: 'Calories'
+              }
+            }]
+          }
+        }, {
+          title: 'Sleep',
+          color: 'primary',
+          icon: 'moon',
+          data: {
+            use_last: true,
+            title: 'Sleep',
+            fields: [{
+              title: 'Duration',
+              type: 'duration',
+              value: 420
+            }, {
+              title: 'Fall Asleep',
+              type: 'duration',
+              value: 20
+            }, {
+              title: 'Quality',
+              type: 'rank_stars',
+              value: 3
             }]
           }
         }, {
@@ -90,10 +129,35 @@ export default {
           color: 'green',
           icon: 'food',
           data: {
-            title: 'Food',
+            title: '',
             fields: [{
-              title: 'Notes',
-              type: 'text'
+              title: 'Calories',
+              type: 'units',
+              value: 0,
+              options: {
+                units: 'Calories'
+              }
+            }, {
+              title: 'Protein',
+              type: 'weight',
+              value: 0,
+              options: {
+                units: 'Gram'
+              }
+            }, {
+              title: 'Fat',
+              type: 'weight',
+              value: 0,
+              options: {
+                units: 'Gram'
+              }
+            }, {
+              title: 'Carbohydrates',
+              type: 'weight',
+              value: 0,
+              options: {
+                units: 'Gram'
+              }
             }]
           }
         }

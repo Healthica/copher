@@ -62,7 +62,7 @@ export default {
 .quick-add-item.small {
   width: 40px;
   height: 40px;
-  padding: 8px;
+  padding: 10px;
 }
 .quick-add-item.primary {
   background-color: #0079BF;
