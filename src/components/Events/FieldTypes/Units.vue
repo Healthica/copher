@@ -31,7 +31,10 @@ export default {
             'Gram',
             'Kilogram',
             'Ounce',
-            'Pound'
+            'Pound',
+            'Teaspoon',
+            'Tablespoon',
+            'Cup'
           ]
           break;
         case 'length':
@@ -59,8 +62,9 @@ export default {
             'Foot',
             'Yard',
             'Mile',
+            'Calories',
             'Teaspoon',
-            'Spoon',
+            'Tablespoon',
             'Cup',
             'Hours',
             'Minutes',
