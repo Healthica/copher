@@ -1,12 +1,11 @@
-import nlp from 'compromise'
+// import nlp from 'compromise'
 import moment from 'moment'
 
 export default (text) => {
   const event = {}
   const fields = []
-  let date = null
 
-  const r = nlp(text)
+  // const r = nlp(text)
   // console.log('verbs', r.verbs().data())
   // console.log('nouns', r.nouns().data())
   // console.log('places', r.places().data())
