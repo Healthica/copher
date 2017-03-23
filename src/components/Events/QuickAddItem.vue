@@ -1,6 +1,6 @@
 <template>
   <div class="quick-add-item" :class="itemClass" @click="onClick" @mouseover="checkIsHover" @mouseout="checkIsHover" ref="button">
-    <i :class="'el-icon-' + icon"></i>
+    <icon :name="icon"></icon>
     <span v-if="is_hover" class="quick-add-item-title">
       <slot></slot>
     </span>
@@ -8,9 +8,10 @@
 </template>
 
 <script>
-
+import Icon from '../Icon'
 export default {
   props: ['icon', 'color', 'size', 'data'],
+  components: { Icon },
   computed: {
     itemClass() {
       const cls = {}
@@ -42,7 +43,7 @@ export default {
 
 <style>
 .quick-add-item {
-  padding: 20px;
+  padding: 18px;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -61,6 +62,7 @@ export default {
 .quick-add-item.small {
   width: 40px;
   height: 40px;
+  padding: 8px;
 }
 .quick-add-item.primary {
   background-color: #0079BF;

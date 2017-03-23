@@ -61,7 +61,7 @@ export default {
         {
           title: 'Log Weight',
           color: 'red',
-          icon: 'time',
+          icon: 'weight-scale',
           data: {
             title: 'Weight Measurement',
             use_last: true,
@@ -72,6 +72,28 @@ export default {
               options: {
                 units: 'Kilogram'
               }
+            }]
+          }
+        }, {
+          title: 'Workout',
+          color: 'orange',
+          icon: 'dumbbell',
+          data: {
+            title: 'Workout',
+            fields: [{
+              title: 'Notes',
+              type: 'text'
+            }]
+          }
+        }, {
+          title: 'Food',
+          color: 'green',
+          icon: 'food',
+          data: {
+            title: 'Food',
+            fields: [{
+              title: 'Notes',
+              type: 'text'
             }]
           }
         }
