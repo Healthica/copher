@@ -1,5 +1,8 @@
+import uuid from 'uuid'
+
 const predefined_events = {
   coffee: {
+    title: 'Coffee',
     fields: [{
       title: 'Type',
       type: 'select',
@@ -53,6 +56,7 @@ const predefined_events = {
   },
 
   sleep: {
+    title: 'Sleep',
     fields: [{
       title: 'Duration',
       type: 'duration',
@@ -75,6 +79,9 @@ export default (text) => {
 
   if (typeof predefined_events[text.toLowerCase()] !== undefined) {
     event = predefined_events[text.toLowerCase()]
+    _.each(event.fields, f => {
+      f.id = uuid.v4()
+    })
   }
 
   return event
