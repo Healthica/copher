@@ -5,6 +5,7 @@ import * as getters from './getters'
 import events from './modules/events'
 import user from './modules/user'
 import dashboard from './modules/dashboard'
+import goals from './modules/goals'
 
 Vue.use(Vuex)
 
@@ -16,7 +17,8 @@ export default new Vuex.Store({
   modules: {
     events,
     user,
-    dashboard
+    dashboard,
+    goals
   },
   strict: debug
 })

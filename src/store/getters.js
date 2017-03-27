@@ -7,3 +7,6 @@ export const user = state => {
 export const dashboard = state => {
   return state.dashboard
 }
+export const goals = state => {
+  return state.goals
+}
