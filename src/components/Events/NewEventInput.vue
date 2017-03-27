@@ -103,7 +103,8 @@ export default {
       }
       this.newEventTextSuggestionsCache.query = this.newEventText
       //TODO improve performance on big number of events, and use something better than startsWith()
-      const matches = _.groupBy(_.filter(this.events.data, e => e.title.startsWith(this.newEventText)), 'title')
+      const queryLowerCase = this.newEventText.toLowerCase()
+      const matches = _.groupBy(_.filter(this.events.data, e => e.title.toLowerCase().startsWith(queryLowerCase)), 'title')
       const suggestions = _.orderBy(_.map(matches, e => {
         return {
           count: e.length,
