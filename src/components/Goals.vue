@@ -11,6 +11,7 @@
 <script>
 import { mapGetters } from 'vuex'
 import uuid from 'uuid'
+import moment from 'moment'
 
 import GoalEditModal from './Goals/GoalEditModal'
 import SpeedDial from './Utils/SpeedDial'
@@ -28,7 +29,10 @@ export default {
       const id = uuid.v4()
       this.$store.dispatch('addGoal', Object.assign({
         id: id,
-        title: 'New Goal'
+        title: 'New Goal',
+        type: 'one_time',
+        time_end: moment().add(1, 'month').endOf('month'),
+        recurring_period: 'daily'
       }, goal))
       this.showGoalModal(id)
     },

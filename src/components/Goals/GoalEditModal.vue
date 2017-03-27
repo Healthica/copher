@@ -2,9 +2,34 @@
   <div class="modal">
     <input type="text" v-model="goal.title" />
     <p class="text-small">{{ goal.id }}</p>
-
-    <div class="close-modal-button">
-      <el-button @click="close" type="primary" size="small" :plain="true">Close</el-button>
+    <div>
+      Type
+      <el-select v-model="goal.type" placeholder="Select">
+        <el-option label="One Time" value="one_time"></el-option>
+        <el-option label="Recurring" value="recurring"></el-option>
+      </el-select>
+    </div>
+    <div v-if="goal.type === 'one_time'">
+      Deadline
+      <el-date-picker
+        v-model="goal.time_end"
+        type="date"
+        placeholder="Pick a day">
+      </el-date-picker>
+    </div>
+    <div v-if="goal.type === 'recurring'">
+      Start Over
+      <el-select v-model="goal.recurring_period" placeholder="Select">
+        <el-option label="Daily" value="daily"></el-option>
+        <el-option label="Weekly" value="weekly"></el-option>
+        <el-option label="Monthly" value="monthly"></el-option>
+      </el-select>
+    </div>
+    <div>
+      Goal
+      Event/Field
+      Operator
+      Value
     </div>
   </div>
 </template>
