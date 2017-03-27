@@ -50,7 +50,23 @@ const predefined_events = {
       type: 'switch',
       value: false
     }]
-  }
+  },
+
+  sleep: {
+    fields: [{
+      title: 'Duration',
+      type: 'duration',
+      value: 420
+    }, {
+      title: 'Fall Asleep',
+      type: 'duration',
+      value: 20
+    }, {
+      title: 'Quality',
+      type: 'rank_stars',
+      value: 3
+    }]
+  }, 
 }
 
 export default (text) => {
