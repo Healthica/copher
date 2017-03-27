@@ -32,12 +32,12 @@ export default {
         }, {
           title: 'Weekly Goal',
           color: 'red',
-          icon: 'plus',
+          icon: 'calendar',
           data: 2
         }, {
           title: 'One-Time Goal',
           color: 'green',
-          icon: 'plus',
+          icon: 'mountain-goal',
           data: 3
         }
       ]
