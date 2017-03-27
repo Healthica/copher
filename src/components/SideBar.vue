@@ -11,6 +11,7 @@
       </div>
       <router-link to="/" exact>Log</router-link>
       <router-link to="/dashboard">Dashboard</router-link>
+      <router-link to="/goals">Goals</router-link>
       <router-link to="/settings">Settings</router-link>
     </div>
     <div>

@@ -8,11 +8,13 @@ import store from './store'
 
 import LogApp from './components/LogApp'
 import Dashboard from './components/Dashboard'
+import Goals from './components/Goals'
 import Settings from './components/Settings'
 const router = new VueRouter({
   routes: [
     { path: '/', component: LogApp },
     { path: '/dashboard', component: Dashboard },
+    { path: '/goals', component: Goals },
     { path: '/settings', component: Settings }
   ]
 })
