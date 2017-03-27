@@ -70,7 +70,56 @@ const predefined_events = {
       type: 'rank_stars',
       value: 3
     }]
-  }, 
+  },
+
+  weight: {
+    title: 'Weight Measurement',
+    fields: [{
+      title: 'Weight',
+      type: 'weight',
+      value: '70',
+      options: {
+        units: 'Kilogram'
+      }
+    }]
+  },
+
+  run: {
+    title: 'Run',
+    fields: [{
+      title: 'Time',
+      type: 'duration',
+      value: 30
+    }, {
+      title: 'Distance',
+      type: 'length',
+      value: 4,
+      options: {
+        units: 'Kilometer'
+      }
+    }]
+  },
+
+  headache: {
+    title: 'Headache',
+    fields: [{
+      title: 'Duration',
+      type: 'duration',
+      value: 10
+    }, {
+      title: 'Intensity',
+      type: 'select',
+      value: 5,
+      options: {
+        customOptions: false,
+        options: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
+      }
+    }, {
+      title: 'Notes',
+      type: 'text',
+      value: ''
+    }]
+  },
 }
 
 export default (text) => {
