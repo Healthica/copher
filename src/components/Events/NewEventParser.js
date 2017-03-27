@@ -1,5 +1,3 @@
-// import nlp from 'compromise'
-
 const predefined_events = {
   coffee: {
     fields: [{
@@ -58,14 +56,6 @@ const predefined_events = {
 export default (text) => {
   let event = {}
   const fields = []
-
-  // const r = nlp(text)
-  // console.log('verbs', r.verbs().data())
-  // console.log('nouns', r.nouns().data())
-  // console.log('places', r.places().data())
-  // console.log('dates', r.dates().data())
-  // console.log('values', r.values().data())
-  // console.log('people', r.people().data())
 
   if (typeof predefined_events[text.toLowerCase()] !== undefined) {
     event = predefined_events[text.toLowerCase()]
