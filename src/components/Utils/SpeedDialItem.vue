@@ -1,7 +1,7 @@
 <template>
-  <div class="quick-add-item" :class="itemClass" @click="onClick" @mouseover="checkIsHover" @mouseout="checkIsHover" ref="button">
+  <div class="speed-dial-item" :class="itemClass" @click="onClick" @mouseover="checkIsHover" @mouseout="checkIsHover" ref="button">
     <icon :name="icon"></icon>
-    <span v-if="is_hover" class="quick-add-item-title">
+    <span v-if="is_hover" class="speed-dial-item-title">
       <slot></slot>
     </span>
   </div>
@@ -42,7 +42,7 @@ export default {
 </script>
 
 <style>
-.quick-add-item {
+.speed-dial-item {
   padding: 18px;
   display: flex;
   justify-content: center;
@@ -59,37 +59,37 @@ export default {
   -o-transition: all 0.2s ease-in-out;
   transition: all 0.2s ease-in-out;
 }
-.quick-add-item.small {
+.speed-dial-item.small {
   width: 40px;
   height: 40px;
   padding: 10px;
 }
-.quick-add-item.primary {
+.speed-dial-item.primary {
   background-color: #0079BF;
 }
-.quick-add-item.primary:hover {
+.speed-dial-item.primary:hover {
   background-color: #298FCA;
 }
-.quick-add-item.green {
+.speed-dial-item.green {
   background-color: #61BD4F;
 }
-.quick-add-item.green:hover {
+.speed-dial-item.green:hover {
   background-color: #7BC86C;
 }
-.quick-add-item.orange {
+.speed-dial-item.orange {
   background-color: #FFAB4A;
 }
-.quick-add-item.orange:hover {
+.speed-dial-item.orange:hover {
   background-color: #FFB968;
 }
-.quick-add-item.red {
+.speed-dial-item.red {
   background-color: #EB5A46;
 }
-.quick-add-item.red:hover {
+.speed-dial-item.red:hover {
   background-color: #EF7564;
 }
 
-.quick-add-item-title {
+.speed-dial-item-title {
   display: inline-block;
   white-space: nowrap;
   font-size: 13px;
@@ -100,7 +100,7 @@ export default {
   border-radius: 2px;
   right: 96px;
 }
-.quick-add-item.small .quick-add-item-title {
+.speed-dial-item.small .speed-dial-item-title {
   right: 90px;
 }
 </style>

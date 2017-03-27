@@ -1,29 +1,21 @@
 <template>
-  <div class="quick-add" @mouseover="checkOpen" @mouseout="checkOpen" ref="quickAdd">
-    <quick-add-item icon="plus" color="primary" @open="open" :data="false">New Event</quick-add-item>
-    <quick-add-item v-for="e in quick_events" v-if="is_open" size="small" @open="open"
-      :data="e.data" :icon="e.icon" :color="e.color">{{ e.title }}</quick-add-item>
-  </div>
+  <speed-dial :items="quick_events" @open="open"></speed-dial>
 </template>
 
 <script>
 import { mapGetters } from 'vuex'
 import uuid from 'uuid'
 import moment from 'moment'
-import QuickAddItem from './QuickAddItem'
+import SpeedDial from '../Utils/SpeedDial'
 
 export default {
   components: {
-    QuickAddItem
+    SpeedDial
   },
   computed: {
     ...mapGetters(['events'])
   },
   methods: {
-    checkOpen() {
-      const el = this.$refs.quickAdd
-      this.is_open = el.parentElement.querySelector(':hover') === el
-    },
     open(event) {
       this.is_open = false
       const _id = uuid.v4()
@@ -59,6 +51,11 @@ export default {
       is_open: false,
       quick_events: [
         {
+          title: 'New Event',
+          color: 'primary',
+          icon: 'plus',
+          data: false
+        }, {
           title: 'Log Weight',
           color: 'red',
           icon: 'weight-scale',
@@ -129,7 +126,7 @@ export default {
           color: 'green',
           icon: 'food',
           data: {
-            title: '',
+            title: 'Food',
             fields: [{
               title: 'Calories',
               type: 'units',
@@ -168,13 +165,4 @@ export default {
 </script>
 
 <style>
-.quick-add {
-  display: flex;
-  flex-direction: column-reverse;
-  padding: 20px;
-  align-items: center;
-}
-.quick-add > * {
-  margin-top: 8px;
-}
 </style>
