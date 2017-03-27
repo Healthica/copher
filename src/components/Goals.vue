@@ -10,6 +10,8 @@
 
 <script>
 import { mapGetters } from 'vuex'
+import uuid from 'uuid'
+
 import GoalEditModal from './Goals/GoalEditModal'
 import SpeedDial from './Utils/SpeedDial'
 
@@ -19,20 +21,19 @@ export default {
     SpeedDial
   },
   computed: {
-    ...mapGetters([])
+    ...mapGetters(['goals'])
   },
   methods: {
     createGoal(goal) {
-      //TODO create new goal
-      const id = 1234
+      const id = uuid.v4()
+      this.$store.dispatch('addGoal', Object.assign({
+        id: id,
+        title: 'New Goal'
+      }, goal))
       this.showGoalModal(id)
     },
-    closeGoalModal() {
-      this.goalModalVisible = false
-    },
     showGoalModal(id) {
-      //TODO clone from store
-      this.goalCopy = _.cloneDeep({ id: id, title: 'Goal Name' })
+      this.goalCopy = _.cloneDeep(_.find(this.goals.goals, g => g.id === id ))
       this.openGoalModal()
     },
     openGoalModal() {
@@ -40,17 +41,16 @@ export default {
       this.goalCopyUnwatcher = this.$watch('goalCopy', this.onChangeGoal, { deep: true })
     },
     closeGoalModal() {
-      this.eventModalVisible = false
-    },
-    closeGoalModal() {
-      this.goalCopyUnwatcher()
-      this.goalCopyUnwatcher = null
-      if (this.goalCopy._isDeleted !== true) {
-        this.$store.dispatch('updateEventAddTransaction', _.cloneDeep(this.goalCopy))
+      if (this.goalCopyUnwatcher) {
+        this.goalCopyUnwatcher()
+        this.goalCopyUnwatcher = null
       }
+      //TODO update API
+      this.goalModalVisible = false
     },
     onChangeGoal(e) {
-      this.$store.dispatch('setGoal', e)
+      console.log('onChangeGoal', e)
+      // this.$store.dispatch('setGoal', e)
     }
   },
   data() {
@@ -63,17 +63,23 @@ export default {
           title: 'Add New Goal',
           color: 'primary',
           icon: 'plus',
-          data: 1
+          data: {
+            title: 'New Goal'
+          }
         }, {
           title: 'Weekly Goal',
           color: 'red',
           icon: 'calendar',
-          data: 2
+          data: {
+            title: 'Weekly Goal'
+          }
         }, {
           title: 'One-Time Goal',
           color: 'green',
           icon: 'mountain-goal',
-          data: 3
+          data: {
+            title: 'One-Time Goal'
+          }
         }
       ]
     }

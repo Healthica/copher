@@ -1,6 +1,7 @@
 <template>
   <div class="modal">
-    <h2>Goal #{{ goal.id }}</h2>
+    <input type="text" v-model="goal.title" />
+    <p class="text-small">{{ goal.id }}</p>
 
     <div class="close-modal-button">
       <el-button @click="close" type="primary" size="small" :plain="true">Close</el-button>
