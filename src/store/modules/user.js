@@ -32,7 +32,7 @@ const mutations = {
     if (user.name) {
       state.name = user.name
     }
-    if (user.show_onboarding) {
+    if (user.show_onboarding || user.show_onboarding === false) {
       state.show_onboarding = user.show_onboarding
     }
     if (_.has(user, 'auth_by')) {
