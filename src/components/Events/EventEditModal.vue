@@ -48,7 +48,8 @@
 
     <div class="close-modal-button">
       <span v-if="showSaved" class="modal-saved-text">Saved</span>
-      <el-button @click="close" type="primary" size="small" :plain="true">Close</el-button>
+      <el-button @click="close" type="text" size="small" :plain="true">Cancel</el-button>
+      <el-button @click="save" type="success">Save</el-button>
     </div>
   </div>
 </template>
@@ -74,6 +75,9 @@ export default {
     }
   },
   methods: {
+    save() {
+      this.close()
+    },
     close() {
       this.$emit('close')
     },
