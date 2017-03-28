@@ -88,10 +88,15 @@ export default {
     },
     duplicateEvent(e) {
       const _id = uuid.v4()
-      this.$store.dispatch('addEvent', Object.assign(e, {
+      const copy = Object.assign(e, {
         id: _id,
         time: moment().format()
-      }))
+      })
+      // Generate new ids for each field
+      _.each(copy.fields, f => {
+        f.id = uuid.v4()
+      })
+      this.$store.dispatch('addEvent', copy)
       this.$store.dispatch('syncEvents')
       this.showEditEventModal(_id)
     }
