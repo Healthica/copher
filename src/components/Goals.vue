@@ -65,7 +65,7 @@ export default {
       this.goalCopy = {}
     },
     presetOpen(goal) {
-      console.log('presetOpen', goal)
+      this.createGoal(goal.goal)
     }
   },
   data() {
@@ -77,12 +77,18 @@ export default {
           title: 'Lose Weight',
           description: 'Set your target weight you want to reach in 30 days',
           img: 'girl_cook',
-          openText: 'Add This Goal'
+          openText: 'Add This Goal',
+          goal: {
+            title: 'Lose Weight'
+          }
         }, {
           title: 'Exercise twice a week',
           description: 'Maintaining an active lifestyle has many benefits',
           img: 'cyclist',
-          openText: 'Add This Goal'
+          openText: 'Add This Goal',
+          goal: {
+            title: 'Exercise'
+          }
         }
       ],
       newGoalItems: [
