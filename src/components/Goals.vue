@@ -1,7 +1,8 @@
 <template>
   <div class="goals">
-    <h2>Goals</h2>
-    {{ goals }}
+    <div class="goal-items-container">
+      <goal-item v-for="g in goals.goals" :goal="g" @open="showGoalModal"></goal-item>
+    </div>
     <el-dialog custom-class="modalContainer" v-model="goalModalVisible" @close="closeGoalModal" size="large" :close-on-click-modal="false">
       <goal-edit-modal :goal="goalCopy" @save="saveGoalModal" @close="closeGoalModal" @deleteGoal="deleteGoalModal"></goal-edit-modal>
     </el-dialog>
@@ -15,11 +16,13 @@ import uuid from 'uuid'
 import moment from 'moment'
 
 import GoalEditModal from './Goals/GoalEditModal'
+import GoalItem from './Goals/GoalItem'
 import SpeedDial from './Utils/SpeedDial'
 
 export default {
   components: {
     GoalEditModal,
+    GoalItem,
     SpeedDial
   },
   computed: {
@@ -90,6 +93,7 @@ export default {
   height: 100%;
   overflow-y: scroll;
   background-color: #EDEFF4;
+  padding: 24px;
 }
 .goals::-webkit-scrollbar {
   display: none;
@@ -98,5 +102,18 @@ export default {
   position: absolute;
   bottom: 0;
   right: 0;
+}
+.goal-items-container {
+  display: flex;
+  flex-wrap: wrap;
+}
+@media screen and (max-width: 768px) {
+  .goal-items-container {
+    margin-top: 48px;
+  }
+}
+.goal-items-container .goal-item {
+  margin-right: 24px;
+  margin-bottom: 24px;
 }
 </style>
