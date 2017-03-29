@@ -47,8 +47,8 @@
     </el-dropdown>
 
     <div class="close-modal-button">
-      <span v-if="showSaved" class="modal-saved-text">Saved</span>
-      <el-button @click="close" type="primary" size="small" :plain="true">Close</el-button>
+      <el-button @click="close" type="text" size="small" :plain="true">Cancel</el-button>
+      <el-button @click="save" type="success">Save</el-button>
     </div>
   </div>
 </template>
@@ -64,8 +64,7 @@ export default {
   },
   data() {
     return {
-      editMode: false,
-      showSaved: false
+      editMode: false
     }
   },
   computed: {
@@ -74,6 +73,9 @@ export default {
     }
   },
   methods: {
+    save() {
+      this.$emit('save')
+    },
     close() {
       this.$emit('close')
     },
@@ -168,6 +170,7 @@ export default {
           break;
         case 'duplicate':
           this.$emit('duplicateEvent', this.event)
+          this.close()
           break;
         default:
           console.error('Unknown action', action)
@@ -177,12 +180,6 @@ export default {
       this.event._isDeleted = true
       this.close()
       this.$store.dispatch('deleteEvent', this.event)
-    },
-    blinkSavedText() {
-      this.showSaved = true
-      window.setTimeout(() => {
-        this.showSaved = false
-      }, 2000)
     }
   }
 }
@@ -255,9 +252,5 @@ export default {
 .close-modal-button {
   margin-top: 36px;
   float: right;
-}
-.modal-saved-text {
-  margin-right: 18px;
-  font-size: 11px;
 }
 </style>

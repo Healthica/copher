@@ -12,8 +12,8 @@
       </li>
       <event-row v-for="e in day.events" :event="e" :clickHandler="showEditEventModal" @duplicateEvent="duplicateEvent"></event-row>
     </ul>
-    <el-dialog custom-class="eventModal" v-model="eventModalVisible" @close="onCloseEditEventModal" size="large">
-      <event-edit-modal :event="eventCopy" @close="closeEditEventModal" @duplicateEvent="duplicateEvent" ref="EventEditModal"></event-edit-modal>
+    <el-dialog custom-class="eventModal" v-model="eventModalVisible" @close="closeEditEventModal" size="large" :close-on-click-modal="false">
+      <event-edit-modal :event="eventCopy" @save="saveEditEventModal" @close="closeEditEventModal" @duplicateEvent="duplicateEvent"></event-edit-modal>
     </el-dialog>
     <onboarding-modal></onboarding-modal>
     <quick-add class="quick-add" @showEditEventModal="showEditEventModal"></quick-add>
@@ -41,8 +41,7 @@ export default {
   data() {
     return {
       eventModalVisible: false,
-      eventCopy: {},
-      eventCopyUnwatcher: null
+      eventCopy: {}
     }
   },
   computed: {
@@ -74,32 +73,30 @@ export default {
   methods: {
     showEditEventModal(id) {
       this.eventCopy = _.cloneDeep(_.find(this.$store.state.events.data, o => o.id === id))
-      this.openEditEventModal()
-    },
-    openEditEventModal() {
       this.eventModalVisible = true
-      this.eventCopyUnwatcher = this.$watch('eventCopy', this.onChangeEventField, { deep: true })
     },
-    closeEditEventModal() {
-      this.eventModalVisible = false
-    },
-    onCloseEditEventModal() {
-      this.eventCopyUnwatcher()
-      this.eventCopyUnwatcher = null
+    saveEditEventModal() {
+      this.$store.dispatch('setEvent', this.eventCopy)
       if (this.eventCopy._isDeleted !== true) {
         this.$store.dispatch('updateEventAddTransaction', _.cloneDeep(this.eventCopy))
       }
+      this.closeEditEventModal()
     },
-    onChangeEventField(e) {
-      this.$store.dispatch('setEvent', e)
-      this.$refs.EventEditModal.blinkSavedText()
+    closeEditEventModal() {
+      this.eventModalVisible = false
+      this.eventCopy = {}
     },
     duplicateEvent(e) {
       const _id = uuid.v4()
-      this.$store.dispatch('addEvent', Object.assign(e, {
+      const copy = Object.assign(e, {
         id: _id,
         time: moment().format()
-      }))
+      })
+      // Generate new ids for each field
+      _.each(copy.fields, f => {
+        f.id = uuid.v4()
+      })
+      this.$store.dispatch('addEvent', copy)
       this.$store.dispatch('syncEvents')
       this.showEditEventModal(_id)
     }
