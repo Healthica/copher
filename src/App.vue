@@ -109,6 +109,9 @@ a.no-link:hover {
 .notVisible {
   visibility: hidden;
 }
+.margin-top-120 {
+  margin-top: 120px;
+}
 
 .el-button--link {
   border: 0 solid transparent;

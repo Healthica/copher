@@ -1,11 +1,19 @@
 <template>
   <div class="goals">
+    <div v-if="goals.goals.length === 0" class="goals-empty-message">
+      <p>Goals track events in your log and show your progress.</p>
+      <p>For a quick start, select one of the presets below.</p>
+    </div>
     <div class="goal-items-container">
       <goal-item v-for="g in goals.goals" :goal="g" @open="showGoalModal"></goal-item>
     </div>
     <el-dialog custom-class="modalContainer" v-model="goalModalVisible" @close="closeGoalModal" size="large" :close-on-click-modal="false">
       <goal-edit-modal :goal="goalCopy" @save="saveGoalModal" @close="closeGoalModal" @deleteGoal="deleteGoalModal"></goal-edit-modal>
     </el-dialog>
+    <div class="margin-top-120">
+      <h4>Goal Presets</h4>
+      <presets :items="goalPresets" @open="presetOpen"></presets>
+    </div>
     <speed-dial class="new-goal" :items="newGoalItems" @open="createGoal"></speed-dial>
   </div>
 </template>
@@ -17,12 +25,14 @@ import moment from 'moment'
 
 import GoalEditModal from './Goals/GoalEditModal'
 import GoalItem from './Goals/GoalItem'
+import Presets from './Helpers/Presets'
 import SpeedDial from './Utils/SpeedDial'
 
 export default {
   components: {
     GoalEditModal,
     GoalItem,
+    Presets,
     SpeedDial
   },
   computed: {
@@ -53,12 +63,28 @@ export default {
     closeGoalModal() {
       this.goalModalVisible = false
       this.goalCopy = {}
+    },
+    presetOpen(goal) {
+      console.log('presetOpen', goal)
     }
   },
   data() {
     return {
       goalModalVisible: false,
       goalCopy: {},
+      goalPresets: [
+        {
+          title: 'Lose Weight',
+          description: 'Set your target weight you want to reach in 30 days',
+          img: 'girl_cook',
+          openText: 'Add This Goal'
+        }, {
+          title: 'Exercise twice a week',
+          description: 'Maintaining an active lifestyle has many benefits',
+          img: 'cyclist',
+          openText: 'Add This Goal'
+        }
+      ],
       newGoalItems: [
         {
           title: 'Add New Goal',
@@ -115,5 +141,9 @@ export default {
 .goal-items-container .goal-item {
   margin-right: 24px;
   margin-bottom: 24px;
+}
+.goals-empty-message {
+  text-align: center;
+  padding: 24px;
 }
 </style>

@@ -10,17 +10,9 @@
 <script>
 export default {
   props: ['goal'],
-  components: {
-  },
-  computed: {
-  },
   methods: {
     open() {
       this.$emit('open', this.goal.id)
-    }
-  },
-  data() {
-    return {
     }
   }
 }
