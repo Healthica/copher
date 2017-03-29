@@ -8,25 +8,25 @@ const state = {
 }
 
 const actions = {
-  addGoal({ commit, dispatch }, goal) {
-    commit(types.ADD_GOAL, goal)
-  },
-  deleteGoal({ commit, dispatch }, i) {
-    commit(types.DELETE_GOAL, i)
-    dispatch('saveGoals')
-  },
-  updateGoal({ commit, dispatch }, payload) {
-    commit(types.UPDATE_GOAL, payload)
-    dispatch('saveGoals')
-  },
   getGoals({ commit }) {
     goalsAPI.getGoals().then(({ goals }) => {
       commit(types.SET_GOALS, goals)
     })
   },
+  addGoal({ commit, dispatch }, goal) {
+    commit(types.ADD_GOAL, goal)
+  },
+  updateGoal({ commit, dispatch }, goal) {
+    commit(types.UPDATE_GOAL, goal)
+    dispatch('saveGoals')
+  },
+  deleteGoal({ commit, dispatch }, id) {
+    commit(types.DELETE_GOAL, id)
+    dispatch('saveGoals')
+  },
   saveGoals({ commit, state }) {
     goalsAPI.postGoals(state.goals).then(({ success }) => {
-      console.log('goals save', success);
+      console.log('API goals saved', success);
     })
   }
 }
@@ -44,13 +44,17 @@ const mutations = {
     }
     state.goals.unshift(goal)
   },
-  [types.DELETE_GOAL] (state, i) {
-    if (i < state.goals.length) {
-      state.goals.splice(i, 1)
+  [types.UPDATE_GOAL] (state, goal) {
+    const i = _.findIndex(state.goals, g => g.id === goal.id)
+    if (i > -1) {
+      state.goals[i] = goal
     }
   },
-  [types.UPDATE_GOAL] (state, payload) {
-    state.goals[payload.index] = payload.goal
+  [types.DELETE_GOAL] (state, id) {
+    const i = _.findIndex(state.goals, g => g.id === id)
+    if (i > -1) {
+      state.goals.splice(i, 1)
+    }
   }
 }
 

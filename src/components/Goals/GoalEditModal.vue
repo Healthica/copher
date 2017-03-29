@@ -31,6 +31,11 @@
       Operator
       Value
     </div>
+    <div class="close-modal-button">
+      <el-button @click="close" type="text" size="small" :plain="true">Cancel</el-button>
+      <el-button @click="deleteGoal" type="danger" size="small">Delete</el-button>
+      <el-button @click="save" type="success">Save</el-button>
+    </div>
   </div>
 </template>
 
@@ -45,6 +50,14 @@ export default {
   computed: {
   },
   methods: {
+    save() {
+      this.$emit('save')
+      this.close()
+    },
+    deleteGoal() {
+      this.$emit('deleteGoal')
+      this.close()
+    },
     close() {
       this.$emit('close')
     }

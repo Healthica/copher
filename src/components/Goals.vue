@@ -1,8 +1,9 @@
 <template>
   <div class="goals">
     <h2>Goals</h2>
+    {{ goals }}
     <el-dialog v-model="goalModalVisible" @close="closeGoalModal">
-      <goal-edit-modal :goal="goalCopy" @close="closeGoalModal"></goal-edit-modal>
+      <goal-edit-modal :goal="goalCopy" @save="saveGoalModal" @close="closeGoalModal" @deleteGoal="deleteGoalModal"></goal-edit-modal>
     </el-dialog>
     <speed-dial class="new-goal" :items="newGoalItems" @open="createGoal"></speed-dial>
   </div>
@@ -38,30 +39,23 @@ export default {
     },
     showGoalModal(id) {
       this.goalCopy = _.cloneDeep(_.find(this.goals.goals, g => g.id === id ))
-      this.openGoalModal()
-    },
-    openGoalModal() {
       this.goalModalVisible = true
-      this.goalCopyUnwatcher = this.$watch('goalCopy', this.onChangeGoal, { deep: true })
+    },
+    saveGoalModal() {
+      this.$store.dispatch('updateGoal', this.goalCopy)
+    },
+    deleteGoalModal() {
+      this.$store.dispatch('deleteGoal', this.goalCopy.id)
     },
     closeGoalModal() {
-      if (this.goalCopyUnwatcher) {
-        this.goalCopyUnwatcher()
-        this.goalCopyUnwatcher = null
-      }
-      //TODO update API
       this.goalModalVisible = false
-    },
-    onChangeGoal(e) {
-      console.log('onChangeGoal', e)
-      // this.$store.dispatch('setGoal', e)
+      this.goalCopy = {}
     }
   },
   data() {
     return {
       goalModalVisible: false,
       goalCopy: {},
-      goalCopyUnwatcher: null,
       newGoalItems: [
         {
           title: 'Add New Goal',
