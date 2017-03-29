@@ -2,7 +2,7 @@
   <div class="goals">
     <h2>Goals</h2>
     {{ goals }}
-    <el-dialog v-model="goalModalVisible" @close="closeGoalModal">
+    <el-dialog custom-class="modalContainer" v-model="goalModalVisible" @close="closeGoalModal" size="large" :close-on-click-modal="false">
       <goal-edit-modal :goal="goalCopy" @save="saveGoalModal" @close="closeGoalModal" @deleteGoal="deleteGoalModal"></goal-edit-modal>
     </el-dialog>
     <speed-dial class="new-goal" :items="newGoalItems" @open="createGoal"></speed-dial>

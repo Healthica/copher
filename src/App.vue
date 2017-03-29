@@ -106,6 +106,10 @@ a.no-link:hover {
   }
 }
 
+.notVisible {
+  visibility: hidden;
+}
+
 .el-button--link {
   border: 0 solid transparent;
 }
@@ -144,21 +148,6 @@ a.no-link:hover {
   padding-left: 0;
 }
 
-.eventModal .el-dialog__header {
-  display: none;
-}
-.eventModal .el-dialog__body {
-  padding: 0;
-}
-.eventModal .el-checkbox-group {
-  display: flex;
-  flex-wrap: wrap;
-}
-.eventModal .el-checkbox {
-  margin: 0 18px 12px 0;
-  margin-left: 0;
-}
-
 .el-dropdown-menu__item {
   font-size: 14px;
   line-height: 14px;
@@ -192,9 +181,49 @@ a.no-link:hover {
   line-height: 36px;
 }
 
-.eventModal {
+.modalContainer {
   max-width: 600px;
 }
+.modalContainer .el-dialog__header {
+  display: none;
+}
+.modalContainer .el-dialog__body {
+  padding: 0;
+}
+.modal {
+  padding: 36px 24px;
+  position: relative;
+  /* Clearfix */
+  width: 100%;
+  overflow: auto; 
+}
+.headerButtons {
+  position: absolute;
+  top: 0;
+  right: 0;
+}
+.headerButtons > div {
+  display: inline-block;
+  padding: 6px 12px;
+  opacity: 0.8;
+  cursor: pointer;
+}
+.headerButtons > div:hover {
+  opacity: 1;
+}
+.eventModalHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.closeButton {
+  font-size: 20px;
+}
+.close-modal-button {
+  margin-top: 36px;
+  float: right;
+}
+
 .eventModalTitle {
   font-size: 18px;
 }

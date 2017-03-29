@@ -1,6 +1,18 @@
 <template>
   <div class="modal">
-    <input type="text" v-model="goal.title" />
+    <div class="headerButtons">
+      <el-dropdown class="modalEditActionsDropdown" trigger="click" @command="goalAction">
+        <el-button class="el-button--link" size="small">
+          <i class="el-icon-more"></i>
+        </el-button>
+        <el-dropdown-menu slot="dropdown">
+          <el-dropdown-item command="delete"><i class="el-icon-delete"></i>Delete</el-dropdown-item>
+        </el-dropdown-menu>
+      </el-dropdown>
+    </div>
+    <div class="eventModalHeader">
+      <el-input class="eventModalTitle" placeholder="Goal title" v-model="goal.title"></el-input>
+    </div>
     <p class="text-small">{{ goal.id }}</p>
     <div>
       Type
@@ -33,7 +45,6 @@
     </div>
     <div class="close-modal-button">
       <el-button @click="close" type="text" size="small" :plain="true">Cancel</el-button>
-      <el-button @click="deleteGoal" type="danger" size="small">Delete</el-button>
       <el-button @click="save" type="success">Save</el-button>
     </div>
   </div>
@@ -60,6 +71,15 @@ export default {
     },
     close() {
       this.$emit('close')
+    },
+    goalAction(action) {
+      switch(action) {
+        case 'delete':
+          this.deleteGoal()
+          break;
+        default:
+          console.error('Unknown action', action)
+      }
     }
   }
 }

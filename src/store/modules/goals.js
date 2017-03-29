@@ -42,7 +42,7 @@ const mutations = {
         type: 'one_time'
       }
     }
-    state.goals.unshift(goal)
+    state.goals.push(goal)
   },
   [types.UPDATE_GOAL] (state, goal) {
     const i = _.findIndex(state.goals, g => g.id === goal.id)

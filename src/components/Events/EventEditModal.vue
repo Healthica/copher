@@ -185,38 +185,9 @@ export default {
 }
 </script>
 
-<style scoped>
-.notVisible {
-  visibility: hidden;
-}
-.modal {
-  padding: 36px 24px;
-  position: relative;
-}
-.headerButtons {
-  position: absolute;
-  top: 0;
-  right: 0;
-}
-.headerButtons > div {
-  display: inline-block;
-  padding: 6px 12px;
-  opacity: 0.8;
-  cursor: pointer;
-}
-.headerButtons > div:hover {
-  opacity: 1;
-}
-.eventModalHeader {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
+<style>
 .editFields {
   font-size: 14px;
-}
-.closeButton {
-  font-size: 20px;
 }
 .field-edit-main {
   margin-top: 30px;
@@ -248,9 +219,5 @@ export default {
 .modalEditActionsDropdown {
   display: flex;
   justify-content: flex-end;
-}
-.close-modal-button {
-  margin-top: 36px;
-  float: right;
 }
 </style>
