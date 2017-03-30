@@ -1,24 +1,18 @@
 <template>
-  <div class="preset-item">
-    <el-card>
-      <div class="card-preset-img">
-        <img v-if="item.img === 'cyclist'" src="../../assets/presets/cyclist.png">
-        <img v-else-if="item.img === 'girl_cook'" src="../../assets/presets/girl_cook.png">
-      </div>
-      <div class="card-preset-content">
-        <h3>{{ item.title }}</h3>
-        <p>{{ item.description }}</p>
-      </div>
-      <div class="card-preset-buttons">
-        <button @click="open">{{ item.openText }}</button>
-      </div>
-    </el-card>
+  <div class="preset-item" @click="open">
+    <div class="preset-icon">
+      <icon :name="item.icon"></icon>
+    </div>
+    <h3 class="preset-title">{{ item.title }}</h3>
   </div>
 </template>
 
 <script>
+import Icon from '../Utils/Icon'
+
 export default {
   props: ['item'],
+  components: { Icon },
   methods: {
     open() {
       this.$emit('open', this.item)
@@ -29,55 +23,43 @@ export default {
 
 <style>
 .preset-item {
-  min-height: 300px;
-  max-width: 300px;
-  display: inline-block;
-}
-.preset-item .el-card__body {
-  padding: 0;
-}
-.card-preset-img {
-  height: 120px;
-  line-height: 120px;
-  text-align: center;
-  overflow: hidden;
-  width: 100%;
-}
-.card-preset-img img {
-  width: 120%;
-  margin: -50%;
-}
-.card-preset-content {
-  padding: 18px;
-}
-.card-preset-content h3 {
-  font-size: 20px;
-  margin: 0 0 6px 0;
-}
-.card-preset-content p {
-  font-size: 13px;
-  line-height: 20px;
-  opacity: 0.5;
-}
-.card-preset-buttons {
-  padding: 3px 3px 3px 18px;
-  display: flex;
-  flex-direction: row-reverse;
-}
-.card-preset-buttons button {
-  color: #0079BF;
-  background: transparent;
-  padding: 3px 18px;
-  text-transform: uppercase;
-  border: 0;
-  outline: 0;
+  max-width: 144px;
+  display: inline-flex;
+  flex-direction: column;
+  align-items: center;
   cursor: pointer;
-  font-size: 14px;
-  line-height: 30px;
-  vertical-align: middle;
-  border-radius: 2px;
 }
-.card-preset-buttons button:hover {
-  background: rgba(0, 121, 191, 0.15);
+.preset-icon {
+  height: 84px;
+  width: 84px;
+  padding: 24px;
+  background-color: #0079BF;
+  color: #fff;
+  border-radius: 50%;
+}
+.preset-item:nth-child(2n) .preset-icon {
+  background-color: #61BD4F;
+}
+.preset-item:nth-child(3n) .preset-icon {
+  background-color: #FFAB4A;
+}
+.preset-item:nth-child(4n) .preset-icon {
+  background-color: #EB5A46;
+}
+.preset-item:nth-child(5n) .preset-icon {
+  background-color: #F2D600;
+}
+.preset-item:nth-child(6n) .preset-icon {
+  background-color: #C377E0;
+}
+.preset-item:hover .preset-icon {
+  -webkit-box-shadow: 0 4px 5px 0 rgba(0,0,0,0.14), 0 1px 10px 0 rgba(0,0,0,0.12), 0 2px 4px -1px rgba(0,0,0,0.2);
+  box-shadow: 0 4px 5px 0 rgba(0,0,0,0.14), 0 1px 10px 0 rgba(0,0,0,0.12), 0 2px 4px -1px rgba(0,0,0,0.2);
+  transition: box-shadow .2s !important;
+}
+.preset-title {
+  font-size: 16px;
+  color: #000;
+  text-align: center;
 }
 </style>

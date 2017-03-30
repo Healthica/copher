@@ -55,13 +55,10 @@ html, body, input, textarea, button, select {
   font-family: 'Open Sans', sans-serif;
 }
 #app {
+
   margin: 0;
   height: 100%;
   color: #4D4D4D;
-}
-.text-light {
-  font-weight: 300;
-  letter-spacing: 1px;
 }
 .left-nav {
   display: block;
@@ -106,11 +103,16 @@ a.no-link:hover {
   }
 }
 
-.notVisible {
-  visibility: hidden;
+
+.text-center {
+  text-align: center;
 }
-.margin-top-120 {
-  margin-top: 120px;
+.text-light {
+  font-weight: 300;
+  letter-spacing: 1px;
+}
+.notVisible {
+ visibility: hidden;
 }
 
 .el-button--link {

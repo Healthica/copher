@@ -10,11 +10,7 @@
     <el-dialog custom-class="modalContainer" v-model="goalModalVisible" @close="closeGoalModal" size="large" :close-on-click-modal="false">
       <goal-edit-modal :goal="goalCopy" @save="saveGoalModal" @close="closeGoalModal" @deleteGoal="deleteGoalModal"></goal-edit-modal>
     </el-dialog>
-    <div class="margin-top-120">
-      <h4>Goal Presets</h4>
-      <presets :items="goalPresets" @open="presetOpen"></presets>
-    </div>
-    <speed-dial class="new-goal" :items="newGoalItems" @open="createGoal"></speed-dial>
+    <presets title="Add a goal" :items="goalPresets" @open="presetOpen"></presets>
   </div>
 </template>
 
@@ -75,43 +71,20 @@ export default {
       goalPresets: [
         {
           title: 'Lose Weight',
-          description: 'Set your target weight you want to reach in 30 days',
-          img: 'girl_cook',
-          openText: 'Add This Goal',
+          icon: 'food',
           goal: {
             title: 'Lose Weight'
           }
         }, {
           title: 'Exercise twice a week',
-          description: 'Maintaining an active lifestyle has many benefits',
-          img: 'cyclist',
-          openText: 'Add This Goal',
+          icon: 'dumbbell',
           goal: {
             title: 'Exercise'
           }
-        }
-      ],
-      newGoalItems: [
-        {
-          title: 'Add New Goal',
-          color: 'primary',
+        }, {
+          title: 'Add Custom Goal',
           icon: 'plus',
-          data: {
-            title: 'New Goal'
-          }
-        }, {
-          title: 'Weekly Goal',
-          color: 'red',
-          icon: 'calendar',
-          data: {
-            title: 'Weekly Goal'
-          }
-        }, {
-          title: 'One-Time Goal',
-          color: 'green',
-          icon: 'mountain-goal',
-          data: {
-            title: 'One-Time Goal'
+          goal: {
           }
         }
       ]
