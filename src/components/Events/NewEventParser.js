@@ -128,9 +128,11 @@ export default (text) => {
 
   if (typeof predefined_events[text.toLowerCase()] !== undefined) {
     event = predefined_events[text.toLowerCase()]
-    _.each(event.fields, f => {
-      f.id = uuid.v4()
-    })
+    if (_.has(event, 'fields')) {
+      _.each(event.fields, f => {
+        f.id = uuid.v4()
+      })
+    }
   }
 
   return event
