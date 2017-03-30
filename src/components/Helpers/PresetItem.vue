@@ -30,9 +30,9 @@ export default {
   cursor: pointer;
 }
 .preset-icon {
-  height: 84px;
-  width: 84px;
-  padding: 24px;
+  height: 72px;
+  width: 72px;
+  padding: 21px;
   background-color: #0079BF;
   color: #fff;
   border-radius: 50%;

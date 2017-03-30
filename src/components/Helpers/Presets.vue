@@ -26,8 +26,17 @@ export default {
 <style>
 .presets-container {
   margin-top: 120px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+@media screen and (max-width: 768px) {
+  .presets-container {
+    margin-top: 48px;
+  }
 }
 .presets {
+  max-width: 700px;
   display: flex;
   justify-content: space-around;
   flex-wrap: wrap;
