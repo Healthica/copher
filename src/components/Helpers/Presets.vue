@@ -25,7 +25,7 @@ export default {
 
 <style>
 .presets-container {
-  margin-top: 120px;
+  margin-top: 96px;
   display: flex;
   flex-direction: column;
   align-items: center;

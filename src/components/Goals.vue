@@ -4,7 +4,7 @@
       <p>Goals track events in your log and show your progress.</p>
       <p>For a quick start, select one of the presets below.</p>
     </div>
-    <div class="goal-items-container">
+    <div v-else class="goal-items-container">
       <goal-item v-for="g in goals.goals" :goal="g" @open="showGoalModal"></goal-item>
     </div>
     <el-dialog custom-class="modalContainer" v-model="goalModalVisible" @close="closeGoalModal" size="large" :close-on-click-modal="false">
