@@ -12,7 +12,7 @@
       </li>
       <event-row v-for="e in day.events" :event="e" :clickHandler="showEditEventModal" @duplicateEvent="duplicateEvent"></event-row>
     </ul>
-    <el-dialog custom-class="eventModal" v-model="eventModalVisible" @close="closeEditEventModal" size="large" :close-on-click-modal="false">
+    <el-dialog custom-class="eventModal" v-model="eventModalVisible" @close="closeEditEventModal" size="large" :close-on-click-modal="eventCopyChanges < 2">
       <event-edit-modal :event="eventCopy" @save="saveEditEventModal" @close="closeEditEventModal" @duplicateEvent="duplicateEvent"></event-edit-modal>
     </el-dialog>
     <onboarding-modal></onboarding-modal>
@@ -41,7 +41,8 @@ export default {
   data() {
     return {
       eventModalVisible: false,
-      eventCopy: {}
+      eventCopy: {},
+      eventCopyChanges: 0
     }
   },
   computed: {
@@ -74,15 +75,25 @@ export default {
     showEditEventModal(id) {
       this.eventCopy = _.cloneDeep(_.find(this.$store.state.events.data, o => o.id === id))
       this.eventModalVisible = true
+      this.eventCopyChanges = 0
     },
     saveEditEventModal() {
+      if (this.eventCopyChanges < 2) {
+        this.closeEditEventModal()
+        return
+      }
       this.$store.dispatch('setEvent', this.eventCopy)
-      if (this.eventCopy._isDeleted !== true) {
+      if (!this.eventCopy || this.eventCopy._isDeleted !== true) {
         this.$store.dispatch('updateEventAddTransaction', _.cloneDeep(this.eventCopy))
       }
       this.closeEditEventModal()
     },
     closeEditEventModal() {
+      if (this.eventCopy.id && (!this.eventCopy.title || this.eventCopy.title.length === 0) && (!this.eventCopy.fields || this.eventCopy.fields.length === 0)) {
+        // Delete empty events
+        this.eventCopy._isDeleted = true
+        this.$store.dispatch('deleteEvent', this.eventCopy)
+      }
       this.eventModalVisible = false
       this.eventCopy = {}
     },
@@ -108,6 +119,12 @@ export default {
       } else {
         this.$store.dispatch('resumeSync')
       }
+    },
+    eventCopy: {
+      handler() {
+        this.eventCopyChanges++
+      },
+      deep: true
     }
   }
 }
