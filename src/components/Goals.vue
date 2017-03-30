@@ -70,8 +70,8 @@ export default {
       goalCopy: {},
       goalPresets: [
         {
-          title: 'Lose Weight',
-          icon: 'food',
+          title: 'Lose weight',
+          icon: 'weight-scale',
           goal: {
             title: 'Lose Weight'
           }
@@ -82,7 +82,25 @@ export default {
             title: 'Exercise'
           }
         }, {
-          title: 'Add Custom Goal',
+          title: 'Sleep well',
+          icon: 'moon',
+          goal: {
+            title: 'Sleep Well'
+          }
+        }, {
+          title: 'Eat diversively',
+          icon: 'food',
+          goal: {
+            title: 'Eat diversively'
+          }
+        }, {
+          title: 'Avoid stress',
+          icon: 'calendar',
+          goal: {
+            title: 'Avoid stress'
+          }
+        }, {
+          title: 'Add custom goal',
           icon: 'plus',
           goal: {
           }
