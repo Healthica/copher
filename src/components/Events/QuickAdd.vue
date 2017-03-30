@@ -29,7 +29,7 @@ export default {
       const _id = uuid.v4()
       const newEvent = {
         id: _id,
-        title: event.title,
+        title: event.title || '',
         time: moment().format(),
         fields: []
       }
@@ -51,6 +51,9 @@ export default {
       this.$emit('showEditEventModal', _id)
     },
     findLastEvent(title) {
+      if (!title || title.length === 0) {
+        return false
+      }
       return _.maxBy(_.filter(this.events.data, e => e.title === title), e => moment(e.time).valueOf())
     }
   },
