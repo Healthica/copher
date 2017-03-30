@@ -23,7 +23,7 @@ export default {
 
 <style>
 .preset-item {
-  max-width: 144px;
+  width: 144px;
   display: inline-flex;
   flex-direction: column;
   align-items: center;
