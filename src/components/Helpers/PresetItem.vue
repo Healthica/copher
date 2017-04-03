@@ -36,6 +36,7 @@ export default {
   background-color: #0079BF;
   color: #fff;
   border-radius: 50%;
+  transition: box-shadow .2s !important;
 }
 .preset-item:nth-child(2n) .preset-icon {
   background-color: #61BD4F;
@@ -55,7 +56,6 @@ export default {
 .preset-item:hover .preset-icon {
   -webkit-box-shadow: 0 4px 5px 0 rgba(0,0,0,0.14), 0 1px 10px 0 rgba(0,0,0,0.12), 0 2px 4px -1px rgba(0,0,0,0.2);
   box-shadow: 0 4px 5px 0 rgba(0,0,0,0.14), 0 1px 10px 0 rgba(0,0,0,0.12), 0 2px 4px -1px rgba(0,0,0,0.2);
-  transition: box-shadow .2s !important;
 }
 .preset-title {
   font-size: 16px;
