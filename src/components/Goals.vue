@@ -42,7 +42,8 @@ export default {
         title: 'New Goal',
         type: 'one_time',
         time_end: moment().add(1, 'month').endOf('month'),
-        recurring_period: 'daily'
+        recurring_period: 'none',
+        measurement_period: 'daily'
       }, goal))
       this.showGoalModal(id)
     },
@@ -73,37 +74,45 @@ export default {
           title: 'Lose weight',
           icon: 'weight-scale',
           goal: {
-            title: 'Lose Weight'
+            wizard: 'weight',
+            title: 'Lose Weight',
+            measurement_period: 'none',
+            startingValue: 85,
+            targetValue: 80,
+            valueUnits: 'Kilogram'
           }
         }, {
           title: 'Exercise twice a week',
           icon: 'dumbbell',
           goal: {
+            wizard: 'exercise',
             title: 'Exercise'
           }
         }, {
           title: 'Sleep well',
           icon: 'moon',
           goal: {
+            wizard: 'sleep',
             title: 'Sleep Well'
           }
         }, {
           title: 'Eat diversively',
           icon: 'food',
           goal: {
+            wizard: 'food',
             title: 'Eat diversively'
           }
         }, {
           title: 'Avoid stress',
           icon: 'calendar',
           goal: {
+            wizard: 'stress',
             title: 'Avoid stress'
           }
         }, {
           title: 'Add custom goal',
           icon: 'plus',
-          goal: {
-          }
+          goal: {}
         }
       ]
     }

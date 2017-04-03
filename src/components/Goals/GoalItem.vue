@@ -2,7 +2,7 @@
   <div class="goal-item" @click="open">
     <el-card>
       <h3>{{ goal.title }}</h3>
-      <p>{{ goal.id }}</p>
+      <p>{{ goal }}</p>
     </el-card>
   </div>
 </template>

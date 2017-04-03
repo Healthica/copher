@@ -10,38 +10,42 @@
         </el-dropdown-menu>
       </el-dropdown>
     </div>
-    <div class="eventModalHeader">
-      <el-input class="eventModalTitle" placeholder="Goal title" v-model="goal.title"></el-input>
-    </div>
-    <p class="text-small">{{ goal.id }}</p>
-    <div>
-      Type
-      <el-select v-model="goal.type" placeholder="Select">
-        <el-option label="One Time" value="one_time"></el-option>
-        <el-option label="Recurring" value="recurring"></el-option>
-      </el-select>
-    </div>
-    <div v-if="goal.type === 'one_time'">
-      Deadline
-      <el-date-picker
-        v-model="goal.time_end"
-        type="date"
-        placeholder="Pick a day">
-      </el-date-picker>
-    </div>
-    <div v-if="goal.type === 'recurring'">
-      Start Over
-      <el-select v-model="goal.recurring_period" placeholder="Select">
-        <el-option label="Daily" value="daily"></el-option>
-        <el-option label="Weekly" value="weekly"></el-option>
-        <el-option label="Monthly" value="monthly"></el-option>
-      </el-select>
-    </div>
-    <div>
-      Goal
-      Event/Field
-      Operator
-      Value
+    <weight-wizard v-if="goal.wizard === 'weight'" :goal="goal"></weight-wizard>
+    <div v-else>
+      <div class="eventModalHeader">
+        <el-input class="eventModalTitle" placeholder="Goal title" v-model="goal.title"></el-input>
+      </div>
+      <p class="text-small">{{ goal.wizard }}</p>
+      <p class="text-small">{{ goal.id }}</p>
+      <div>
+        Type
+        <el-select v-model="goal.type" placeholder="Select">
+          <el-option label="One Time" value="one_time"></el-option>
+          <el-option label="Recurring" value="recurring"></el-option>
+        </el-select>
+      </div>
+      <div v-if="goal.type === 'one_time'">
+        Deadline
+        <el-date-picker
+          v-model="goal.time_end"
+          type="date"
+          placeholder="Pick a day">
+        </el-date-picker>
+      </div>
+      <div v-if="goal.type === 'recurring'">
+        Start Over
+        <el-select v-model="goal.recurring_period" placeholder="Select">
+          <el-option label="Daily" value="daily"></el-option>
+          <el-option label="Weekly" value="weekly"></el-option>
+          <el-option label="Monthly" value="monthly"></el-option>
+        </el-select>
+      </div>
+      <div>
+        Goal
+        Event/Field
+        Operator
+        Value
+      </div>
     </div>
     <div class="close-modal-button">
       <el-button @click="close" type="text" size="small" :plain="true">Cancel</el-button>
@@ -51,8 +55,12 @@
 </template>
 
 <script>
+import WeightWizard from './Wizards/Weight'
 export default {
   props: ['goal'],
+  components: {
+    WeightWizard
+  },
   data() {
     return {
       editMode: false
@@ -86,4 +94,16 @@ export default {
 </script>
 
 <style>
+.goal-wizard-modal-row > .el-form-item__content {
+  display: flex;
+}
+.goal-wizard-modal-row > .el-form-item__content > *:not(:first-child) input {
+  border-top-left-radius: 0;
+  border-bottom-left-radius: 0;
+  border-left: 0;
+}
+.goal-wizard-modal-row > .el-form-item__content > *:not(:last-child) input {
+  border-top-right-radius: 0;
+  border-bottom-right-radius: 0;
+}
 </style>
