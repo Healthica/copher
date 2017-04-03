@@ -90,6 +90,9 @@ const actions = {
 
 const mutations = {
   [types.SET_EVENTS] (state, { version, data }) {
+    if (state.version === version) {
+      return
+    }
     state.version = version
     state.data = data
     state.transactions = []
