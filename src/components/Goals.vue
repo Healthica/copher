@@ -40,7 +40,6 @@ export default {
       this.$store.dispatch('addGoal', Object.assign({
         id: id,
         title: 'New Goal',
-        type: 'one_time',
         time_end: moment().add(1, 'month').endOf('month'),
         recurring_period: 'none',
         measurement_period: 'daily'
@@ -79,7 +78,24 @@ export default {
             measurement_period: 'none',
             startingValue: 85,
             targetValue: 80,
-            valueUnits: 'Kilogram'
+            valueUnits: 'Kilogram',
+            eventFilter: `function(event) {
+              return event.title === "Weight Measurement";
+            }`,
+            eventReducer: {
+              accumulator: {
+                sum: 0,
+                n: 0
+              },
+              iteratee: `function(accumulator, event) {
+                accumulator.sum += event.fields.find(function(f){ return f.title.match(/weight/i) }).value;
+                accumulator.n++;
+                return accumulator;
+              }`,
+              reducer: `function(accumulator) {
+                return Math.round(accumulator.sum / accumulator.n);
+              }`
+            }
           }
         }, {
           title: 'Exercise twice a week',
