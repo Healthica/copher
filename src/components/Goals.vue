@@ -40,6 +40,7 @@ export default {
       this.$store.dispatch('addGoal', Object.assign({
         id: id,
         title: 'New Goal',
+        time_start: moment().startOf('day'),
         time_end: moment().add(1, 'month').endOf('month'),
         recurring_period: 'none',
         measurement_period: 'daily'
@@ -74,8 +75,8 @@ export default {
           icon: 'weight-scale',
           goal: {
             wizard: 'weight',
-            title: 'Lose Weight',
-            measurement_period: 'none',
+            title: 'Weight Loss',
+            measurement_period: 'last_event',
             startingValue: 85,
             targetValue: 80,
             valueUnits: 'Kilogram',

@@ -10,6 +10,7 @@
 
 <script>
 import { mapGetters } from 'vuex'
+import moment from 'moment'
 
 export default {
   props: ['goal'],
@@ -17,13 +18,17 @@ export default {
     ...mapGetters(['events']),
     filteredEvents() {
       const eventFilter = eval(`(${this.goal.eventFilter})`)
-      return this.events.data.filter(eventFilter)
+      return this.events.data.filter((event) => {
+        return moment(event.time) >= moment(this.goal.time_start) && eventFilter(event)
+      })
+      //TODO group by this.goal.measurement_period (none/daily/weekly/monthly)
     },
     reducedValue() {
       const iteratee = eval(`(${this.goal.eventReducer.iteratee})`)
       const reducer = eval(`(${this.goal.eventReducer.reducer})`)
       const accumulator = _.cloneDeep(this.goal.eventReducer.accumulator)
-      return reducer(_.reduce(this.filteredEvents, iteratee, accumulator))
+      const reducedValue = reducer(_.reduce(this.filteredEvents, iteratee, accumulator))
+      return isNaN(reducedValue) ? false : reducedValue
     }
   },
   methods: {
